@@ -1,5 +1,3 @@
-import { Navbar } from "@/components/navbar";
-
 export const metadata = {
   title: "Privacy Policy - VOMLabs",
   description: "VOMLabs Privacy Policy",
@@ -7,19 +5,18 @@ export const metadata = {
 
 export default function PrivacyPolicy() {
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-black">
-      <Navbar />
+    <div className="min-h-screen bg-red-50 dark:bg-neutral-950">
       <main className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-bold tracking-tight text-zinc-950 dark:text-zinc-50">
+        <h1 className="text-3xl font-bold tracking-tight text-neutral-900 dark:text-neutral-50">
           Privacy Policy
         </h1>
-        <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+        <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
           Last updated: April 2026
         </p>
 
-        <div className="mt-8 space-y-6 text-zinc-600 dark:text-zinc-400">
+        <div className="mt-8 space-y-6 text-neutral-600 dark:text-neutral-400">
           <section>
-            <h2 className="text-lg font-semibold text-zinc-950 dark:text-zinc-50">
+            <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-50">
               Information We Collect
             </h2>
             <p className="mt-2">
@@ -31,7 +28,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-zinc-950 dark:text-zinc-50">
+            <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-50">
               How We Use Information
             </h2>
             <p className="mt-2">
@@ -42,7 +39,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-zinc-950 dark:text-zinc-50">
+            <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-50">
               Data Security
             </h2>
             <p className="mt-2">
@@ -53,7 +50,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-zinc-950 dark:text-zinc-50">
+            <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-50">
               Third-Party Services
             </h2>
             <p className="mt-2">
@@ -64,7 +61,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-zinc-950 dark:text-zinc-50">
+            <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-50">
               Changes to This Policy
             </h2>
             <p className="mt-2">
@@ -74,7 +71,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-zinc-950 dark:text-zinc-50">
+            <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-50">
               Contact Us
             </h2>
             <p className="mt-2">
@@ -82,7 +79,7 @@ export default function PrivacyPolicy() {
               contact us at{" "}
               <a
                 href="mailto:support@vomlabs.com"
-                className="text-indigo-600 hover:underline dark:text-indigo-400"
+                className="text-red-500 hover:underline dark:text-red-400"
               >
                 support@vomlabs.com
               </a>
