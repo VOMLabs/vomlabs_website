@@ -73,12 +73,12 @@ export function performance_comparison() {
         transition={{ duration: 0.7 }}
         className="text-center mb-12"
       >
-        <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4 tracking-tight">
-          Why <span className="text-brand-accent italic">Vesper</span>?
-        </h2>
-        <p className="text-muted-foreground max-w-xl mx-auto leading-relaxed md:text-lg">
-          Built from the ground up with performance as the foundation. See how we compare to popular launchers.
-        </p>
+         <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4 tracking-tight">
+           Why <span className="text-brand-accent italic">VOMLabs</span>?
+         </h2>
+         <p className="text-muted-foreground max-w-xl mx-auto leading-relaxed md:text-lg">
+           Built from the ground up with performance and quality as our foundation. We craft software that puts users first.
+         </p>
       </motion.div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -103,14 +103,14 @@ export function performance_comparison() {
 
             <div className="space-y-3">
               <div className="flex items-center justify-between text-sm">
-                <Link
-                  href="https://vesper.devflare.de"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-brand-accent font-semibold hover:underline"
-                >
-                  Vesper
-                </Link>
+                 <Link
+                   href="https://vomlabs.com"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   className="text-brand-accent font-semibold hover:underline"
+                 >
+                   VOMLabs
+                 </Link>
                 <span className="text-brand-accent font-mono font-semibold">{item.vesper}</span>
               </div>
               <div className="relative h-2 bg-muted rounded-full overflow-hidden">

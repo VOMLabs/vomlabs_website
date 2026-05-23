@@ -3,7 +3,7 @@ User-agent: *
 Disallow:
 
 # Sitemap
-Sitemap: https://vesper.devflare.de/sitemap.xml
+Sitemap: https://vomlabs.com/sitemap.xml
 
 # Allow crawling of all public pages
 Allow: /$

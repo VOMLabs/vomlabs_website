@@ -63,12 +63,12 @@ export function RoadmapSection() {
                     transition={{ duration: 0.5 }}
                     className="text-center mb-16"
                 >
-                    <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-foreground mb-4">
-                        Vesper <span className="text-brand-accent italic">Roadmap</span>
-                    </h2>
-                    <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                        Here&apos;s what we&apos;re building, what&apos;s brewing, and where we want to take Vesper.
-                    </p>
+                     <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-foreground mb-4">
+                         VOMLabs <span className="text-brand-accent italic">Roadmap</span>
+                     </h2>
+                     <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                         Here&apos;s what we&apos;re building, what&apos;s brewing, and where we want to take VOMLabs.
+                     </p>
                 </motion.div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
@@ -115,7 +115,7 @@ export function RoadmapSection() {
                     className="mt-12 text-center text-sm text-muted-foreground"
                 >
                     This roadmap reflects our <span className="text-brand-accent font-medium">intentions</span>, not official promises.
-                    Want to suggest something? <a className="underline hover:text-brand-accent transition-colors" target="_blank" href="https://github.com/ArexLabs/vesper-website">Contribute on GitHub</a>.
+                     Want to suggest something? <a className="underline hover:text-brand-accent transition-colors" target="_blank" href="https://github.com/VOMLabs">Contribute on GitHub</a>.
                 </motion.p>
             </motion.div>
         </section>

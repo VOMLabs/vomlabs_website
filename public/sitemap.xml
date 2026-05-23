@@ -1,67 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://vesper.devflare.de/</loc>
+    <loc>https://vomlabs.com/</loc>
     <lastmod>2026-03-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://vesper.devflare.de/roadmap</loc>
+    <loc>https://vomlabs.com/roadmap</loc>
     <lastmod>2026-03-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://vesper.devflare.de/techstack</loc>
+    <loc>https://vomlabs.com/techstack</loc>
     <lastmod>2026-03-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://vesper.devflare.de/about</loc>
+    <loc>https://vomlabs.com/about</loc>
     <lastmod>2026-03-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://vesper.devflare.de/changelog</loc>
+    <loc>https://vomlabs.com/changelog</loc>
     <lastmod>2026-03-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://vesper.devflare.de/gallery</loc>
+    <loc>https://vomlabs.com/gallery</loc>
     <lastmod>2026-03-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://vesper.devflare.de/support</loc>
+    <loc>https://vomlabs.com/support</loc>
     <lastmod>2026-03-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://vesper.devflare.de/legal</loc>
+    <loc>https://vomlabs.com/legal</loc>
     <lastmod>2026-03-28</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://vesper.devflare.de/privacy</loc>
+    <loc>https://vomlabs.com/privacy</loc>
     <lastmod>2026-03-28</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://vesper.devflare.de/terms</loc>
+    <loc>https://vomlabs.com/terms</loc>
     <lastmod>2026-03-28</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://vesper.devflare.de/tos</loc>
+    <loc>https://vomlabs.com/tos</loc>
     <lastmod>2026-03-28</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>

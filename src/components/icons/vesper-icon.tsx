@@ -4,7 +4,7 @@ export function IconVesper({ className }: { className?: string }) {
   return (
     <Image
       src="/logo.svg"
-      alt="Vesper Logo"
+      alt="VOMLabs Logo"
       width={32}
       height={32}
       className={className}

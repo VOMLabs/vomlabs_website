@@ -17,9 +17,9 @@ export function BlogList() {
         <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4 tracking-tight">
           Blog
         </h1>
-        <p className="text-lg text-muted-foreground">
-          News and updates from the Vesper team.
-        </p>
+         <p className="text-lg text-muted-foreground">
+           News and updates from the VOMLabs team.
+         </p>
       </motion.div>
 
       <div className="space-y-12">

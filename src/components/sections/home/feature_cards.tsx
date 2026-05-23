@@ -15,9 +15,9 @@ export function feature_cards() {
       <motion.h2 id="features-heading" initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }} className="text-4xl md:text-5xl font-bold text-center tracking-tight text-foreground mb-8">
         Powerful Features, <span className="text-brand-accent italic">No Compromises</span>
       </motion.h2>
-      <motion.p initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.1 }} className="max-w-2xl mx-auto mb-12 text-center text-lg text-muted-foreground">
-        Designed with performance, safety, and customization in mind. Explore what sets Vesper apart.
-      </motion.p>
+       <motion.p initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.1 }} className="max-w-2xl mx-auto mb-12 text-center text-lg text-muted-foreground">
+         Designed with performance, safety, and user experience in mind. Explore what sets VOMLabs apart.
+       </motion.p>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {features.map((feature, i) => (
           <motion.div

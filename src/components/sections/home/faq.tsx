@@ -72,9 +72,9 @@ export default function FAQ() {
         <h2 className="text-4xl md:text-5xl font-mono font-bold text-foreground mb-4 tracking-tight">
           FAQ<span className="text-brand-accent">.</span>
         </h2>
-        <p className="text-muted-foreground max-w-lg mx-auto leading-relaxed md:text-lg">
-          Answers to what people usually want to know about Vesper and why it is different.
-        </p>
+         <p className="text-muted-foreground max-w-lg mx-auto leading-relaxed md:text-lg">
+           Answers to what people usually want to know about VOMLabs and our approach to building great software.
+         </p>
       </motion.div>
 
       <AccordionFAQ limit={visibleCount} />

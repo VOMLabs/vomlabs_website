@@ -3,8 +3,8 @@ import { ChangelogSection } from "@/components/sections/changelog";
 
 export const metadata: Metadata = {
   title: "Changelog",
-  description: "Stay up to date with Vesper Client releases. View the latest changes, new features, and improvements in each version.",
-  keywords: ["Vesper Changelog", "Vesper Releases", "Minecraft Launcher Updates", "Vesper Version History"],
+  description: "Stay up to date with VOMLabs project releases. View the latest changes, new features, and improvements across our software.",
+  keywords: ["VOMLabs Changelog", "VOMLabs Releases", "Project Updates", "Version History"],
 };
 
 export default function ChangelogPage() {

@@ -86,7 +86,7 @@ export function BlogPost({ slug }: BlogPostProps) {
                         type="button"
                         onClick={(e) => {
                           e.preventDefault();
-                          window.dispatchEvent(new CustomEvent("vesper:open-github"));
+                           window.dispatchEvent(new CustomEvent("vomlabs:open-github"));
                         }}
                         className="text-brand-accent hover:underline cursor-pointer font-medium"
                       >

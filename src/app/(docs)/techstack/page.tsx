@@ -3,8 +3,8 @@ import { TechStackSection } from "@/components/sections/techstack";
 
 export const metadata: Metadata = {
   title: "Tech Stack",
-  description: "Discover the technologies powering Vesper Client. Built with Rust, Tauri, Next.js, and more for maximum performance and modern web experience.",
-  keywords: ["Vesper Tech Stack", "Vesper Technologies", "Rust Minecraft Launcher", "Tauri Desktop App"],
+  description: "Discover the technologies powering VOMLabs projects. Built with Rust, Next.js, React, and modern tools for performance and quality.",
+  keywords: ["VOMLabs Tech Stack", "Technologies", "Rust", "Next.js", "React", "Web Development"],
 };
 
 export default function TechStackPage() {

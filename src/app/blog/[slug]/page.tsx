@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: post.title,
     description: post.excerpt,
-    keywords: ["Vesper Blog", post.title],
+     keywords: ["VOMLabs Blog", post.title],
   };
 }
 

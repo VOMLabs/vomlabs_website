@@ -46,16 +46,15 @@ export function download_cta() {
             </motion.span>
           </motion.h2>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-lg font-light text-muted-foreground max-w-md mx-auto tracking-tight mb-12"
-          >
-            Download Vesper for free. Available on Windows, macOS, and Linux. No
-            account required.
-          </motion.p>
+           <motion.p
+             initial={{ opacity: 0, y: 20 }}
+             whileInView={{ opacity: 1, y: 0 }}
+             viewport={{ once: true }}
+             transition={{ duration: 0.6, delay: 0.2 }}
+             className="text-lg font-light text-muted-foreground max-w-md mx-auto tracking-tight mb-12"
+           >
+             Explore our open source projects. Available on GitHub. Free forever, no account required.
+           </motion.p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-8">
             <motion.div
@@ -67,7 +66,7 @@ export function download_cta() {
               whileTap={{ scale: 0.98 }}
             >
               <Link
-                href="https://github.com/ArexLabs/vesper-client/releases/latest"
+                 href="https://github.com/VOMLabs"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group relative inline-block w-full sm:w-auto"
@@ -100,7 +99,7 @@ export function download_cta() {
               whileTap={{ scale: 0.98 }}
             >
               <Link
-                href="https://github.com/ArexLabs/vesper-client/releases/latest"
+                 href="https://github.com/VOMLabs"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group relative inline-block w-full sm:w-auto"
@@ -131,7 +130,7 @@ export function download_cta() {
               whileTap={{ scale: 0.98 }}
             >
               <Link
-                href="https://github.com/ArexLabs/vesper-client/releases/latest"
+                 href="https://github.com/VOMLabs"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group relative inline-block w-full sm:w-auto"

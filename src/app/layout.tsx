@@ -24,11 +24,11 @@ const fontMono = FontMono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Vesper Client",
-    template: "%s | Vesper Client",
+    default: "VOMLabs",
+    template: "%s | VOMLabs",
   },
   description:
-    "Vesper Client is a sleek, modern, and high-utility Minecraft client designed for performance, customization, and an enhanced gameplay experience.",
+    "VOMLabs creates innovative Minecraft software, modern websites, and developer tools. Building the future of gaming experiences.",
   icons: {
     icon: [
       { url: "/favicon.ico", type: "image/x-icon" },
@@ -37,14 +37,14 @@ export const metadata: Metadata = {
   },
   keywords: [
     "Minecraft",
-    "Vesper Client",
-    "Minecraft Client",
-    "High-Utility",
+    "VOMLabs",
+    "Minecraft Software",
+    "Web Development",
     "Modern",
-    "Launcher",
-    "Custom Minecraft",
+    "Developer Tools",
+    "Gaming",
   ],
-  authors: [{ name: "DevFlare / ArexLabs", url: "https://devflare.de" }],
+  authors: [{ name: "VOMLabs", url: "https://vomlabs.com" }],
   robots: {
     index: true,
     follow: true,

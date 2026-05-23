@@ -30,7 +30,7 @@ const milestones = [
     year: "2026",
     title: "The Beginning",
     description:
-      "Vesper started as a simple idea: make Minecraft launching fast again. No bloat, no ads, just pure performance.",
+      "VOMLabs started as a simple idea: build great Minecraft software and websites with a focus on performance, privacy, and user experience.",
   },
 ];
 
@@ -38,13 +38,13 @@ const values = [
   {
     title: "Performance First",
     description:
-      "Every feature is evaluated by its impact on performance. If it slows things down, it does not belong in Vesper.",
+      "Every feature is evaluated by its impact on performance. If it slows things down, it does not belong in our software.",
     icon: IconRocket,
   },
   {
     title: "Privacy by Design",
     description:
-      "We do not track you. We do not sell your data. We do not show ads. Your data stays on your machine.",
+      "We do not track you. We do not sell your data. We do not show ads. Your privacy is our priority.",
     icon: IconShield,
   },
   {
@@ -56,7 +56,7 @@ const values = [
   {
     title: "Community Driven",
     description:
-      "Your feedback shapes Vesper. We listen to the community and build what users actually want.",
+      "Your feedback shapes VOMLabs. We listen to the community and build what users actually want.",
     icon: IconHeartHandshake,
   },
 ];
@@ -106,23 +106,22 @@ export function AboutSection() {
           >
             <div className="inline-flex items-center gap-2 px-3 py-1.5 mb-6 rounded-full bg-gradient-to-r from-brand-accent/20 to-brand-accent/5 border border-brand-accent/30">
               <SparklesIcon className="w-4 h-4 text-brand-accent" />
-              <span className="text-sm font-medium text-brand-accent">
-                About Vesper
-              </span>
+               <span className="text-sm font-medium text-brand-accent">
+                 About VOMLabs
+               </span>
             </div>
 
-            <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight text-foreground mb-6">
-              A launcher built{" "}
-              <span className="bg-gradient-to-r from-brand-accent to-brand-accent/60 bg-clip-text text-transparent">
-                differently
-              </span>
-            </h1>
+             <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight text-foreground mb-6">
+               Building software{" "}
+               <span className="bg-gradient-to-r from-brand-accent to-brand-accent/60 bg-clip-text text-transparent">
+                 differently
+               </span>
+             </h1>
 
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              Most launchers are bloated, slow, and full of ads. We built Veper
-              to be the opposite: fast, private, and made for players who just
-              want to play.
-            </p>
+             <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+               Most software is bloated, slow, and full of tracking. We built VOMLabs
+               to be the opposite: fast, private, and made for users who just want great tools.
+             </p>
           </motion.div>
         </motion.div>
 
@@ -263,9 +262,9 @@ export function AboutSection() {
               <h2 className="text-2xl font-bold text-foreground mb-2">
                 Our Promise to You
               </h2>
-              <p className="text-muted-foreground">
-                What you will always get with Vesper
-              </p>
+               <p className="text-muted-foreground">
+                 What you will always get with VOMLabs
+               </p>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -298,15 +297,15 @@ export function AboutSection() {
           transition={{ duration: 0.5 }}
           className="text-center"
         >
-          <a
-            href="https://github.com/ArexLabs/vesper-client"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-brand-accent hover:bg-brand-accent/90 text-black font-medium transition-colors"
-          >
-            View on GitHub
-            <ArrowRightIcon className="w-4 h-4" />
-          </a>
+           <a
+             href="https://github.com/VOMLabs"
+             target="_blank"
+             rel="noopener noreferrer"
+             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-brand-accent hover:bg-brand-accent/90 text-black font-medium transition-colors"
+           >
+             View on GitHub
+             <ArrowRightIcon className="w-4 h-4" />
+           </a>
         </motion.div>
       </div>
     </section>

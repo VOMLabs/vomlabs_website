@@ -31,9 +31,9 @@ export default function FAQPage() {
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4 tracking-tight">
             Frequently Asked Questions<span className="text-brand-accent">.</span>
           </h1>
-          <p className="text-muted-foreground max-w-lg mx-auto leading-relaxed md:text-lg">
-            Everything you need to know about Vesper. Can&apos;t find an answer? Reach out on Discord or GitHub.
-          </p>
+           <p className="text-muted-foreground max-w-lg mx-auto leading-relaxed md:text-lg">
+             Everything you need to know about VOMLabs. Can&apos;t find an answer? Reach out on Discord or GitHub.
+           </p>
         </motion.div>
 
         <motion.div
@@ -107,14 +107,14 @@ export default function FAQPage() {
             >
               Join Discord
             </Link>
-            <Link
-              href="https://github.com/ArexLabs/vesper-client"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-brand-accent/30 text-foreground hover:border-brand-accent hover:bg-brand-accent/10 transition-all"
-            >
-              View on GitHub
-            </Link>
+             <Link
+               href="https://github.com/VOMLabs"
+               target="_blank"
+               rel="noopener noreferrer"
+               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-brand-accent/30 text-foreground hover:border-brand-accent hover:bg-brand-accent/10 transition-all"
+             >
+               View on GitHub
+             </Link>
           </div>
         </motion.div>
       </div>

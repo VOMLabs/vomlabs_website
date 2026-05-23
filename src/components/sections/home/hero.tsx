@@ -9,10 +9,10 @@ import Link from "next/link";
 type os_type = "windows" | "mac" | "linux" | "unknown";
 
 const install_scripts: Record<os_type, string> = {
-  windows: "irm https://vesper.devflare.de/install | iex",
-  mac: "curl -sSfL https://vesper.devflare.de/install | sh",
-  linux: "curl -sSfL https://vesper.devflare.de/install | sh",
-  unknown: "curl -sSfL https://vesper.devflare.de/install | sh",
+  windows: "irm https://vomlabs.com/install | iex",
+  mac: "curl -sSfL https://vomlabs.com/install | sh",
+  linux: "curl -sSfL https://vomlabs.com/install | sh",
+  unknown: "curl -sSfL https://vomlabs.com/install | sh",
 };
 
 const os_labels: Record<os_type, string> = {
@@ -72,34 +72,44 @@ export function hero() {
         </motion.div>
    
 
-        <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.15 }} className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground mb-6">
-          Minecraft Launchers, <span className="text-brand-accent italic">Redefined</span>
-        </motion.h1>
+         <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.15 }} className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground mb-6">
+           Minecraft Software & Websites, <span className="text-brand-accent italic">Elevated</span>
+         </motion.h1>
 
-        <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.25 }} className="text-base sm:text-lg text-muted-foreground max-w-xl mx-auto mb-8">
-          Built from scratch with <span className="text-foreground font-semibold">Rust + Tauri</span> for instant startup, minimal resource usage, and a modern native experience that puts you in control.
-        </motion.p>
+         <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.25 }} className="text-base sm:text-lg text-muted-foreground max-w-xl mx-auto mb-8">
+           We craft high-performance Minecraft software, modern websites, and developer tools. Built with passion, engineered for excellence.
+         </motion.p>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.35 }} className="flex flex-wrap justify-center gap-3 mb-10">
-          {features.map((feature) => (
-            <span key={feature} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-card/60 border border-border text-sm font-medium">
-              <CheckCircleIcon className="w-4 h-4 text-brand-accent" />
-              {feature}
-            </span>
-          ))}
-        </motion.div>
+         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.35 }} className="flex flex-wrap justify-center gap-3 mb-10">
+           <span key="minecraft" className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-card/60 border border-border text-sm font-medium">
+             <CheckCircleIcon className="w-4 h-4 text-brand-accent" />
+             Minecraft Software
+           </span>
+           <span key="websites" className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-card/60 border border-border text-sm font-medium">
+             <CheckCircleIcon className="w-4 h-4 text-brand-accent" />
+             Modern Websites
+           </span>
+           <span key="opensource" className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-card/60 border border-border text-sm font-medium">
+             <CheckCircleIcon className="w-4 h-4 text-brand-accent" />
+             Open Source
+           </span>
+           <span key="developer" className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-card/60 border border-border text-sm font-medium">
+             <CheckCircleIcon className="w-4 h-4 text-brand-accent" />
+             Developer Tools
+           </span>
+         </motion.div>
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.45 }} className="flex flex-col items-center gap-4">
           <div className="flex flex-wrap justify-center gap-3">
-            <a
-              href="https://github.com/ArexLabs/vesper-website"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-full text-sm font-semibold bg-white/5 hover:bg-white/10 border border-white/10 text-foreground transition-all active:scale-95"
-            >
-              <StarIcon className="w-5 h-5 text-yellow-400" />
-              Star on GitHub
-            </a>
+             <a
+               href="https://github.com/VOMLabs"
+               target="_blank"
+               rel="noopener noreferrer"
+               className="inline-flex items-center gap-2 px-5 py-3 rounded-full text-sm font-semibold bg-white/5 hover:bg-white/10 border border-white/10 text-foreground transition-all active:scale-95"
+             >
+               <StarIcon className="w-5 h-5 text-yellow-400" />
+               Star on GitHub
+             </a>
             <Link
               href="https://dc.devflare.de"
               target="_blank"

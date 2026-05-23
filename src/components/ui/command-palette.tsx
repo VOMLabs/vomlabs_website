@@ -34,8 +34,8 @@ export function CommandPalette() {
 
   React.useEffect(() => {
     const handleExternalOpen = () => setOpen(true);
-    window.addEventListener("vesper:open-cmdk", handleExternalOpen);
-    return () => window.removeEventListener("vesper:open-cmdk", handleExternalOpen);
+     window.addEventListener("vomlabs:open-cmdk", handleExternalOpen);
+    return () => window.removeEventListener("vomlabs:open-cmdk", handleExternalOpen);
   }, []);
 
   React.useEffect(() => {

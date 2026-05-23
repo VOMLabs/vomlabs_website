@@ -7,7 +7,7 @@ import { SparklesIcon } from "@heroicons/react/24/outline";
 import { IconX, IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 
 const galleryImages = [
-  { id: 1, title: "Vesper Dashboard", category: "Interface", src: "/gallery/og-image.png", description: "Main dashboard view showcasing the clean interface" },
+  { id: 1, title: "VOMLabs Dashboard", category: "Interface", src: "/gallery/og-image.png", description: "Main dashboard view showcasing the clean interface" },
 ];
 
 function GalleryCard({ image, index, onClick }: { image: typeof galleryImages[0]; index: number; onClick: () => void }) {
@@ -136,9 +136,9 @@ export function GallerySection() {
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-foreground mb-4">
             Gall<span className="text-brand-accent italic">ery</span>
           </h2>
-          <p className="text-lg text-muted-foreground max-w-xl mx-auto">
-            A visual journey through Vesper&apos;s design system and interfaces.
-          </p>
+           <p className="text-lg text-muted-foreground max-w-xl mx-auto">
+             A visual journey through VOMLabs design system and interfaces.
+           </p>
         </motion.div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

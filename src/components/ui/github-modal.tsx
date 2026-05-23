@@ -24,14 +24,9 @@ interface RepoState {
 
 const repositories = [
   {
-    name: "vesper-client",
-    description: "The Vesper Minecraft launcher",
-    href: "https://github.com/ArexLabs/vesper-client",
-  },
-  {
-    name: "vesper-website",
-    description: "This website",
-    href: "https://github.com/ArexLabs/vesper-website",
+    name: "website",
+    description: "This website - VOMLabs official site",
+    href: "https://github.com/VOMLabs/website",
   },
 ];
 

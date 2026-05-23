@@ -1,8 +1,8 @@
 [
   {
     "slug": "getting-started",
-    "title": "Getting Started with Vesper",
-    "description": "Learn how to install and configure the Vesper Launcher for the best experience.",
+    "title": "Getting Started with VOMLabs",
+    "description": "Learn how to get started with VOMLabs projects and tools.",
     "date": "2024-03-15",
     "category": "Guide",
     "lastUpdated": "2024-03-20T14:30:00Z"
@@ -10,7 +10,7 @@
   {
     "slug": "performance-optimization",
     "title": "Performance Optimization Guide",
-    "description": "Deep dive into JVM arguments and memory management for peak performance.",
+    "description": "Deep dive into performance best practices for gaming and development.",
     "date": "2024-03-10",
     "category": "Technical",
     "lastUpdated": "2024-03-21T09:15:00Z"
@@ -18,7 +18,7 @@
   {
     "slug": "custom-themes",
     "title": "Creating Custom Themes",
-    "description": "A comprehensive guide to the Vesper theme engine and CSS customization.",
+    "description": "A comprehensive guide to customizing your VOMLabs tools.",
     "date": "2024-03-05",
     "category": "Design",
     "lastUpdated": "2024-03-22T16:45:00Z"

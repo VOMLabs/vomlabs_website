@@ -16,9 +16,9 @@ export function for_developers() {
         <h2 id="developers-heading" className="text-4xl md:text-5xl font-bold font-mono tracking-tight text-foreground mb-3">
           <span className="text-brand-accent">For</span> Developers
         </h2>
-        <p className="max-w-xl mx-auto text-muted-foreground text-base md:text-lg leading-relaxed">
-          Vesper provides powerful tools and APIs for developers to create plugins, integrate mod loaders, and extend functionality.
-        </p>
+         <p className="max-w-xl mx-auto text-muted-foreground text-base md:text-lg leading-relaxed">
+           VOMLabs builds powerful tools and APIs for developers to create plugins, integrate with systems, and extend functionality.
+         </p>
       </motion.div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -41,7 +41,7 @@ export function for_developers() {
       </div>
 
       <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.4 }} className="mt-8 text-center">
-        <a href="https://github.com/ArexLabs/vesper-client" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium bg-white/5 hover:bg-white/10 border border-white/10 rounded-full transition-all">
+         <a href="https://github.com/VOMLabs" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium bg-white/5 hover:bg-white/10 border border-white/10 rounded-full transition-all">
           <WrenchScrewdriverIcon className="w-4 h-4" />
           View Developer Documentation
         </a>

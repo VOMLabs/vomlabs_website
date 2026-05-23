@@ -44,10 +44,10 @@ export function social_proof() {
           Built by <span className="text-brand-accent italic">passionate</span>{" "}
           developers
         </h2>
-        <p className="text-muted-foreground max-w-lg mx-auto">
-          An open-source project dedicated to creating the best Minecraft
-          launching experience.
-        </p>
+         <p className="text-muted-foreground max-w-lg mx-auto">
+           An organization dedicated to creating the best Minecraft software,
+           websites, and developer tools.
+         </p>
       </motion.div>
 
       <div className="flex flex-wrap justify-center items-center gap-6 mb-10">
@@ -87,30 +87,30 @@ export function social_proof() {
         transition={{ duration: 0.5, delay: 0.3 }}
         className="flex flex-wrap justify-center gap-4"
       >
-        <Link
-          href="https://github.com/ArexLabs/vesper-website"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-card/60 border border-border hover:border-brand-accent/40 transition-colors"
-        >
-          <StarIcon className="w-4 h-4 text-yellow-500" />
-          <span className="text-sm font-medium text-foreground">
-            Star on GitHub
-          </span>
-          <ArrowTopRightOnSquareIcon className="w-3 h-3 text-muted-foreground" />
-        </Link>
-        <Link
-          href="https://github.com/ArexLabs/vesper-client"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-card/60 border border-border hover:border-brand-accent/40 transition-colors"
-        >
-          <CodeBracketIcon className="w-4 h-4 text-brand-accent" />
-          <span className="text-sm font-medium text-foreground">
-            Check Repo
-          </span>
-          <ArrowTopRightOnSquareIcon className="w-3 h-3 text-muted-foreground" />
-        </Link>
+         <Link
+           href="https://github.com/VOMLabs"
+           target="_blank"
+           rel="noopener noreferrer"
+           className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-card/60 border border-border hover:border-brand-accent/40 transition-colors"
+         >
+           <StarIcon className="w-4 h-4 text-yellow-500" />
+           <span className="text-sm font-medium text-foreground">
+             Star on GitHub
+           </span>
+           <ArrowTopRightOnSquareIcon className="w-3 h-3 text-muted-foreground" />
+         </Link>
+         <Link
+           href="https://github.com/VOMLabs"
+           target="_blank"
+           rel="noopener noreferrer"
+           className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-card/60 border border-border hover:border-brand-accent/40 transition-colors"
+         >
+           <CodeBracketIcon className="w-4 h-4 text-brand-accent" />
+           <span className="text-sm font-medium text-foreground">
+             View Projects
+           </span>
+           <ArrowTopRightOnSquareIcon className="w-3 h-3 text-muted-foreground" />
+         </Link>
         <Link
           href="https://discord.devflare.de"
           target="_blank"

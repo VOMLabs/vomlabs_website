@@ -29,8 +29,8 @@ export default function TermsOfService() {
                             Terms of <span className="text-brand-accent italic">Service</span>
                         </h1>
                         <p className="text-muted-foreground max-w-lg mx-auto">
-                            The service agreement for using Vesper Client.
-                        </p>
+                             The service agreement for using VOMLabs software.
+                         </p>
                     </motion.div>
 
                     <div className="space-y-8">
@@ -38,18 +38,18 @@ export default function TermsOfService() {
                             {
                                 content: (
                                     <p className="text-muted-foreground leading-relaxed">
-                                        These Terms of Service (&quot;TOS&quot;) explain the rules and expectations for using <strong>Vesper Client</strong> and this website. By accessing or using Vesper, you agree to abide by these Terms of Service.
+                                         These Terms of Service (&quot;TOS&quot;) explain the rules and expectations for using <strong>VOMLabs</strong> software and this website. By accessing or using VOMLabs software, you agree to abide by these Terms of Service.
                                     </p>
                                 )
                             },
                             {
-                                title: "Who Can Use Vesper",
+                                 title: "Who Can Use VOMLabs Software",
                                 icon: "user",
                                 content: (
                                     <ul className="space-y-3 text-muted-foreground">
                                         <li className="flex items-start gap-3">
                                             <span className="text-brand-accent mt-1">•</span>
-                                            <span>Vesper Client is for <span className="font-medium text-foreground">personal, non-commercial use</span> only.</span>
+                                             <span>VOMLabs software is for <span className="font-medium text-foreground">personal, non-commercial use</span> only.</span>
                                         </li>
                                         <li className="flex items-start gap-3">
                                             <span className="text-brand-accent mt-1">•</span>
@@ -66,7 +66,7 @@ export default function TermsOfService() {
                                 title: "Service Rules",
                                 content: (
                                     <>
-                                        <p className="text-muted-foreground mb-4">When using Vesper Client, you must NOT:</p>
+                                         <p className="text-muted-foreground mb-4">When using VOMLabs software, you must NOT:</p>
                                         <div className="grid gap-3">
                                             {[
                                                 "Use the service for any illegal purposes",
@@ -90,7 +90,7 @@ export default function TermsOfService() {
                                 content: (
                                     <>
                                         <p className="text-muted-foreground leading-relaxed mb-4">
-                                            Vesper Client and this website are provided <span className="font-medium text-foreground">&quot;as is&quot;</span> and <span className="font-medium text-foreground">&quot;as available&quot;</span>.
+                                             VOMLabs software and this website are provided <span className="font-medium text-foreground">&quot;as is&quot;</span> and <span className="font-medium text-foreground">&quot;as available&quot;</span>.
                                         </p>
                                         <p className="text-sm text-muted-foreground">
                                             <span className="text-brand-accent font-medium">No warranty</span> — express or implied — including fitness for a particular purpose, non-infringement, or uninterrupted/error-free operation.
@@ -103,7 +103,7 @@ export default function TermsOfService() {
                                 content: (
                                     <>
                                         <p className="text-muted-foreground leading-relaxed">
-                                            DevFlare and Vesper Client contributors are <span className="text-brand-accent font-medium">not liable</span> for any damages arising from your use of Vesper Client, including but not limited to:
+                                             VOMLabs contributors are <span className="text-brand-accent font-medium">not liable</span> for any damages arising from your use of VOMLabs software, including but not limited to:
                                         </p>
                                         <ul className="mt-4 space-y-2 text-muted-foreground">
                                             {["Loss of data or game progress", "Business interruption", "Indirect, consequential, or punitive damages"].map((item, i) => (
@@ -122,9 +122,9 @@ export default function TermsOfService() {
                                     <ul className="space-y-3 text-muted-foreground">
                                         {[
                                             { text: "Minecraft is a trademark of Microsoft and Mojang.", highlight: "Minecraft" },
-                                            { text: "Vesper is independent and not affiliated with Mojang or Microsoft." },
+                                             { text: "VOMLabs is independent and not affiliated with Mojang or Microsoft." },
                                             { text: "All referenced content and assets belong to their respective owners." },
-                                            { text: "Vesper is open source. View on GitHub." }
+                                             { text: "VOMLabs is open source. View on GitHub." }
                                         ].map((item, i) => (
                                             <li key={i} className="flex items-start gap-3">
                                                 <span className="text-brand-accent mt-1">•</span>
@@ -138,7 +138,7 @@ export default function TermsOfService() {
                                 title: "Service Changes",
                                 content: (
                                     <p className="text-muted-foreground leading-relaxed">
-                                        We reserve the right to <span className="font-medium text-foreground">modify, suspend, or discontinue</span> any part of Vesper Client at any time. These Terms may be updated, and continued use constitutes acceptance of changes.
+                                         We reserve the right to <span className="font-medium text-foreground">modify, suspend, or discontinue</span> any part of VOMLabs software at any time. These Terms may be updated, and continued use constitutes acceptance of changes.
                                     </p>
                                 )
                             },

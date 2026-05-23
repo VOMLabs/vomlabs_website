@@ -119,9 +119,9 @@ export function TechStackSection() {
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-foreground mb-4">
             Tech <span className="text-brand-accent italic">Stack</span>
           </h2>
-          <p className="text-lg text-muted-foreground max-w-xl mx-auto">
-            The technologies powering Vesper Client and this website.
-          </p>
+           <p className="text-lg text-muted-foreground max-w-xl mx-auto">
+             The technologies powering VOMLabs projects and this website.
+           </p>
         </motion.div>
 
         <div className="space-y-16">

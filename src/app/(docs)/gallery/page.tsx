@@ -3,8 +3,8 @@ import { GallerySection } from "@/components/sections/gallery";
 
 export const metadata: Metadata = {
   title: "Gallery",
-  description: "Explore screenshots and visual previews of Vesper Client. See the modern interface and design of the ultimate Minecraft client.",
-  keywords: ["Vesper Gallery", "Vesper Screenshots", "Minecraft Launcher UI", "Vesper Interface"],
+  description: "Explore screenshots and visual previews of VOMLabs projects. See our work in Minecraft software and web development.",
+  keywords: ["VOMLabs Gallery", "VOMLabs Screenshots", "Project Previews", "Interface Design"],
 };
 
 export default function GalleryPage() {

@@ -4,12 +4,32 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { Search, Image as ImageIcon, History, Map, Home, Code, Command as CommandIcon, Info, ChevronDown, ExternalLink, MessageCircle, FileText, Scale, ShieldCheck, Gavel, HelpCircle, Headphones, BookOpen } from "lucide-react";
+import {
+  Search,
+  Image as ImageIcon,
+  History,
+  Map,
+  Home,
+  Code,
+  Command as CommandIcon,
+  Info,
+  ChevronDown,
+  ExternalLink,
+  MessageCircle,
+  FileText,
+  Scale,
+  ShieldCheck,
+  Gavel,
+  HelpCircle,
+  Headphones,
+  BookOpen,
+} from "lucide-react";
 import Link from "next/link";
 import DownloadModal from "./download-modal";
 import GitHubModal from "./github-modal";
 import { ThemeToggle } from "./theme-toggle";
 import { IconVesper } from "../icons/vesper-icon";
+import { IconBrandDiscord } from "@tabler/icons-react";
 
 // Custom GitHub "star" icon
 function StarIcon({ className = "w-6 h-6" }: { className?: string }) {
@@ -83,45 +103,126 @@ const dropdowns: Dropdown[] = [
   {
     name: "Explore",
     items: [
-      { name: "Roadmap", href: "/roadmap", icon: Map, description: "Future plans" },
-      { name: "Tech Stack", href: "/techstack", icon: Code, description: "Technologies used" },
-      { name: "About", href: "/about", icon: Info, description: "About Vesper" },
-      { name: "Changelog", href: "/changelog", icon: History, description: "Version history" },
-      { name: "Gallery", href: "/gallery", icon: ImageIcon, description: "Screenshots" },
-      { name: "FAQ", href: "/faq", icon: HelpCircle, description: "Common questions" },
+      {
+        name: "Roadmap",
+        href: "/roadmap",
+        icon: Map,
+        description: "Future plans",
+      },
+      {
+        name: "Tech Stack",
+        href: "/techstack",
+        icon: Code,
+        description: "Technologies used",
+      },
+      {
+        name: "About",
+        href: "/about",
+        icon: Info,
+        description: "About VOMLabs",
+      },
+      {
+        name: "Changelog",
+        href: "/changelog",
+        icon: History,
+        description: "Version history",
+      },
+      {
+        name: "Gallery",
+        href: "/gallery",
+        icon: ImageIcon,
+        description: "Screenshots",
+      },
+      {
+        name: "FAQ",
+        href: "/faq",
+        icon: HelpCircle,
+        description: "Common questions",
+      },
     ],
   },
   {
     name: "Community",
     items: [
-      { name: "Support", href: "/support", icon: Headphones, description: "Get help & contact" },
-      { name: "GitHub", href: "https://github.com/ArexLabs/vesper-website", icon: ExternalLink, description: "Source code" },
-      { name: "Discord", href: "https://discord.devflare.de", icon: ExternalLink, description: "Join our server" },
+      {
+        name: "Support",
+        href: "/support",
+        icon: Headphones,
+        description: "Get help & contact",
+      },
+      {
+        name: "GitHub",
+        href: "https://github.com/VOMLabs",
+        icon: ExternalLink,
+        description: "Our projects",
+      },
+      {
+        name: "Discord",
+        href: "/discord",
+        icon: IconBrandDiscord,
+        description: "Join our server",
+      },
+      {
+        name: "Documentation",
+        href: "https://docs.vomlabs.com/",
+        icon: ExternalLink,
+        description: "Join our server",
+      },
     ],
   },
   {
     name: "Legal",
     items: [
-      { name: "Legal Notice", href: "/legal", icon: FileText, description: "Legal information" },
-      { name: "Privacy Policy", href: "/privacy", icon: ShieldCheck, description: "Data & privacy" },
-      { name: "Terms of Use", href: "/terms", icon: Scale, description: "Usage terms" },
-      { name: "Terms of Service", href: "/tos", icon: Gavel, description: "Service agreement" },
+      {
+        name: "Legal Notice",
+        href: "/legal",
+        icon: FileText,
+        description: "Legal information",
+      },
+      {
+        name: "Privacy Policy",
+        href: "/privacy",
+        icon: ShieldCheck,
+        description: "Data & privacy",
+      },
+      {
+        name: "Terms of Use",
+        href: "/terms",
+        icon: Scale,
+        description: "Usage terms",
+      },
+      {
+        name: "Terms of Service",
+        href: "/tos",
+        icon: Gavel,
+        description: "Service agreement",
+      },
     ],
   },
 ];
 
 const menuVariants: Variants = {
-  closed: { opacity: 0, y: -20, transition: { staggerChildren: 0.05, staggerDirection: -1 } },
+  closed: {
+    opacity: 0,
+    y: -20,
+    transition: { staggerChildren: 0.05, staggerDirection: -1 },
+  },
   open: {
     opacity: 1,
     y: 0,
-    transition: { type: "spring", stiffness: 300, damping: 30, staggerChildren: 0.1, delayChildren: 0.1 }
-  }
+    transition: {
+      type: "spring",
+      stiffness: 300,
+      damping: 30,
+      staggerChildren: 0.1,
+      delayChildren: 0.1,
+    },
+  },
 };
 
 const itemVariants: Variants = {
   closed: { opacity: 0, y: -20 },
-  open: { opacity: 1, y: 0 }
+  open: { opacity: 1, y: 0 },
 };
 
 export function Navigation() {
@@ -141,6 +242,16 @@ export function Navigation() {
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   useEffect(() => {
@@ -166,7 +277,7 @@ export function Navigation() {
   };
 
   const handleOpenSearch = () => {
-    window.dispatchEvent(new CustomEvent("vesper:open-cmdk"));
+    window.dispatchEvent(new CustomEvent("vomlabs:open-cmdk"));
     setMobileMenuOpen(false);
   };
 
@@ -174,8 +285,9 @@ export function Navigation() {
     const handleOpenGitHub = () => {
       setGithubModalOpen(true);
     };
-    window.addEventListener("vesper:open-github", handleOpenGitHub);
-    return () => window.removeEventListener("vesper:open-github", handleOpenGitHub);
+    window.addEventListener("vomlabs:open-github", handleOpenGitHub);
+    return () =>
+      window.removeEventListener("vomlabs:open-github", handleOpenGitHub);
   }, []);
 
   return (
@@ -189,20 +301,23 @@ export function Navigation() {
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
           scrolled
             ? "bg-background/96 backdrop-blur-2xl border-b border-white/5 shadow-sm"
-            : "bg-transparent"
+            : "bg-transparent",
         )}
         id="navbar"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between h-16 sm:h-20">
-            <Link href="/" className="flex items-center gap-2.5 group shrink-0">
-              <IconVesper className="w-9 h-9 sm:w-10 sm:h-10 mr-0" />
-              <span className="font-mono font-bold tracking-tight text-foreground text-base sm:text-lg italic">
-                Vesper Client.
+            <Link
+              href="/"
+              className="flex items-center gap-1.5 sm:gap-2.5 group shrink-0 min-w-0"
+            >
+              <IconVesper className="size-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 shrink-0" />
+              <span className="font-mono font-bold tracking-tight text-foreground text-sm sm:text-base lg:text-lg italic truncate">
+                VOMLabs.
               </span>
             </Link>
 
-            <nav className="nav-desktop hidden lg:flex items-center gap-1">
+            <nav className="nav-desktop hidden md:flex items-center gap-0.5 lg:gap-1">
               {navLinks.map((link) => {
                 const isActive = pathname === link.href;
                 return (
@@ -211,10 +326,10 @@ export function Navigation() {
                     href={link.href}
                     aria-current={isActive ? "page" : undefined}
                     className={cn(
-                      "px-3 py-2 text-sm font-medium transition-all duration-200 rounded-full whitespace-nowrap",
+                      "px-2 lg:px-3 py-2 text-sm font-medium transition-all duration-200 rounded-full whitespace-nowrap",
                       isActive
                         ? "text-brand-accent bg-brand-accent/10"
-                        : "text-muted-foreground hover:text-foreground hover:bg-white/5"
+                        : "text-muted-foreground hover:text-foreground hover:bg-white/5",
                     )}
                   >
                     {link.name}
@@ -230,14 +345,19 @@ export function Navigation() {
                 >
                   <button
                     className={cn(
-                      "flex items-center gap-1 px-3 py-2 text-sm font-medium transition-all duration-200 rounded-full whitespace-nowrap",
+                      "flex items-center gap-0.5 lg:gap-1 px-2 lg:px-3 py-2 text-sm font-medium transition-all duration-200 rounded-full whitespace-nowrap",
                       openDropdown === dropdown.name
                         ? "text-brand-accent bg-brand-accent/10"
-                        : "text-muted-foreground hover:text-foreground hover:bg-white/5"
+                        : "text-muted-foreground hover:text-foreground hover:bg-white/5",
                     )}
                   >
                     {dropdown.name}
-                    <ChevronDown className={cn("size-4 transition-transform duration-200", openDropdown === dropdown.name && "rotate-180")} />
+                    <ChevronDown
+                      className={cn(
+                        "size-4 transition-transform duration-200",
+                        openDropdown === dropdown.name && "rotate-180",
+                      )}
+                    />
                   </button>
                   <AnimatePresence>
                     {openDropdown === dropdown.name && (
@@ -252,14 +372,28 @@ export function Navigation() {
                           const Icon = item.icon;
                           const isExternal = item.href.startsWith("http");
                           return (
-                            <a key={item.name} href={item.href} target={isExternal ? "_blank" : undefined} rel={isExternal ? "noopener noreferrer" : undefined} className="flex items-start gap-3 px-4 py-3 text-sm hover:bg-white/5 transition-colors">
+                            <a
+                              key={item.name}
+                              href={item.href}
+                              target={isExternal ? "_blank" : undefined}
+                              rel={
+                                isExternal ? "noopener noreferrer" : undefined
+                              }
+                              className="flex items-start gap-3 px-4 py-3 text-sm hover:bg-white/5 transition-colors"
+                            >
                               <Icon className="size-5 text-brand-accent shrink-0 mt-0.5" />
                               <div>
                                 <div className="font-medium text-foreground">
                                   {item.name}
-                                  {isExternal && <ExternalLink className="inline-block size-3 ml-1 opacity-50" />}
+                                  {isExternal && (
+                                    <ExternalLink className="inline-block size-3 ml-1 opacity-50" />
+                                  )}
                                 </div>
-                                {item.description && <div className="text-xs text-muted-foreground">{item.description}</div>}
+                                {item.description && (
+                                  <div className="text-xs text-muted-foreground">
+                                    {item.description}
+                                  </div>
+                                )}
                               </div>
                             </a>
                           );
@@ -275,42 +409,66 @@ export function Navigation() {
               <button
                 onClick={handleOpenSearch}
                 className={cn(
-                  "hidden sm:flex items-center justify-between gap-3 px-3 py-2 text-sm text-muted-foreground hover:text-foreground bg-card/50 border border-border hover:border-brand-accent/30 rounded-xl transition-all duration-200 min-w-[200px]",
-                  isCompact && "hidden lg:hidden"
+                  "hidden md:flex items-center justify-center gap-2 px-2.5 py-2 text-sm text-muted-foreground hover:text-foreground bg-card/50 border border-border hover:border-brand-accent/30 rounded-xl transition-all duration-200",
+                  isCompact && "hidden",
                 )}
               >
-                <div className="flex items-center gap-2">
-                  <Search className="size-4" />
-                  <span className="hidden md:inline">Search...</span>
-                </div>
-                <div className="flex items-center gap-1 px-1.5 py-0.5 rounded bg-muted text-[10px] font-medium text-muted-foreground">
+                <Search className="size-4 shrink-0" />
+                <span className="hidden lg:inline">Search</span>
+                <div className="hidden lg:flex items-center gap-1 px-1.5 py-0.5 rounded bg-muted text-[10px] font-medium text-muted-foreground">
                   <span className="text-[8px] opacity-60">⌘</span>
                   <span>K</span>
                 </div>
               </button>
 
               <button
-                onClick={handleOpenDownloadModal}
-                className="hidden sm:flex items-center gap-2 px-4 py-2 text-sm font-semibold bg-brand-accent hover:bg-brand-accent/90 text-background rounded-full transition-all duration-200"
+                onClick={handleOpenSearch}
+                className="md:hidden p-2 rounded-xl text-muted-foreground hover:bg-white/5 transition-colors"
+                aria-label="Open search"
               >
-                Download
+                <Search className="size-5" />
               </button>
-              
+
+              <button
+                onClick={handleOpenDownloadModal}
+                className="hidden md:flex items-center gap-2 px-2.5 lg:px-4 py-2 text-sm font-semibold bg-brand-accent hover:bg-brand-accent/90 text-background rounded-full transition-all duration-200"
+              >
+                <svg
+                  className="size-4 shrink-0"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="2"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
+                  />
+                </svg>
+                <span className="hidden lg:inline">Download</span>
+              </button>
+
               <button
                 onClick={() => setGithubModalOpen(true)}
-                className="p-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-white/5 transition-all duration-200"
+                className="p-1.5 md:p-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-white/5 transition-all duration-200"
                 aria-label="Open GitHub repository"
               >
-                <GitHubIcon className="w-5 h-5 sm:w-6 sm:h-6" />
+                <GitHubIcon className="size-5 md:size-6" />
               </button>
 
               <ThemeToggle />
 
               <button
-                className="lg:hidden p-2 rounded-xl bg-white/5 active:scale-90 transition-transform"
+                className="md:hidden p-2 rounded-xl bg-white/5 active:scale-90 transition-transform"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               >
-                {mobileMenuOpen ? <XMarkIcon className="w-6 h-6" /> : <Bars3Icon className="w-6 h-6" />}
+                {mobileMenuOpen ? (
+                  <XMarkIcon className="w-6 h-6" />
+                ) : (
+                  <Bars3Icon className="w-6 h-6" />
+                )}
               </button>
             </div>
           </div>
@@ -324,16 +482,16 @@ export function Navigation() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onClick={() => setMobileMenuOpen(false)}
-                className="fixed inset-0 bg-background/80 backdrop-blur-xl z-40 lg:hidden"
+                className="fixed inset-0 bg-background/80 backdrop-blur-xl z-40 md:hidden"
               />
               <motion.div
                 variants={menuVariants}
                 initial="closed"
                 animate="open"
                 exit="closed"
-                className="fixed top-20 left-4 right-4 p-0 bg-card/95 backdrop-blur-xl rounded-2xl z-50 lg:hidden shadow-2xl max-h-[80vh] overflow-y-auto"
+                className="fixed top-[64px] sm:top-[80px] left-0 right-0 bottom-0 md:hidden z-50 bg-card/98 backdrop-blur-xl shadow-2xl overflow-y-auto"
               >
-                <div className="space-y-1 p-2">
+                <div className="space-y-1 p-4">
                   <button
                     onClick={handleOpenSearch}
                     className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-muted-foreground hover:bg-accent transition-colors text-left"
@@ -361,11 +519,13 @@ export function Navigation() {
                               "flex items-center gap-3 px-4 py-2.5 rounded-xl transition-colors",
                               isActive
                                 ? "bg-brand-accent/10 text-brand-accent"
-                                : "text-foreground hover:bg-accent"
+                                : "text-foreground hover:bg-accent",
                             )}
                           >
                             <Icon className="size-4" />
-                            <span className="text-sm font-medium">{link.name}</span>
+                            <span className="text-sm font-medium">
+                              {link.name}
+                            </span>
                           </Link>
                         </motion.div>
                       );
@@ -373,8 +533,14 @@ export function Navigation() {
                   </div>
 
                   {dropdowns.map((dropdown) => (
-                    <motion.div key={dropdown.name} variants={itemVariants} className="space-y-0.5">
-                      <div className="px-4 py-2 text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">{dropdown.name}</div>
+                    <motion.div
+                      key={dropdown.name}
+                      variants={itemVariants}
+                      className="space-y-0.5"
+                    >
+                      <div className="px-4 py-2 text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">
+                        {dropdown.name}
+                      </div>
                       {dropdown.items.map((item) => {
                         const Icon = item.icon;
                         const isExternal = item.href.startsWith("http");
@@ -393,29 +559,39 @@ export function Navigation() {
                                 {item.name}
                               </div>
                             </div>
-                            {isExternal && <ExternalLink className="size-3.5 text-muted-foreground" />}
+                            {isExternal && (
+                              <ExternalLink className="size-3.5 text-muted-foreground" />
+                            )}
                           </a>
                         );
                       })}
                     </motion.div>
                   ))}
 
-                  <motion.div variants={itemVariants} className="space-y-1 pt-3 pb-1">
+                  <motion.div
+                    variants={itemVariants}
+                    className="space-y-1 pt-3 pb-1"
+                  >
                     <button
                       onClick={handleOpenDownloadModal}
                       className="w-full px-4 py-2.5 bg-brand-accent text-background rounded-xl text-sm font-semibold shadow-sm active:scale-[0.98] transition-all"
                     >
-                      Download Vesper
+                      Explore Projects
                     </button>
                     <button
-                      onClick={() => { setGithubModalOpen(true); setMobileMenuOpen(false); }}
+                      onClick={() => {
+                        setGithubModalOpen(true);
+                        setMobileMenuOpen(false);
+                      }}
                       className="w-full px-4 py-2.5 rounded-xl text-muted-foreground flex items-center justify-center gap-2 text-sm font-medium hover:bg-accent transition-colors"
                     >
                       <GitHubIcon className="size-4" />
                       View on GitHub
                     </button>
                     <div className="flex items-center justify-between px-4 py-2 rounded-xl hover:bg-accent transition-colors">
-                      <span className="text-sm text-muted-foreground font-medium">Theme</span>
+                      <span className="text-sm text-muted-foreground font-medium">
+                        Theme
+                      </span>
                       <ThemeToggle />
                     </div>
                   </motion.div>
@@ -425,8 +601,14 @@ export function Navigation() {
           )}
         </AnimatePresence>
       </motion.header>
-      <DownloadModal open={downloadModalOpen} onClose={() => setDownloadModalOpen(false)} />
-      <GitHubModal open={githubModalOpen} onClose={() => setGithubModalOpen(false)} />
+      <DownloadModal
+        open={downloadModalOpen}
+        onClose={() => setDownloadModalOpen(false)}
+      />
+      <GitHubModal
+        open={githubModalOpen}
+        onClose={() => setGithubModalOpen(false)}
+      />
     </>
   );
 }

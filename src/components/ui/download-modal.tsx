@@ -72,7 +72,7 @@ const platforms = [
     label: "Windows",
     subtitle: ".exe installer",
     match: (name: string) => name.endsWith(".exe"),
-    fallbackUrl: "https://github.com/ArexLabs/vesper-client/releases/latest",
+     fallbackUrl: "https://github.com/VOMLabs",
     icon: PlatformIcons.windows,
     group: "desktop",
   },
@@ -80,7 +80,7 @@ const platforms = [
     label: "macOS",
     subtitle: ".dmg disk image",
     match: (name: string) => name.endsWith(".dmg"),
-    fallbackUrl: "https://github.com/ArexLabs/vesper-client/releases/latest",
+     fallbackUrl: "https://github.com/VOMLabs",
     icon: PlatformIcons.mac,
     group: "desktop",
   },
@@ -88,7 +88,7 @@ const platforms = [
     label: "Debian / Ubuntu",
     subtitle: ".deb package",
     match: (name: string) => name.toLowerCase().endsWith(".deb"),
-    fallbackUrl: "https://github.com/ArexLabs/vesper-client/releases/latest",
+     fallbackUrl: "https://github.com/VOMLabs",
     icon: PlatformIcons.deb,
     group: "linux",
   },
@@ -96,7 +96,7 @@ const platforms = [
     label: "Fedora / RHEL",
     subtitle: ".rpm package",
     match: (name: string) => name.toLowerCase().endsWith(".rpm"),
-    fallbackUrl: "https://github.com/ArexLabs/vesper-client/releases/latest",
+     fallbackUrl: "https://github.com/VOMLabs",
     icon: PlatformIcons.rpm,
     group: "linux",
   },
@@ -104,7 +104,7 @@ const platforms = [
     label: "Linux (Universal)",
     subtitle: ".AppImage portable",
     match: (name: string) => name.toLowerCase().includes("appimage"),
-    fallbackUrl: "https://github.com/ArexLabs/vesper-client/releases/latest",
+     fallbackUrl: "https://github.com/VOMLabs",
     icon: PlatformIcons.appimage,
     group: "linux",
   },
@@ -112,7 +112,7 @@ const platforms = [
     label: "Linux (Portable Binary)",
     subtitle: ".tar.gz archive",
     match: (name: string) => name.toLowerCase().endsWith(".tar.gz"),
-    fallbackUrl: "https://github.com/ArexLabs/vesper-client/releases/latest",
+     fallbackUrl: "https://github.com/VOMLabs",
     icon: PlatformIcons.portable,
     group: "linux",
   },
@@ -127,7 +127,7 @@ const DownloadModal: React.FC<DownloadModalProps> = ({ open, onClose }) => {
     setError("");
     try {
       const res = await fetch(
-        "https://api.github.com/repos/ArexLabs/vesper-client/releases/latest"
+         "https://api.github.com/orgs/VOMLabs"
       );
       const data = (await res.json()) as GitHubRelease;
       const platform = platforms[platformIdx];
@@ -153,9 +153,9 @@ const DownloadModal: React.FC<DownloadModalProps> = ({ open, onClose }) => {
       <DialogContent className="max-w-3xl gap-0 overflow-hidden p-0 sm:max-w-3xl max-h-[90dvh] flex flex-col">
         <div className="shrink-0 border-b border-border px-4 py-4 sm:px-6 sm:py-5">
           <DialogHeader>
-            <DialogTitle className="text-lg font-semibold tracking-tight">
-              Download Vesper Client
-            </DialogTitle>
+             <DialogTitle className="text-lg font-semibold tracking-tight">
+               VOMLabs Projects
+             </DialogTitle>
             <DialogDescription>
               Choose your platform to get the latest release.
             </DialogDescription>
@@ -216,7 +216,7 @@ const DownloadModal: React.FC<DownloadModalProps> = ({ open, onClose }) => {
           <p className="text-center text-xs text-muted-foreground">
             Having trouble?{" "}
             <a
-              href="https://github.com/ArexLabs/vesper-client/releases/latest"
+               href="https://github.com/VOMLabs"
               target="_blank"
               rel="noopener noreferrer"
               className="font-medium text-foreground underline-offset-4 hover:underline"

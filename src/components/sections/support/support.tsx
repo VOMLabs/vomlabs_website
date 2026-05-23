@@ -26,7 +26,7 @@ const contactMethods = [
   {
     name: "GitHub",
     description: "Report bugs and request features",
-    href: "https://github.com/ArexLabs/vesper-website/issues",
+     href: "https://github.com/VOMLabs",
     icon: IconBrandGithub,
     color: "bg-gray-500/10 text-gray-500 border-gray-500/20",
     hoverColor: "hover:border-gray-500/40 hover:bg-gray-500/5",
@@ -135,12 +135,12 @@ export function SupportSection() {
             </Link>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {[
-              { q: "How do I download Vesper?", a: "Visit our homepage and run the install script for your platform." },
-              { q: "Is Vesper free to use?", a: "Yes, Vesper is completely free and open source." },
-              { q: "What Minecraft versions are supported?", a: "Vesper supports all major Minecraft versions." },
-              { q: "How do I report a bug?", a: "Open an issue on GitHub or reach out on Discord." },
-            ].map((item, i) => (
+             {[
+               { q: "How do I download VOMLabs projects?", a: "Visit our GitHub organization to see all available projects and releases." },
+               { q: "Is VOMLabs software free to use?", a: "Yes, VOMLabs creates free and open source software." },
+               { q: "What kind of projects do you work on?", a: "We build Minecraft software, modern websites, and developer tools." },
+               { q: "How do I report a bug?", a: "Open an issue on GitHub or reach out on Discord." },
+             ].map((item, i) => (
               <motion.div
                 key={item.q}
                 initial={{ opacity: 0, y: 10 }}

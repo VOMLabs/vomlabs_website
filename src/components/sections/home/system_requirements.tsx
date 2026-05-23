@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { CpuChipIcon, ComputerDesktopIcon, RectangleStackIcon, CircleStackIcon, WifiIcon } from "@heroicons/react/24/outline";
 
 const requirements = [
-  { label: "Java Runtime", value: "Java 17 or 21 (required)", description: "Vesper requires Java to run Minecraft. Download from adoptium.net", icon: CpuChipIcon, required: true },
+   { label: "Java Runtime", value: "Java 17 or 21 (required for Minecraft)", description: "Java required for Minecraft-related tools. Download from adoptium.net", icon: CpuChipIcon, required: true },
   { label: "Operating System", value: "Windows 10/11 (64-bit)", description: "Linux and macOS support coming soon", icon: ComputerDesktopIcon },
   { label: "Processor", value: "Intel Core i5 / AMD Ryzen 5 or better", description: "Modern dual-core processor recommended", icon: CpuChipIcon },
   { label: "Memory (RAM)", value: "4 GB minimum, 8 GB recommended", description: "More RAM allows for larger modpacks", icon: RectangleStackIcon },
@@ -19,9 +19,9 @@ export function system_requirements() {
         <h2 id="system-req-heading" className="text-4xl md:text-5xl font-bold font-mono tracking-tight text-foreground mb-3">
           <span className="text-brand-accent">System</span> Requirements
         </h2>
-        <p className="max-w-xl mx-auto text-muted-foreground text-base md:text-lg leading-relaxed">
-          Vesper is designed for seamless, fast performance—lightweight on resources, but tuned for modern desktop hardware.
-        </p>
+         <p className="max-w-xl mx-auto text-muted-foreground text-base md:text-lg leading-relaxed">
+           Our software is designed for seamless, fast performance—lightweight on resources, but tuned for modern systems.
+         </p>
       </motion.div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
