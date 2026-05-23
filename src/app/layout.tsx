@@ -1,52 +1,91 @@
+import { Navigation } from "@/components/ui/navigation";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter } from "next/font/google";
+import { ThemeProvider } from "next-themes";
+import { JetBrains_Mono as FontMono, Noto_Sans as FontSans } from "next/font/google";
 import "./globals.css";
-import { Footer } from "@/components/footer";
-import { Navbar } from "@/components/navbar";
-import { ThemeProvider } from "@/components/theme-provider";
+import { FooterLogo } from "@/components/ui/footer-logo";
+import { Toaster } from "sonner";
+import { CommandPalette } from "@/components/ui/command-palette";
+import { ScrollToTop } from "@/components/ui/scroll-to-top";
 import { cn } from "@/lib/utils";
+import { SessionProvider } from "@/components/providers/session_provider";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const fontSans = FontSans({
   subsets: ["latin"],
+  variable: "--font-sans",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const fontMono = FontMono({
   subsets: ["latin"],
+  variable: "--font-mono",
 });
 
 export const metadata: Metadata = {
-  title: "VOMLabs",
-  description: "VOMLabs is a minecraft-focused development team.",
-  icons: { icon: "/logo.svg" },
+  title: {
+    default: "Vesper Client",
+    template: "%s | Vesper Client",
+  },
+  description:
+    "Vesper Client is a sleek, modern, and high-utility Minecraft client designed for performance, customization, and an enhanced gameplay experience.",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", type: "image/x-icon" },
+      { url: "/favicon.png", type: "image/png" },
+    ],
+  },
+  keywords: [
+    "Minecraft",
+    "Vesper Client",
+    "Minecraft Client",
+    "High-Utility",
+    "Modern",
+    "Launcher",
+    "Custom Minecraft",
+  ],
+  authors: [{ name: "DevFlare / ArexLabs", url: "https://devflare.de" }],
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html
       lang="en"
-      className={cn(
-        "h-full",
-        "antialiased",
-        geistSans.variable,
-        geistMono.variable,
-        "font-sans",
-        inter.variable,
-      )}
       suppressHydrationWarning
+      className={cn("font-sans", fontSans.variable)}
     >
-      <body className="flex min-h-full flex-col">
-        <ThemeProvider attribute="class" enableSystem disableTransitionOnChange>
-          <Navbar />
-          {children}
-          <Footer />
+      <body
+        className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased min-h-screen bg-background text-foreground`}
+      >
+        <SpeedInsights />
+        <Analytics />
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <SessionProvider>
+            <Navigation />
+            <CommandPalette />
+            <main>{children}</main>
+            <Toaster richColors />
+            <ScrollToTop />
+          </SessionProvider>
+          <FooterLogo
+            aRR
+            aRRText="Not affiliated with Mojang or Microsoft."
+            year={2025}
+            links={[
+              { label: "Legal Notice", href: "/legal" },
+              { label: "Privacy Policy", href: "/privacy" },
+              { label: "Terms of Use", href: "/terms" },
+              { label: "Terms of Service", href: "/tos" }
+            ]}
+          />
         </ThemeProvider>
       </body>
     </html>

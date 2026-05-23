@@ -1,0 +1,12 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Disallow:
+
+# Sitemap
+Sitemap: https://vesper.devflare.de/sitemap.xml
+
+# Allow crawling of all public pages
+Allow: /$
+
+# Crawl delay (optional, be nice to servers)
+Crawl-delay: 1
