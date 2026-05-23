@@ -86,14 +86,14 @@ export const HeroShareApp = () => {
           </TimelineAnimation>
         </div>
 
-        <div className="relative w-full max-w-7xl h-[300px]">
+        {/*<div className="relative w-full max-w-7xl h-[300px]">
           <TimelineAnimation
             as="button"
             timelineRef={timelineRef}
             animationNum={9}
             className="absolute left-0 bottom-[-100px] w-105 h-96 bg-white rounded-4xl shadow-2xl overflow-hidden transform rotate-[-15deg] translate-x-12 translate-y-12 border-4 border-white"
           >
-            <img
+            <Image
               src="https://images.unsplash.com/photo-1482049016688-2d3e1b311543?q=80&w=710&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
               className="w-full h-full object-cover"
             />
@@ -104,7 +104,7 @@ export const HeroShareApp = () => {
             animationNum={10}
             className="absolute left-1/2 -translate-x-1/2 bottom-[-150px] w-100 h-[450px] bg-white rounded-4xl shadow-2xl z-20 overflow-hidden border-4 border-white"
           >
-            <img
+            <Image
               src="https://images.unsplash.com/photo-1500835556837-99ac94a94552?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
               className="w-full h-full object-cover"
             />
@@ -115,12 +115,12 @@ export const HeroShareApp = () => {
             animationNum={11}
             className="absolute right-0 bottom-[-100px] w-105 h-96 bg-white rounded-4xl shadow-2xl overflow-hidden transform rotate-15 -translate-x-12 translate-y-12 border-4 border-white"
           >
-            <img
+            <Image
               src="https://images.unsplash.com/photo-1768361435257-819e2c22f0b4?q=80&w=713&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
               className="w-full h-full object-cover"
             />
           </TimelineAnimation>
-        </div>
+        </div>*/}
       </div>
     </section>
   )
