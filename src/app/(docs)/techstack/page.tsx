@@ -3,8 +3,8 @@ import { TechStackSection } from "@/components/sections/techstack";
 
 export const metadata: Metadata = {
   title: "Tech Stack",
-  description: "Discover the technologies powering VOMLabs projects. Built with Rust, Next.js, React, and modern tools for performance and quality.",
-  keywords: ["VOMLabs Tech Stack", "Technologies", "Rust", "Next.js", "React", "Web Development"],
+  description: "Discover the technologies powering VOMLabs projects. Built with Paper API, Gradle, Kotlin, Java, Next.js, and modern tools.",
+  keywords: ["VOMLabs Tech Stack", "Technologies", "Minecraft", "Paper API", "Gradle", "Kotlin", "Java", "Next.js", "Web Development"],
 };
 
 export default function TechStackPage() {

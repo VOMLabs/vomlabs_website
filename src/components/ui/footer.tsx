@@ -4,38 +4,38 @@ import { cn } from "@/lib/utils";
 import { Button } from "./button";
 import React from "react";
 
-const footerVariants = cva(
-  "border-t border-border w-full",
-  {
-    variants: {
-      variant: {
-        default: "bg-muted/10",
-        dark: "bg-background text-muted-foreground border-border",
-        accent: "bg-brand-accent/10 text-brand-accent border-brand-accent",
-      },
-      padding: {
-        default: "mt-12",
-        none: "",
-        sm: "mt-4",
-        lg: "mt-20",
-      },
+const footerVariants = cva("border-t border-border w-full", {
+  variants: {
+    variant: {
+      default: "bg-muted/10",
+      dark: "bg-background text-muted-foreground border-border",
+      accent: "bg-brand-accent/10 text-brand-accent border-brand-accent",
     },
-    defaultVariants: {
-      variant: "default",
-      padding: "default",
+    padding: {
+      default: "mt-12",
+      none: "",
+      sm: "mt-4",
+      lg: "mt-20",
     },
-  }
-);
+  },
+  defaultVariants: {
+    variant: "default",
+    padding: "default",
+  },
+});
 
 type FooterLink = { label: string; href: string };
 
-export interface FooterProps extends React.HTMLAttributes<HTMLElement>, VariantProps<typeof footerVariants> {
-  aRR?: boolean;                      // All Rights Reserved flag
-  aRRText?: string;                   // custom disclaimer/legal text
-  year?: number;                      // copyright/founding year
-  logo?: React.ReactNode;             // logo element
-  logoOnClick?: () => void;           // click handler for logo
-  links?: FooterLink[];               // array of { label, href }
+export interface FooterProps
+  extends
+    React.HTMLAttributes<HTMLElement>,
+    VariantProps<typeof footerVariants> {
+  aRR?: boolean; // All Rights Reserved flag
+  aRRText?: string; // custom disclaimer/legal text
+  year?: number; // copyright/founding year
+  logo?: React.ReactNode; // logo element
+  logoOnClick?: () => void; // click handler for logo
+  links?: FooterLink[]; // array of { label, href }
 }
 
 export function Footer({
@@ -56,11 +56,12 @@ export function Footer({
   let yearDisplay: string;
   if (year !== undefined) {
     if (year > currentYear) {
-      throw new Error(`[Footer] year prop (${year}) cannot be in the future (${currentYear}).`);
+      throw new Error(
+        `[Footer] year prop (${year}) cannot be in the future (${currentYear}).`,
+      );
     }
-    yearDisplay = year !== currentYear
-      ? `© ${year}–${currentYear}`
-      : `© ${currentYear}`;
+    yearDisplay =
+      year !== currentYear ? `© ${year}–${currentYear}` : `© ${currentYear}`;
   } else {
     yearDisplay = `© ${currentYear}`;
   }
@@ -91,22 +92,31 @@ export function Footer({
               )}
             </div>
           )}
-          <span className="block text-center sm:text-left">
-            <span className="text-brand-accent font-semibold">
-              {yearDisplay} DevFlare.
+          <div className="flex flex-col items-center sm:items-start">
+            <span className="block text-center sm:text-left">
+              <span className="text-brand-accent font-semibold">
+                {yearDisplay} ItzzMateo.
+              </span>
+              {/* Show ARR if enabled */}
+              {aRR && <span className="ml-1">All Rights Reserved.</span>}
+              {/* Custom/legal text always shown if provided. Otherwise show default */}
+              <span className="ml-1">
+                {typeof aRRText === "string"
+                  ? aRRText
+                  : !aRRText && !aRR
+                    ? defaultArrTxt
+                    : !aRRText && aRR
+                      ? defaultArrTxt
+                      : null}
+              </span>
             </span>
-            {/* Show ARR if enabled */}
-            {aRR && <span className="ml-1">All Rights Reserved.</span>}
-            {/* Custom/legal text always shown if provided. Otherwise show default */}
-            <span className="ml-1">
-              {typeof aRRText === "string"
-                ? aRRText
-                : !aRRText && !aRR
-                  ? defaultArrTxt
-                  : (!aRRText && aRR ? defaultArrTxt : null)
-              }
+            <span className="block text-center sm:text-left text-muted-foreground/80 mt-1">
+              <span className="text-brand-accent font-semibold">
+                © 2026 VOMLabs.
+              </span>{" "}
+              All Rights Reserved.
             </span>
-          </span>
+          </div>
         </div>
         {resolvedLinks.length > 0 && (
           <nav aria-label="Footer Navigation">

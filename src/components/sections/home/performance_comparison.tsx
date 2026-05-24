@@ -1,65 +1,28 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Link from "next/link";
 import { BoltIcon, CpuChipIcon, RocketLaunchIcon, SparklesIcon } from "@heroicons/react/24/outline";
 
-const comparisons = [
+const features = [
   {
-    metric: "Startup Time",
-    vesper: "< 1 second",
-    others: [
-      { name: "Feather", value: "1-2 seconds", url: "https://feathermc.com" },
-      { name: "Lunar", value: "2-5 seconds", url: "https://lunarclient.com" },
-      { name: "Labymod", value: "2-4 seconds", url: "https://labymod.net" },
-      { name: "Lux", value: "3-6 seconds", url: "https://lux.pluginhub.de" },
-      { name: "Traditional", value: "3-10 seconds", url: "https://minecraft.net" },
-    ],
+    title: "Minecraft Plugins",
+    description: "Performant, modern, and 100% configurable plugins designed to enhance any server experience without the bloat.",
     icon: BoltIcon,
-    vesperPercent: 90,
-    description: "Native Rust binary vs Electron/Java overhead",
   },
   {
-    metric: "Memory Usage",
-    vesper: "~50MB idle",
-    others: [
-      { name: "Feather", value: "~80MB", url: "https://feathermc.com" },
-      { name: "Lunar", value: "300-500MB", url: "https://lunarclient.com" },
-      { name: "Labymod", value: "200-400MB", url: "https://labymod.net" },
-      { name: "Lux", value: "150-300MB", url: "https://lux.pluginhub.de" },
-      { name: "Traditional", value: "200-500MB+", url: "https://minecraft.net" },
-    ],
-    icon: CpuChipIcon,
-    vesperPercent: 85,
-    description: "Lightweight native UI vs heavy frameworks",
-  },
-  {
-    metric: "Mod Support",
-    vesper: "Fabric, Forge, NeoForge",
-    others: [
-      { name: "Feather", value: "Fabric", url: "https://feathermc.com" },
-      { name: "Lunar", value: "Fabric, Forge, NeoForge, Quilt", url: "https://lunarclient.com" },
-      { name: "Labymod", value: "Fabric, Forge, NeoForge", url: "https://labymod.net" },
-      { name: "Lux", value: "Fabric, Forge", url: "https://lux.pluginhub.de" },
-      { name: "Traditional", value: "None", url: "https://minecraft.net" },
-    ],
+    title: "Minecraft Mods",
+    description: "Feature-rich modifications that bring custom content, mechanics, and gameplay possibilities to your world.",
     icon: SparklesIcon,
-    vesperPercent: 85,
-    description: "Wide mod loader compatibility",
   },
   {
-    metric: "Cross-Platform",
-    vesper: "Win, Mac, Linux",
-    others: [
-      { name: "Feather", value: "Win, Mac (ARM)", url: "https://feathermc.com" },
-      { name: "Lunar", value: "Win, Mac (Intel/ARM), Linux", url: "https://lunarclient.com" },
-      { name: "Labymod", value: "Win, Mac (Intel/ARM), Linux", url: "https://labymod.net" },
-      { name: "Lux", value: "Win, Mac, Linux", url: "https://lux.pluginhub.de" },
-      { name: "Traditional", value: "Win, Mac, Linux", url: "https://minecraft.net" },
-    ],
+    title: "Web Development",
+    description: "Clean, responsive, and performant websites built with modern frameworks and best-in-class tooling.",
     icon: RocketLaunchIcon,
-    vesperPercent: 100,
-    description: "First-class Linux support out of the box",
+  },
+  {
+    title: "Developer Tools",
+    description: "Open-source resources, libraries, and tooling for the Minecraft development community and beyond.",
+    icon: CpuChipIcon,
   },
 ];
 
@@ -74,84 +37,36 @@ export function performance_comparison() {
         className="text-center mb-12"
       >
          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4 tracking-tight">
-           Why <span className="text-brand-accent italic">VOMLabs</span>?
+           What is <span className="text-brand-accent italic">VOMLabs</span>?
          </h2>
          <p className="text-muted-foreground max-w-xl mx-auto leading-relaxed md:text-lg">
-           Built from the ground up with performance and quality as our foundation. We craft software that puts users first.
+           We are an organization of developers crafting Minecraft services, modern websites, developer tools, and more.
          </p>
       </motion.div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {comparisons.map((item, i) => (
+        {features.map((feature, i) => (
           <motion.div
-            key={item.metric}
+            key={feature.title}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: i * 0.1 }}
-            className="rounded-xl bg-card/60 border border-border p-6 hover:border-brand-accent/40 transition-colors"
+            className="rounded-xl bg-card/60 border border-border p-6 hover:border-brand-accent/40 transition-colors group"
           >
             <div className="flex items-center gap-3 mb-4">
-              <div className="flex items-center justify-center rounded-lg bg-brand-accent/10 w-10 h-10">
-                <item.icon className="w-5 h-5 text-brand-accent" />
+              <div className="flex items-center justify-center rounded-lg bg-brand-accent/10 w-10 h-10 group-hover:bg-brand-accent/20 transition-colors">
+                <feature.icon className="w-5 h-5 text-brand-accent" />
               </div>
-              <div>
-                <h3 className="font-semibold text-foreground">{item.metric}</h3>
-                <p className="text-xs text-muted-foreground">{item.description}</p>
-              </div>
+              <h3 className="font-semibold text-foreground text-lg">{feature.title}</h3>
             </div>
-
-            <div className="space-y-3">
-              <div className="flex items-center justify-between text-sm">
-                 <Link
-                   href="https://vomlabs.com"
-                   target="_blank"
-                   rel="noopener noreferrer"
-                   className="text-brand-accent font-semibold hover:underline"
-                 >
-                   VOMLabs
-                 </Link>
-                <span className="text-brand-accent font-mono font-semibold">{item.vesper}</span>
-              </div>
-              <div className="relative h-2 bg-muted rounded-full overflow-hidden">
-                <motion.div
-                  initial={{ width: 0 }}
-                  whileInView={{ width: `${item.vesperPercent}%` }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.8, delay: 0.3 + i * 0.1 }}
-                  className="absolute left-0 top-0 h-full bg-brand-accent rounded-full"
-                />
-              </div>
-
-              <div className="space-y-2 pt-2 border-t border-border/50">
-                {item.others.map((other) => (
-                  <div key={other.name} className="flex items-center justify-between text-sm">
-                    <Link
-                      href={other.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-muted-foreground hover:text-foreground hover:underline transition-colors"
-                    >
-                      {other.name}
-                    </Link>
-                    <span className="text-muted-foreground/70 font-mono">{other.value}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <p className="text-muted-foreground leading-relaxed">
+              {feature.description}
+            </p>
           </motion.div>
         ))}
       </div>
 
-      <motion.p
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: 0.5 }}
-        className="text-center text-xs text-muted-foreground mt-6"
-      >
-        *Metrics based on typical benchmarks. Actual performance may vary.
-      </motion.p>
     </section>
   );
 }

@@ -269,7 +269,7 @@ export default function PrivacyPolicy() {
 
           <hr className="my-12 border-border/40" />
           <p className="text-sm text-muted-foreground text-center">
-            Last updated: April 2026
+            Last updated: May 2026
           </p>
         </section>
       </main>

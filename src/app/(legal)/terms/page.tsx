@@ -57,7 +57,14 @@ export default function TermsOfUse() {
                         <span className="font-medium text-foreground">
                           personal, non-commercial use
                         </span>{" "}
-                        only.
+                        only. If you&apos;d like to use our for{" "}
+                        <span className="font-medium text-foreground">
+                          commercial use
+                        </span>
+                        , then you need to reach out to us to{" "}
+                        <span className="font-medium text-foreground">
+                          request a commercial license
+                        </span>
                       </span>
                     </li>
                     <li className="flex items-start gap-3">
@@ -329,7 +336,7 @@ export default function TermsOfUse() {
 
           <hr className="my-12 border-border/40" />
           <p className="text-sm text-muted-foreground text-center">
-            Last updated: April 2026
+            Last updated: May 2026
           </p>
         </section>
       </main>
