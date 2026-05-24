@@ -450,13 +450,15 @@ export function Navigation() {
                 <span className="hidden lg:inline">Download</span>
               </button>
 
-              <button
-                onClick={() => setGithubModalOpen(true)}
+              <a
+                href="https://github.com/VOMLabs"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="p-1.5 md:p-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-white/5 transition-all duration-200"
-                aria-label="Open GitHub repository"
+                aria-label="Visit VOMLabs on GitHub"
               >
                 <GitHubIcon className="size-5 md:size-6" />
-              </button>
+              </a>
 
               <ThemeToggle />
 
@@ -578,16 +580,16 @@ export function Navigation() {
                     >
                       Explore Projects
                     </button>
-                    <button
-                      onClick={() => {
-                        setGithubModalOpen(true);
-                        setMobileMenuOpen(false);
-                      }}
+                    <a
+                      href="https://github.com/VOMLabs"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => setMobileMenuOpen(false)}
                       className="w-full px-4 py-2.5 rounded-xl text-muted-foreground flex items-center justify-center gap-2 text-sm font-medium hover:bg-accent transition-colors"
                     >
                       <GitHubIcon className="size-4" />
                       View on GitHub
-                    </button>
+                    </a>
                     <div className="flex items-center justify-between px-4 py-2 rounded-xl hover:bg-accent transition-colors">
                       <span className="text-sm text-muted-foreground font-medium">
                         Theme
