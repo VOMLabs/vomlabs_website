@@ -149,7 +149,7 @@ The injected project context contains these key fields:
 - **`iconLibrary`** → determines icon imports. Use `lucide-react` for `lucide`, `@tabler/icons-react` for `tabler`, etc. Never assume `lucide-react`.
 - **`resolvedPaths`** → exact file-system destinations for components, utils, hooks, etc.
 - **`framework`** → routing and file conventions (e.g. Next.js App Router vs Vite SPA).
-- **`packageManager`** → use this for any non-shadcn dependency installs (e.g. `pnpm add date-fns` vs `npm install date-fns`).
+- **`packageManager`** → use this for any non-shadcn dependency installs (e.g. `pnpm add date-fns` vs `bun add date-fns`).
 
 See [cli.md — `info` command](./cli.md) for the full field reference.
 
