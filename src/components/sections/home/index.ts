@@ -1,5 +1,5 @@
-export { hero } from "./hero";
-export { feature_cards } from "./feature_cards";
+export { Hero } from "./hero";
+export { FeatureCards } from "./feature_cards";
 export { performance_comparison } from "./performance_comparison";
 export { beta_waitlist } from "./beta_waitlist";
 export { social_proof } from "./social_proof";

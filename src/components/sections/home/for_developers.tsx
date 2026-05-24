@@ -1,50 +1,114 @@
-import { motion } from "framer-motion";
-import { WrenchScrewdriverIcon, CodeBracketIcon, PuzzlePieceIcon, BookOpenIcon } from "@heroicons/react/24/outline";
+"use client";
 
-const developer_features = [
-  { title: "Plugin API", description: "Build custom plugins using our comprehensive TypeScript/JavaScript API", icon: CodeBracketIcon },
-  { title: "Mod Loader Support", description: "Full compatibility with Forge, Fabric, and Quilt mod loaders", icon: PuzzlePieceIcon },
-  { title: "Documentation", description: "Detailed guides, API references, and example projects", icon: BookOpenIcon },
+import { motion } from "framer-motion";
+import {
+  CodeBracketIcon,
+  CommandLineIcon,
+  CpuChipIcon,
+  CubeTransparentIcon,
+  GlobeAltIcon,
+  ServerIcon,
+  WrenchScrewdriverIcon,
+} from "@heroicons/react/24/outline";
+import Link from "next/link";
+
+const dev_features = [
+  {
+    title: "Powerful APIs",
+    description:
+      "Hook into our core systems with well-documented, type-safe APIs designed for extensibility.",
+    icon: CodeBracketIcon,
+  },
+  {
+    title: "Open Core",
+    description:
+      "Most of our tools are open source. Audit the code, contribute, or build your own forks with ease.",
+    icon: GlobeAltIcon,
+  },
+  {
+    title: "Modern Tooling",
+    description:
+      "Leverage the latest technologies like Next.js, Rust, and Paper for high-performance development.",
+    icon: CpuChipIcon,
+  },
+  {
+    title: "CI/CD Ready",
+    description:
+      "Our software integrates seamlessly with modern deployment pipelines and automated workflows.",
+    icon: ServerIcon,
+  },
+  {
+    title: "CLI Utilities",
+    description:
+      "Speed up your workflow with powerful command-line tools designed for speed and automation.",
+    icon: CommandLineIcon,
+  },
+  {
+    title: "Documentation",
+    description:
+      "Comprehensive guides and references to help you get the most out of VOMLabs software.",
+    icon: CubeTransparentIcon,
+  },
 ];
 
 export function for_developers() {
   return (
-    <section id="developers" className="relative max-w-7xl mx-auto px-6 py-24 border-t border-border/50" aria-labelledby="developers-heading">
-      <div className="absolute left-1/2 top-8 -translate-x-1/2 w-[80vw] max-w-3xl h-[120px] bg-brand-accent/10 blur-[85px] -z-10 pointer-events-none" />
+    <section className="max-w-7xl mx-auto px-6 py-24" id="developers">
+      <div className="text-center mb-16">
+        <motion.h2
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="text-3xl md:text-5xl font-bold tracking-tight text-foreground"
+        >
+          Built for <span className="text-brand-accent italic">Engineers</span>
+        </motion.h2>
+        <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+          We prioritize developer experience, performance, and code quality in
+          everything we build.
+        </p>
+      </div>
 
-      <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }} className="text-center mb-12">
-        <h2 id="developers-heading" className="text-4xl md:text-5xl font-bold font-mono tracking-tight text-foreground mb-3">
-          <span className="text-brand-accent">For</span> Developers
-        </h2>
-         <p className="max-w-xl mx-auto text-muted-foreground text-base md:text-lg leading-relaxed">
-           VOMLabs builds powerful tools and APIs for developers to create plugins, integrate with systems, and extend functionality.
-         </p>
-      </motion.div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {developer_features.map((feature, i) => (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {dev_features.map((feature, i) => (
           <motion.div
             key={feature.title}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.45, delay: i * 0.1 }}
-            className="flex flex-col p-5 border border-dashed border-border bg-card/30 rounded-xl hover:border-brand-accent/50 hover:bg-card/50 transition-all"
+            transition={{ duration: 0.5, delay: i * 0.1 }}
+            className="group p-6 rounded-2xl bg-card/40 border border-border hover:border-brand-accent/40 transition-all duration-300 backdrop-blur-sm"
           >
-            <span className="flex items-center justify-center rounded-lg bg-brand-accent/10 w-10 h-10 sm:w-12 sm:h-12 mb-3 sm:mb-4">
-              <feature.icon className="w-5 h-5 sm:w-6 sm:h-6 text-brand-accent" />
-            </span>
-            <h3 className="text-base font-semibold text-foreground mb-1.5 sm:mb-2">{feature.title}</h3>
-            <p className="text-sm text-muted-foreground leading-relaxed">{feature.description}</p>
+            <div className="p-3 rounded-xl bg-brand-accent/10 border border-brand-accent/20 w-fit mb-4 group-hover:bg-brand-accent/20 transition-colors">
+              <feature.icon className="w-6 h-6 text-brand-accent" />
+            </div>
+            <h3 className="text-xl font-semibold text-foreground mb-2">
+              {feature.title}
+            </h3>
+            <p className="text-muted-foreground leading-relaxed">
+              {feature.description}
+            </p>
           </motion.div>
         ))}
       </div>
 
-      <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.4 }} className="mt-8 text-center">
-         <a href="https://github.com/VOMLabs" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium bg-white/5 hover:bg-white/10 border border-white/10 rounded-full transition-all">
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: 0.4 }}
+        className="mt-8 text-center"
+      >
+        <Link
+          href="https://github.com/VOMLabs"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium bg-white/5 hover:bg-white/10 border border-white/10 rounded-full transition-all"
+        >
           <WrenchScrewdriverIcon className="w-4 h-4" />
           View Developer Documentation
-        </a>
+        </Link>
       </motion.div>
     </section>
   );

@@ -372,7 +372,7 @@ export function Navigation() {
                           const Icon = item.icon;
                           const isExternal = item.href.startsWith("http");
                           return (
-                            <a
+                            <Link
                               key={item.name}
                               href={item.href}
                               target={isExternal ? "_blank" : undefined}
@@ -395,7 +395,7 @@ export function Navigation() {
                                   </div>
                                 )}
                               </div>
-                            </a>
+                            </Link>
                           );
                         })}
                       </motion.div>
@@ -450,7 +450,7 @@ export function Navigation() {
                 <span className="hidden lg:inline">Download</span>
               </button>
 
-              <a
+              <Link
                 href="https://github.com/VOMLabs"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -458,7 +458,7 @@ export function Navigation() {
                 aria-label="Visit VOMLabs on GitHub"
               >
                 <GitHubIcon className="size-5 md:size-6" />
-              </a>
+              </Link>
 
               <ThemeToggle />
 
@@ -547,7 +547,7 @@ export function Navigation() {
                         const Icon = item.icon;
                         const isExternal = item.href.startsWith("http");
                         return (
-                          <a
+                          <Link
                             key={item.name}
                             href={item.href}
                             target={isExternal ? "_blank" : undefined}
@@ -564,7 +564,7 @@ export function Navigation() {
                             {isExternal && (
                               <ExternalLink className="size-3.5 text-muted-foreground" />
                             )}
-                          </a>
+                          </Link>
                         );
                       })}
                     </motion.div>
@@ -580,7 +580,7 @@ export function Navigation() {
                     >
                       Explore Projects
                     </button>
-                    <a
+                    <Link
                       href="https://github.com/VOMLabs"
                       target="_blank"
                       rel="noopener noreferrer"
@@ -589,7 +589,7 @@ export function Navigation() {
                     >
                       <GitHubIcon className="size-4" />
                       View on GitHub
-                    </a>
+                    </Link>
                     <div className="flex items-center justify-between px-4 py-2 rounded-xl hover:bg-accent transition-colors">
                       <span className="text-sm text-muted-foreground font-medium">
                         Theme

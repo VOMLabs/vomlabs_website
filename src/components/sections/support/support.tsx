@@ -1,16 +1,16 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { SparklesIcon, EnvelopeIcon, ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
+import { SparklesIcon, EnvelopeIcon } from "@heroicons/react/24/outline";
 import { IconBrandDiscord, IconBrandGithub } from "@tabler/icons-react";
 import Link from "next/link";
-import DiscordWidget from "@/components/ui/discord-widget";
+import React from "react";
 
 const contactMethods = [
   {
     name: "Email",
     description: "For general inquiries and support",
-    email: "support@devflare.de",
+    email: "support@vomlabs.com",
     icon: EnvelopeIcon,
     color: "bg-blue-500/10 text-blue-500 border-blue-500/20",
     hoverColor: "hover:border-blue-500/40 hover:bg-blue-500/5",
@@ -18,7 +18,7 @@ const contactMethods = [
   {
     name: "Discord",
     description: "Join our community for real-time help",
-    href: "https://discord.devflare.de",
+    href: "https://discord.vomlabs.com",
     icon: IconBrandDiscord,
     color: "bg-indigo-500/10 text-indigo-500 border-indigo-500/20",
     hoverColor: "hover:border-indigo-500/40 hover:bg-indigo-500/5",
@@ -26,14 +26,18 @@ const contactMethods = [
   {
     name: "GitHub",
     description: "Report bugs and request features",
-     href: "https://github.com/VOMLabs",
+    href: "https://github.com/VOMLabs",
     icon: IconBrandGithub,
     color: "bg-gray-500/10 text-gray-500 border-gray-500/20",
     hoverColor: "hover:border-gray-500/40 hover:bg-gray-500/5",
   },
 ];
 
-export function SupportSection() {
+interface SupportSectionProps {
+  children?: React.ReactNode;
+}
+
+export function SupportSection({ children }: SupportSectionProps) {
   return (
     <section className="py-24 px-6 relative overflow-hidden">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[800px] h-64 bg-brand-accent/10 rounded-full blur-[120px] -z-10 pointer-events-none" />
@@ -60,14 +64,17 @@ export function SupportSection() {
             className="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full bg-brand-accent/10 border border-brand-accent/20"
           >
             <SparklesIcon className="w-4 h-4 text-brand-accent" />
-            <span className="text-sm font-medium text-brand-accent">Need Help?</span>
+            <span className="text-sm font-medium text-brand-accent">
+              Need Help?
+            </span>
           </motion.div>
 
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-foreground mb-4">
             Contact & <span className="text-brand-accent italic">Support</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-xl mx-auto">
-            Have questions? We&apos;re here to help. Reach out through any of the channels below.
+            Have questions? We&apos;re here to help. Reach out through any of
+            the channels below.
           </p>
         </motion.div>
 
@@ -81,26 +88,35 @@ export function SupportSection() {
           {contactMethods.map((method, i) => {
             const Icon = method.icon;
             return (
-              <motion.a
+              <motion.div
                 key={method.name}
-                href={method.href || `mailto:${method.email}`}
-                target="_blank"
-                rel="noopener noreferrer"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: i * 0.1 }}
-                className={`flex flex-col items-center justify-center p-8 rounded-2xl border border-border bg-card/40 ${method.hoverColor} transition-all group text-center`}
               >
-                <div className={`p-4 rounded-2xl ${method.color} mb-4`}>
-                  <Icon className="w-8 h-8" />
-                </div>
-                <h3 className="font-semibold text-foreground group-hover:text-brand-accent transition-colors">{method.name}</h3>
-                <p className="text-sm text-muted-foreground mt-2">{method.description}</p>
-                {method.email && (
-                  <p className="text-sm text-brand-accent mt-3 font-medium">{method.email}</p>
-                )}
-              </motion.a>
+                <Link
+                  href={method.href || `mailto:${method.email}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`flex flex-col items-center justify-center p-8 rounded-2xl border border-border bg-card/40 ${method.hoverColor} transition-all group text-center h-full`}
+                >
+                  <div className={`p-4 rounded-2xl ${method.color} mb-4`}>
+                    <Icon className="w-8 h-8" />
+                  </div>
+                  <h3 className="font-semibold text-foreground group-hover:text-brand-accent transition-colors">
+                    {method.name}
+                  </h3>
+                  <p className="text-sm text-muted-foreground mt-2">
+                    {method.description}
+                  </p>
+                  {method.email && (
+                    <p className="text-sm text-brand-accent mt-3 font-medium">
+                      {method.email}
+                    </p>
+                  )}
+                </Link>
+              </motion.div>
             );
           })}
         </motion.div>
@@ -112,10 +128,10 @@ export function SupportSection() {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="mb-12 sm:mb-16"
         >
-          <h3 className="text-2xl font-bold text-foreground mb-6 text-center">Join Our Community</h3>
-          <div className="max-w-md mx-auto">
-            <DiscordWidget />
-          </div>
+          <h3 className="text-2xl font-bold text-foreground mb-6 text-center">
+            Join Our Community
+          </h3>
+          <div className="max-w-md mx-auto">{children}</div>
         </motion.div>
 
         <motion.div
@@ -125,22 +141,35 @@ export function SupportSection() {
           transition={{ duration: 0.5, delay: 0.2 }}
         >
           <div className="flex items-center justify-center gap-2 mb-6">
-            <h3 className="text-2xl font-bold text-foreground">Frequently Asked Questions</h3>
+            <h3 className="text-2xl font-bold text-foreground">
+              Frequently Asked Questions
+            </h3>
             <Link
               href="/faq"
               className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium bg-brand-accent/10 text-brand-accent hover:bg-brand-accent/20 transition-colors"
             >
               View All
-              <ArrowTopRightOnSquareIcon className="w-3 h-3" />
             </Link>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-             {[
-               { q: "How do I download VOMLabs projects?", a: "Visit our GitHub organization to see all available projects and releases." },
-               { q: "Is VOMLabs software free to use?", a: "Yes, VOMLabs creates free and open source software." },
-               { q: "What kind of projects do you work on?", a: "We build Minecraft software, modern websites, and developer tools." },
-               { q: "How do I report a bug?", a: "Open an issue on GitHub or reach out on Discord." },
-             ].map((item, i) => (
+            {[
+              {
+                q: "How do I download VOMLabs projects?",
+                a: "Visit our GitHub organization to see all available projects and releases.",
+              },
+              {
+                q: "Is VOMLabs software free to use?",
+                a: "Yes, VOMLabs creates free and open source software.",
+              },
+              {
+                q: "What kind of projects do you work on?",
+                a: "We build Minecraft software, modern websites, and developer tools.",
+              },
+              {
+                q: "How do I report a bug?",
+                a: "Open an issue on GitHub or reach out on Discord.",
+              },
+            ].map((item, i) => (
               <motion.div
                 key={item.q}
                 initial={{ opacity: 0, y: 10 }}
@@ -168,9 +197,12 @@ export function SupportSection() {
             Check our FAQ
           </Link>{" "}
           or{" "}
-          <a href="mailto:support@devflare.de" className="text-brand-accent hover:underline">
+          <Link
+            href="mailto:support@vomlabs.com"
+            className="text-brand-accent hover:underline"
+          >
             email us
-          </a>
+          </Link>
         </motion.p>
       </motion.div>
     </section>

@@ -4,13 +4,24 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import { faqs } from "@/data/faqs";
+
+interface FAQItem {
+  question: string;
+  answer: string;
+}
 
 const HOMEPAGE_FAQ_COUNT = 6;
 
-function AccordionFAQ({ limit = faqs.length }: { limit?: number }) {
+function AccordionFAQ({
+  faqs,
+  limit = faqs.length,
+}: {
+  faqs: FAQItem[];
+  limit?: number;
+}) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
-  const toggle = (idx: number) => setOpenIndex(prev => prev === idx ? null : idx);
+  const toggle = (idx: number) =>
+    setOpenIndex((prev) => (prev === idx ? null : idx));
   const displayFaqs = faqs.slice(0, limit);
 
   return (
@@ -43,9 +54,11 @@ function AccordionFAQ({ limit = faqs.length }: { limit?: number }) {
                 animate={{ height: "auto", opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
                 transition={{ duration: 0.3, ease: "easeInOut" }}
-                className="px-5 pb-5 text-muted-foreground"
+                className="px-5 pb-5 text-muted-foreground text-sm"
               >
-                {faq.answer}
+                {faq.answer.length > 150
+                  ? faq.answer.slice(0, 150) + "..."
+                  : faq.answer}
               </motion.div>
             )}
           </AnimatePresence>
@@ -55,29 +68,33 @@ function AccordionFAQ({ limit = faqs.length }: { limit?: number }) {
   );
 }
 
-export default function FAQ() {
+export default function FAQ({ faqs }: { faqs: FAQItem[] }) {
   const visibleCount = HOMEPAGE_FAQ_COUNT;
 
   return (
-    <section id="faq" className="max-w-6xl mx-auto px-6 py-24 border-t border-border/50 relative">
+    <section
+      id="faq"
+      className="max-w-6xl mx-auto px-6 py-24 border-t border-border/50 relative"
+    >
       <div className="absolute left-1/2 top-[20%] -translate-x-1/2 w-[60vw] max-w-2xl h-[110px] bg-brand-accent/10 blur-[75px] -z-10 pointer-events-none" />
 
-      <motion.div 
-        initial={{ opacity: 0, y: 24 }} 
-        whileInView={{ opacity: 1, y: 0 }} 
-        viewport={{ once: true }} 
-        transition={{ duration: 0.7 }} 
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.7 }}
         className="text-center mb-12"
       >
         <h2 className="text-4xl md:text-5xl font-mono font-bold text-foreground mb-4 tracking-tight">
           FAQ<span className="text-brand-accent">.</span>
         </h2>
-         <p className="text-muted-foreground max-w-lg mx-auto leading-relaxed md:text-lg">
-           Answers to what people usually want to know about VOMLabs and our approach to building great software.
-         </p>
+        <p className="text-muted-foreground max-w-lg mx-auto leading-relaxed md:text-lg">
+          Answers to what people usually want to know about VOMLabs and our
+          approach to building great software.
+        </p>
       </motion.div>
 
-      <AccordionFAQ limit={visibleCount} />
+      <AccordionFAQ faqs={faqs} limit={visibleCount} />
 
       {faqs.length > visibleCount && (
         <motion.div

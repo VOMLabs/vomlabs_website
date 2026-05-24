@@ -40,8 +40,8 @@ export default function PrivacyPolicy() {
                 title: "Our Commitment",
                 content: (
                   <p className="text-muted-foreground leading-relaxed">
-                    <strong>VOMLabs</strong> is committed to protecting your
-                    privacy. We believe in{" "}
+                    <strong>ItzzMateo Studios</strong> is committed to
+                    protecting your privacy. We believe in{" "}
                     <span className="text-brand-accent font-medium">
                       minimal data collection
                     </span>{" "}
@@ -52,19 +52,34 @@ export default function PrivacyPolicy() {
                 iconColor: "bg-emerald-500/10 text-emerald-500",
               },
               {
-                title: "Data We Don't Collect",
+                title: "Data Collection",
                 items: [
                   {
-                    title: "No Telemetry",
-                    desc: "We do not collect any analytics, usage data, or telemetry from the launcher or website.",
+                    title: "Anonymous Statistics",
+                    desc: (
+                      <>
+                        If you use our plugins, we collect anonymous statistics
+                        using{" "}
+                        <Link
+                          href="https://faststats.dev"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-brand-accent hover:underline"
+                        >
+                          FastStats
+                        </Link>
+                        . This helps us understand how our software is used and
+                        how to improve it.
+                      </>
+                    ),
                   },
                   {
-                    title: "No Cookies",
-                    desc: "We don't use cookies or any tracking technologies on this website.",
+                    title: "No Personal Tracking",
+                    desc: "We do not track any personal data, usage patterns on our website, or individual player information.",
                   },
                   {
-                    title: "No Custom Accounts",
-                    desc: "No registration required. We don't have our own user accounts — you use your Microsoft account.",
+                    title: "Opt-out Policy",
+                    desc: "Data collection for plugins is generally non-optional and hardcoded to ensure consistent quality. Some plugins may allow disabling anonymous stats via their configuration files.",
                   },
                 ],
               },
@@ -159,8 +174,8 @@ export default function PrivacyPolicy() {
                     <p className="text-muted-foreground leading-relaxed mb-4">
                       For privacy-related questions, contact us at:
                     </p>
-                    <a
-                      href="mailto:support@vomlabs.com"
+                    <Link
+                      href="mailto:privacy@vomlabs.com"
                       className="inline-flex items-center gap-2 text-brand-accent hover:underline"
                     >
                       <svg
@@ -176,8 +191,8 @@ export default function PrivacyPolicy() {
                           d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                         />
                       </svg>
-                      support@vomlabs.com
-                    </a>
+                      privacy@vomlabs.com
+                    </Link>
                   </>
                 ),
               },

@@ -253,10 +253,10 @@ export default function TermsOfUse() {
                     </p>
                     <div className="flex flex-wrap gap-3">
                       <a
-                        href="mailto:support@devflare.de"
+                        href="mailto:support@vomlabs.com"
                         className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-card border border-border hover:border-brand-accent/50 transition-colors text-sm"
                       >
-                        support@devflare.de
+                        support@vomlabs.com
                       </a>
                       <Link
                         href="/legal"
