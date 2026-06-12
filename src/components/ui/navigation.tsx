@@ -12,6 +12,7 @@ import {
 import Link from "next/link";
 import SocialsModal from "./socials-modal";
 import { ThemeToggle } from "./theme-toggle";
+import AdminStatus from "../admin/admin-status";
 import { IconVesper } from "../icons/vesper-icon";
 import { IconBrandDiscord } from "@tabler/icons-react";
 
@@ -255,6 +256,7 @@ export function Navigation() {
                 </svg>
                 <span className="hidden lg:inline">Socials</span>
               </button>
+              <AdminStatus />
               <ThemeToggle />
               <button
                 className="md:hidden p-2 rounded-lg hover:bg-accent/50 transition-colors active:scale-90"
@@ -369,9 +371,14 @@ export function Navigation() {
                   >
                     Socials
                   </button>
-                  <div className="flex items-center justify-between px-4 py-2.5 rounded-xl hover:bg-accent/50 transition-colors">
-                    <span className="text-sm text-muted-foreground font-medium">Theme</span>
-                    <ThemeToggle />
+                  <div className="flex items-center gap-2 px-4 py-2.5">
+                    <div className="flex-1">
+                      <AdminStatus />
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm text-muted-foreground font-medium">Theme</span>
+                      <ThemeToggle />
+                    </div>
                   </div>
                 </motion.div>
               </div>
