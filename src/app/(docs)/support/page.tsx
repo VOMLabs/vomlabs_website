@@ -5,13 +5,18 @@ import DiscordWidget from "@/components/ui/discord-widget";
 export const metadata: Metadata = {
   title: "Support",
   description:
-    "Get help with VOMLabs projects. Contact our team via Discord, GitHub, or email. Find answers to frequently asked questions.",
+    "Get help with VOMLabs projects. Contact us via email, Discord, or GitHub. Find answers to frequently asked questions.",
   keywords: [
     "VOMLabs Support",
     "VOMLabs Help",
     "Project Support",
     "Contact VOMLabs",
   ],
+  openGraph: {
+    title: "Support — VOMLabs",
+    description:
+      "Get help with VOMLabs projects. Contact us via email, Discord, or GitHub.",
+  },
 };
 
 export default function SupportPage() {
@@ -27,9 +32,7 @@ export default function SupportPage() {
             "linear-gradient(to bottom, black 40%, transparent 100%)",
         }}
       />
-
       <div className="fixed top-0 left-1/4 w-96 h-96 bg-brand-accent/5 rounded-full blur-[150px] -z-10 pointer-events-none" />
-
       <main className="flex-1 w-full pt-24 pb-16">
         <SupportSection>
           <DiscordWidget />
