@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { BlogList } from "@/components/sections/blog";
+import { getAllPosts } from "@/lib/blogs";
 
 export const metadata: Metadata = {
   title: "Blog",
@@ -8,6 +9,8 @@ export const metadata: Metadata = {
 };
 
 export default function BlogPage() {
+  const posts = getAllPosts();
+
   return (
     <div className="min-h-screen relative overflow-hidden flex flex-col selection:bg-brand-accent/30 selection:text-brand-accent">
       <div className="fixed inset-0 z-[-2] bg-background" />
@@ -23,7 +26,7 @@ export default function BlogPage() {
       <div className="fixed top-0 left-1/4 w-96 h-96 bg-brand-accent/5 rounded-full blur-[150px] -z-10 pointer-events-none" />
 
       <main className="flex-1 w-full pt-32 pb-24">
-        <BlogList />
+        <BlogList posts={posts} />
       </main>
     </div>
   );

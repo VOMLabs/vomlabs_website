@@ -2,127 +2,173 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { IconCalendar, IconUser, IconArrowLeft } from "@tabler/icons-react";
+import { IconCalendar, IconUser, IconArrowLeft, IconBrandDiscord } from "@tabler/icons-react";
 import ReactMarkdown from "react-markdown";
-import blogData from "@/data/blog.json";
+import type { BlogPostData } from "@/lib/blogs";
 
 interface BlogPostProps {
-  slug: string;
+  post: BlogPostData;
 }
 
-export function BlogPost({ slug }: BlogPostProps) {
-  const post = blogData.posts.find((p) => p.slug === slug);
+const pageTransition = {
+  initial: { opacity: 0, y: 40, scale: 0.97 },
+  animate: { opacity: 1, y: 0, scale: 1 },
+  transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] as const },
+};
 
-  if (!post) {
-    return null;
-  }
-
+export function BlogPost({ post }: BlogPostProps) {
   return (
-    <div className="max-w-2xl mx-auto px-6">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
+    <motion.div
+      className="max-w-2xl mx-auto px-6"
+      initial={pageTransition.initial}
+      animate={pageTransition.animate}
+      transition={pageTransition.transition}
+    >
+      <Link
+        href="/blog"
+        className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-brand-accent transition-colors mb-12"
       >
-        <Link
-          href="/blog"
-          className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-brand-accent transition-colors mb-12"
-        >
-          <IconArrowLeft className="w-4 h-4" />
-          Back to Blog
-        </Link>
+        <IconArrowLeft className="w-4 h-4" />
+        Back to Blog
+      </Link>
 
-        <article>
-          <header className="mb-12">
-            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
-              <span className="flex items-center gap-1.5">
-                <IconCalendar className="w-4 h-4" />
-                {new Date(post.date).toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </span>
-              <span className="text-muted-foreground/30">·</span>
-              <span className="flex items-center gap-1.5">
-                <IconUser className="w-4 h-4" />
-                {post.author}
-              </span>
+      <article>
+        <header className="mb-12">
+          <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
+            <span className="flex items-center gap-1.5">
+              <IconCalendar className="w-4 h-4" />
+              {new Date(post.date).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </span>
+            <span className="text-muted-foreground/30">·</span>
+            <span className="flex items-center gap-1.5">
+              <IconUser className="w-4 h-4" />
+              {post.author}
+            </span>
+          </div>
+          <div className="flex items-center gap-4 mb-6">
+            <div className="flex items-center justify-center rounded-xl bg-[#5865F2]/10 dark:bg-[#5865F2]/20 p-3 shrink-0">
+              <IconBrandDiscord className="w-7 h-7 md:w-8 md:h-8 text-[#5865F2]" />
             </div>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6 tracking-tight leading-tight">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground tracking-tight leading-tight">
               {post.title}
             </h1>
-          </header>
+          </div>
+        </header>
 
-          <div className="prose prose-lg max-w-none">
-            <ReactMarkdown
-              components={{
-                h2: ({ children }) => (
+        <div className="prose prose-lg max-w-none">
+          <ReactMarkdown
+            components={{
+              h2: ({ children }) => (
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+                >
                   <h2 className="text-2xl md:text-3xl font-bold text-foreground mt-12 mb-4 tracking-tight">{children}</h2>
-                ),
-                h3: ({ children }) => (
+                </motion.div>
+              ),
+              h3: ({ children }) => (
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+                >
                   <h3 className="text-xl md:text-2xl font-semibold text-foreground mt-8 mb-3">{children}</h3>
-                ),
-                p: ({ children }) => (
+                </motion.div>
+              ),
+              p: ({ children }) => (
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+                >
                   <p className="text-muted-foreground leading-relaxed mb-6">{children}</p>
-                ),
-                strong: ({ children }) => (
-                  <strong className="text-foreground font-semibold">{children}</strong>
-                ),
-                ul: ({ children }) => (
+                </motion.div>
+              ),
+              strong: ({ children }) => (
+                <strong className="text-foreground font-semibold">{children}</strong>
+              ),
+              ul: ({ children }) => (
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+                >
                   <ul className="list-disc list-inside text-muted-foreground mb-6 space-y-2">{children}</ul>
-                ),
-                ol: ({ children }) => (
+                </motion.div>
+              ),
+              ol: ({ children }) => (
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+                >
                   <ol className="list-decimal list-inside text-muted-foreground mb-6 space-y-2">{children}</ol>
-                ),
-                li: ({ children }) => (
-                  <li className="text-muted-foreground leading-relaxed">{children}</li>
-                ),
-                a: ({ href, children }) => {
-                  const isGitHubModal = href === "#github";
-                  if (isGitHubModal) {
-                    return (
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          e.preventDefault();
-                           window.dispatchEvent(new CustomEvent("vomlabs:open-github"));
-                        }}
-                        className="text-brand-accent hover:underline cursor-pointer font-medium"
-                      >
-                        {children}
-                      </button>
-                    );
-                  }
+                </motion.div>
+              ),
+              li: ({ children }) => (
+                <li className="text-muted-foreground leading-relaxed">{children}</li>
+              ),
+              a: ({ href, children }) => {
+                const isSocialsModal = href === "#github";
+                if (isSocialsModal) {
                   return (
-                    <a
-                      href={href || "#"}
-                      target={href?.startsWith("http") ? "_blank" : undefined}
-                      rel={href?.startsWith("http") ? "noopener noreferrer" : undefined}
-                      className="text-brand-accent hover:underline font-medium"
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        window.dispatchEvent(new CustomEvent("vomlabs:open-socials"));
+                      }}
+                      className="text-brand-accent hover:underline cursor-pointer font-medium"
                     >
                       {children}
-                    </a>
+                    </button>
                   );
-                },
-                code: ({ children }) => (
-                  <code className="bg-muted px-1.5 py-0.5 rounded text-sm font-mono text-brand-accent">
+                }
+                return (
+                  <a
+                    href={href || "#"}
+                    target={href?.startsWith("http") ? "_blank" : undefined}
+                    rel={href?.startsWith("http") ? "noopener noreferrer" : undefined}
+                    className="text-brand-accent hover:underline font-medium"
+                  >
                     {children}
-                  </code>
-                ),
-                blockquote: ({ children }) => (
+                  </a>
+                );
+              },
+              code: ({ children }) => (
+                <code className="bg-muted px-1.5 py-0.5 rounded text-sm font-mono text-brand-accent">
+                  {children}
+                </code>
+              ),
+              blockquote: ({ children }) => (
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+                >
                   <blockquote className="border-l-4 border-brand-accent/50 pl-6 my-8 italic text-muted-foreground/90">
                     {children}
                   </blockquote>
-                ),
-                hr: () => <hr className="border-border my-12" />,
-              }}
-            >
-              {post.content}
-            </ReactMarkdown>
-          </div>
-        </article>
-      </motion.div>
-    </div>
+                </motion.div>
+              ),
+              hr: () => <hr className="border-border my-12" />,
+            }}
+          >
+            {post.content}
+          </ReactMarkdown>
+        </div>
+      </article>
+    </motion.div>
   );
 }

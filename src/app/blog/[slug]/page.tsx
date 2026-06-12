@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { BlogPost } from "@/components/sections/blog/blog-post";
-import blogData from "@/data/blog.json";
+import { getAllPosts, getPostBySlug } from "@/lib/blogs";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -9,7 +9,7 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const post = blogData.posts.find((p) => p.slug === slug);
+  const post = getPostBySlug(slug);
 
   if (!post) {
     return {
@@ -20,19 +20,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: post.title,
     description: post.excerpt,
-     keywords: ["VOMLabs Blog", post.title],
+    keywords: ["VOMLabs Blog", post.title],
   };
 }
 
 export async function generateStaticParams() {
-  return blogData.posts.map((post) => ({
+  return getAllPosts().map((post) => ({
     slug: post.slug,
   }));
 }
 
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
-  const post = blogData.posts.find((p) => p.slug === slug);
+  const post = getPostBySlug(slug);
 
   if (!post) {
     notFound();
@@ -53,7 +53,7 @@ export default async function BlogPostPage({ params }: Props) {
       <div className="fixed top-0 left-1/4 w-96 h-96 bg-brand-accent/5 rounded-full blur-[150px] -z-10 pointer-events-none" />
 
       <main className="flex-1 w-full pt-32 pb-24">
-        <BlogPost slug={slug} />
+        <BlogPost post={post} />
       </main>
     </div>
   );

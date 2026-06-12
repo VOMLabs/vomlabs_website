@@ -2,10 +2,10 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { IconCalendar, IconUser, IconArrowRight } from "@tabler/icons-react";
-import blogData from "@/data/blog.json";
+import { IconCalendar, IconUser, IconArrowRight, IconBrandDiscord } from "@tabler/icons-react";
+import type { BlogPostData } from "@/lib/blogs";
 
-export function BlogList() {
+export function BlogList({ posts }: { posts: BlogPostData[] }) {
   return (
     <div className="max-w-2xl mx-auto px-6">
       <motion.div
@@ -17,13 +17,13 @@ export function BlogList() {
         <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4 tracking-tight">
           Blog
         </h1>
-         <p className="text-lg text-muted-foreground">
-           News and updates from the VOMLabs team.
-         </p>
+        <p className="text-lg text-muted-foreground">
+          News and updates from the VOMLabs team.
+        </p>
       </motion.div>
 
       <div className="space-y-12">
-        {blogData.posts.map((post, index) => (
+        {posts.map((post, index) => (
           <motion.article
             key={post.slug}
             initial={{ opacity: 0, y: 20 }}
@@ -50,9 +50,16 @@ export function BlogList() {
                   {post.author}
                 </span>
               </div>
-              <h2 className="text-xl md:text-2xl font-semibold text-foreground mb-2 group-hover:text-brand-accent transition-colors">
-                {post.title}
-              </h2>
+              <div className="flex items-center gap-2 mb-2">
+                {post.slug === "join-our-discord" && (
+                  <div className="flex items-center justify-center rounded-lg bg-[#5865F2]/10 dark:bg-[#5865F2]/20 p-1.5 shrink-0">
+                    <IconBrandDiscord className="w-4 h-4 text-[#5865F2]" />
+                  </div>
+                )}
+                <h2 className="text-xl md:text-2xl font-semibold text-foreground group-hover:text-brand-accent transition-colors">
+                  {post.title}
+                </h2>
+              </div>
               <p className="text-muted-foreground leading-relaxed mb-3">
                 {post.excerpt}
               </p>
