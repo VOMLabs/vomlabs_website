@@ -21,32 +21,19 @@ const roadmapData: RoadmapItem[] = [
     title: "Planned",
     icon: MapIcon,
     accent: "text-amber-400",
-    items: [
-      "Performance optimizations",
-      "Launcher auto-updater",
-      "Documentation & help resources",
-    ],
+    items: [],
   },
   {
     title: "In Progress",
     icon: RocketLaunchIcon,
     accent: "text-brand-accent",
-    items: [
-      "Windows, Linux & macOS clients",
-      "Configurable keyboard shortcuts",
-      "Rich Discord presence",
-      "Built-in mod installer",
-    ],
+    items: [],
   },
   {
     title: "Long-Term",
     icon: LightBulbIcon,
     accent: "text-purple-400",
-    items: [
-      "Plugin/extension system",
-      "Mobile companion app",
-      "Custom OAuth2 integrations",
-    ],
+    items: [],
   },
 ];
 
