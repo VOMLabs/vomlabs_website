@@ -95,7 +95,7 @@ export function Footer({
           <div className="flex flex-col items-center sm:items-start">
             <span className="block text-center sm:text-left">
               <span className="text-brand-accent font-semibold">
-                {yearDisplay} ItzzMateo.
+                {yearDisplay} ItzzMateo Studios.
               </span>
               {/* Show ARR if enabled */}
               {aRR && <span className="ml-1">All Rights Reserved.</span>}

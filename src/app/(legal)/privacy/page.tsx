@@ -40,7 +40,7 @@ export default function PrivacyPolicy() {
                 title: "Our Commitment",
                 content: (
                   <p className="text-muted-foreground leading-relaxed">
-                    <strong>ItzzMateo Studios</strong> is committed to
+                    <strong>VOMLabs</strong> is committed to
                     protecting your privacy. We believe in{" "}
                     <span className="text-brand-accent font-medium">
                       minimal data collection
