@@ -46,7 +46,7 @@ const childVariants = {
 };
 
 export function Hero() {
-  const [nextVersion, setNextVersion] = useState("15.x.x");
+  const [nextVersion, setNextVersion] = useState("");
 
   useEffect(() => {
     fetch("/api/next-version")
@@ -196,9 +196,11 @@ export function Hero() {
               <div className="text-emerald-400">
                 &gt; vomlabs-website@1.0.0 dev
               </div>
-              <div className="text-white/60">
-                <span className="text-white/40">▲</span> Next.js {nextVersion}
-              </div>
+              {nextVersion && (
+                <div className="text-white/60">
+                  <span className="text-white/40">▲</span> Next.js {nextVersion}
+                </div>
+              )}
               <div className="text-white/60">
                 <span className="text-emerald-400">✓</span> Ready in{" "}
                 <span className="text-white/80">236ms</span>
