@@ -1,9 +1,8 @@
-
 <div align="center">
 
-# Vesper Launcher
+# VOMLabs Website
 
-A blazing-fast, native Minecraft launcher built for performance and simplicity.
+Official website for VOMLabs — built with Next.js.
 
 [![Website](https://img.shields.io/badge/Website-launcher.devflare.de-blue?style=flat&logo=google-chrome)](https://launcher.devflare.de)
 [![Discord](https://img.shields.io/discord/1441770650602831902?label=Discord&logo=discord)](https://dc.devflare.de)
@@ -11,89 +10,114 @@ A blazing-fast, native Minecraft launcher built for performance and simplicity.
 
 </div>
 
-> **Launcher Repository:** [ArexLabs/vesper-client](https://github.com/ArexLabs/vesper-client)
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Framework | Next.js 16 (App Router) |
+| Language | TypeScript |
+| Styling | Tailwind CSS v4 + tw-animate-css |
+| Components | shadcn/ui (Radix UI, Base UI) |
+| Animations | Framer Motion |
+| Content | MDX (blog & FAQ) |
+| Icons | Tabler, Heroicons, Lucide, react-icons |
+| Analytics | Vercel Analytics, Sentry |
 
 ---
 
-## About
+## Development
 
-Vesper is a next-generation Minecraft launcher designed to get you into the game **instantly** — without the bloat of Electron-based apps. With native mod support, seamless Microsoft authentication, and a sleek, distraction-free UI, Vesper delivers a premium gaming experience.
+```bash
+# Install dependencies
+bun install
 
-Explore features, system requirements, and guides at [launcher.devflare.de](https://launcher.devflare.de).
+# Start dev server with HMR
+bun run dev
 
----
+# Build for production
+bun run build
 
-## Features
+# Start production server
+bun run start
 
-- **Instant Launch** — No lag, no heavy frameworks. Launch directly into your game in seconds.
-- **Native Mod Support** — Integrated with Modrinth and CurseForge for effortless mod installation.
-- **Modern UI** — Clean, minimalist interface that puts you in control.
-- **Secure Authentication** — Microsoft OAuth2 login with zero telemetry.
-- **Rich Integrations** — Discord RPC and modloader presence support out of the box.
+# Lint
+bun run lint
+```
 
----
-
-## Getting Started
-
-1. Visit [launcher.devflare.de](https://launcher.devflare.de)
-2. Copy the install script and run it in your terminal
-3. Launch Vesper and start playing
+The app runs on **http://localhost:3000**.
 
 ---
 
-## System Requirements
+## Environment Variables
 
-| Requirement | Details |
-|-------------|---------|
-| **Java** | Version 17 or 21 (latest recommended) |
-| **OS** | Windows 10/11 (64-bit) |
-| **Optional** | Discord for RPC features |
+Copy `.env.example` to `.env` and fill in the values:
+
+| Variable | Description |
+|----------|-------------|
+| `ADMIN_KEYS` | Comma-separated admin keys (SHA-256 hashed for session cookies) |
+| `NEXT_PUBLIC_DISCORD_GUILD_ID` | Discord server ID for the stats widget |
 
 ---
 
-## FAQ
+## Docker
 
-**Is Vesper open source?**  
-Yes! The launcher source is available at [ArexLabs/vesper-client](https://github.com/ArexLabs/vesper-client).
+```bash
+# Start all services (Traefik + app)
+docker compose up -d
 
-**What platforms are supported?**  
-Windows 10/11 (64-bit) at launch. Linux support is planned for the public beta.
+# Rebuild the app after code changes
+docker compose up -d --build app
 
-**Can I migrate from other launchers?**  
-Import tools are planned. Until then, you can manually import your instances.
+# View logs
+docker compose logs -f
 
-**Is my data safe?**  
-Yes. Vesper uses Microsoft OAuth2 and never tracks or sends unnecessary data.
+# Stop everything
+docker compose down
+```
+
+The app is served on **port 443 (HTTPS)** via Traefik. Set `TRAEFIK_DOMAIN` in `.env` to your domain for automatic Let's Encrypt certificates.
+
+### Traefik dashboard
+
+Available at `https://traefik.<your-domain>`, protected by basic auth. Set `TRAEFIK_DASHBOARD_USERS` in `.env` with an `htpasswd`-generated string:
+
+```bash
+htpasswd -nb admin your-password
+```
+
+---
+
+## Project Structure
+
+```
+src/
+├── app/            # App Router pages & API routes
+│   ├── layout.tsx  # Root layout
+│   ├── page.tsx    # Home page
+│   ├── api/admin/  # Admin auth API routes
+│   ├── blog/       # Blog pages
+│   ├── (admin)/    # Admin dashboard
+│   ├── (docs)/     # About, FAQ, roadmap, support
+│   └── (legal)/    # Privacy, terms, ToS
+├── components/     # React components
+│   ├── ui/         # shadcn/ui primitives
+│   ├── sections/   # Page sections
+│   └── admin/      # Admin components
+└── lib/            # Utilities & content
+    ├── blogs/      # Blog MDX content
+    └── faq/        # FAQ MDX content
+```
 
 ---
 
 ## Contributing
 
-Contributions are welcome! Please read our [contribution guidelines](CONTRIBUTING.md) before submitting PRs.
-
-- Open issues at [GitHub](https://github.com/ArexLabs/vesper-website)
-- Join our [Discord](https://dc.devflare.de) for discussions
+See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ---
 
-## Support
+## License
 
-- **Discord** — [Join our community](https://dc.devflare.de)
-- **Issues** — [Report bugs or request features](https://github.com/ArexLabs/vesper-website/issues)
-
----
-
-## Legal
-
-Vesper is not affiliated with Mojang or Microsoft.
-
-- [Privacy Policy](https://launcher.devflare.de/privacy)
-- [Terms of Service](https://launcher.devflare.de/tos)
-
----
-
-<div align="center">
-
-[**launcher.devflare.de**](https://launcher.devflare.de)
-
-</div>
+GPL-3.0 — see [LICENSE.md](LICENSE.md).
