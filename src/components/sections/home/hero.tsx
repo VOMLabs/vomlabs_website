@@ -2,216 +2,256 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import {
-  CheckCircleIcon,
-  StarIcon,
-  InformationCircleIcon,
-} from "@heroicons/react/24/outline";
+import { ArrowRightIcon } from "@heroicons/react/24/outline";
+import { FaGithub, FaDiscord } from "react-icons/fa";
 import Link from "next/link";
 
-type os_type = "windows" | "mac" | "linux" | "unknown";
+const tags = [
+  {
+    label: "Minecraft Software",
+    color:
+      "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20",
+  },
+  {
+    label: "Modern Websites",
+    color: "bg-sky-500/10 text-sky-600 dark:text-sky-400 border-sky-500/20",
+  },
+  {
+    label: "Open Source",
+    color:
+      "bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20",
+  },
+  {
+    label: "Developer Tools",
+    color:
+      "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20",
+  },
+];
 
-const install_scripts: Record<os_type, string> = {
-  windows: "irm https://vomlabs.com/install | iex",
-  mac: "curl -sSfL https://vomlabs.com/install | sh",
-  linux: "curl -sSfL https://vomlabs.com/install | sh",
-  unknown: "curl -sSfL https://vomlabs.com/install | sh",
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.12, delayChildren: 0.1 },
+  },
 };
 
-const os_labels: Record<os_type, string> = {
-  windows: "Windows",
-  mac: "macOS / Linux",
-  linux: "macOS / Linux",
-  unknown: "macOS / Linux",
-};
-
-const detect_os = (): os_type => {
-  if (typeof window === "undefined") return "unknown";
-  const platform = navigator.platform.toLowerCase();
-  const user_agent = navigator.userAgent.toLowerCase();
-
-  if (platform.includes("win") || user_agent.includes("win")) return "windows";
-  if (platform.includes("mac") || user_agent.includes("mac")) return "mac";
-  if (platform.includes("linux") || user_agent.includes("linux"))
-    return "linux";
-  return "unknown";
+const childVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut" as const },
+  },
 };
 
 export function Hero() {
-  const [os, set_os] = useState<os_type>("unknown");
+  const [nextVersion, setNextVersion] = useState("15.x.x");
 
   useEffect(() => {
-    set_os(detect_os());
+    fetch("/api/next-version")
+      .then((res) => res.json())
+      .then((data) => setNextVersion(data.version))
+      .catch(() => {});
   }, []);
-
   return (
-    <section
-      className="relative flex flex-col items-center justify-center min-h-[85vh] py-20 px-6"
-      id="hero"
-    >
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[800px] h-64 bg-brand-accent/10 rounded-full blur-[120px] -z-10 pointer-events-none" />
+    <section className="relative flex flex-col items-center justify-center min-h-[90vh] py-24 px-6 overflow-hidden">
+      {/* Background effects */}
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-brand-accent/8 rounded-full blur-[150px]" />
+        <div className="absolute bottom-1/4 right-1/4 w-[300px] h-[300px] bg-brand-accent/5 rounded-full blur-[100px]" />
+        <div className="absolute top-1/3 left-1/4 w-[200px] h-[200px] bg-brand-accent/5 rounded-full blur-[80px]" />
+      </div>
+
+      {/* Subtle grid overlay */}
+      <div
+        className="absolute inset-0 -z-10 opacity-[0.03] dark:opacity-[0.05]"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4955a' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+        }}
+      />
 
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="text-center max-w-4xl mx-auto"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="flex flex-col items-center text-center max-w-5xl mx-auto"
       >
+        {/* Tags */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="inline-flex items-center gap-2 px-4 py-2 mb-8 rounded-full bg-yellow-200/20 border border-yellow-400/30"
+          variants={childVariants}
+          className="flex flex-wrap justify-center gap-2 mb-8"
         >
-          <InformationCircleIcon className="w-4 h-4 text-yellow-500" />
-          <span className="text-sm font-medium text-yellow-600">
-            Stats shown are just placeholders
-          </span>
+          {tags.map((tag) => (
+            <span
+              key={tag.label}
+              className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border text-xs font-medium tracking-wide ${tag.color}`}
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-current" />
+              {tag.label}
+            </span>
+          ))}
         </motion.div>
 
+        {/* Heading */}
         <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.15 }}
-          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground mb-6"
+          variants={childVariants}
+          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-foreground leading-[1.05]"
         >
-          Minecraft Software & Websites,{" "}
-          <span className="text-brand-accent italic">Elevated</span>
-        </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.25 }}
-          className="text-base sm:text-lg text-muted-foreground max-w-xl mx-auto mb-8"
-        >
-          We craft high-performance Minecraft software, modern websites, and
-          developer tools. Built with passion, engineered for excellence.
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.35 }}
-          className="flex flex-wrap justify-center gap-3 mb-10"
-        >
-          <span
-            key="minecraft"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-card/60 border border-border text-sm font-medium"
-          >
-            <CheckCircleIcon className="w-4 h-4 text-brand-accent" />
-            Minecraft Software
-          </span>
-          <span
-            key="websites"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-card/60 border border-border text-sm font-medium"
-          >
-            <CheckCircleIcon className="w-4 h-4 text-brand-accent" />
-            Modern Websites
-          </span>
-          <span
-            key="opensource"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-card/60 border border-border text-sm font-medium"
-          >
-            <CheckCircleIcon className="w-4 h-4 text-brand-accent" />
-            Open Source
-          </span>
-          <span
-            key="developer"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-card/60 border border-border text-sm font-medium"
-          >
-            <CheckCircleIcon className="w-4 h-4 text-brand-accent" />
-            Developer Tools
-          </span>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.45 }}
-          className="flex flex-col items-center gap-4"
-        >
-          <div className="flex flex-wrap justify-center gap-3">
-            <a
-              href="https://github.com/VOMLabs"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-full text-sm font-semibold bg-white/5 hover:bg-white/10 border border-white/10 text-foreground transition-all active:scale-95"
-            >
-              <StarIcon className="w-5 h-5 text-yellow-400" />
-              Star on GitHub
-            </a>
-            <Link
-              href="https://discord.vomlabs.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-full text-sm font-semibold bg-brand-accent hover:bg-brand-accent/90 text-background transition-all active:scale-95"
-            >
-              Join Discord
-            </Link>
-          </div>
-
-          <div className="w-full max-w-xl border border-border rounded-xl bg-card/80 backdrop-blur overflow-hidden opacity-60 pointer-events-none relative">
-            <code className="block px-3 py-3 text-xs sm:text-sm font-mono text-muted-foreground truncate max-w-[calc(100%-2rem)] select-none">
-              {install_scripts[os]}
-            </code>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <span className="px-3 py-1.5 rounded-full bg-background/80 backdrop-blur text-xs font-medium text-muted-foreground border border-border">
-                Coming Soon
-              </span>
-            </div>
-          </div>
-          <p className="text-xs text-muted-foreground flex items-center gap-2">
-            Installer under development
-            <span className="w-1.5 h-1.5 rounded-full bg-yellow-500 animate-pulse" />
-          </p>
-        </motion.div>
-
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
-          className="mt-8 text-sm text-muted-foreground"
-        >
-          Currently targeting {os_labels[os]} · Public beta coming soon
-        </motion.p>
-      </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 0.8 }}
-        className="absolute bottom-2 left-1/2 -translate-x-1/2"
-      >
-        <button
-          type="button"
-          onClick={() =>
-            document
-              .getElementById("features")
-              ?.scrollIntoView({ behavior: "smooth" })
-          }
-          className="flex flex-col items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
-        >
-          <span className="text-xs font-medium">Scroll to explore</span>
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-          >
+          We build for{" "}
+          <span className="relative inline-block">
+            <span className="text-brand-accent">Minecraft</span>
             <svg
-              className="w-6 h-6"
+              className="absolute -bottom-1.5 left-0 w-full h-3"
+              viewBox="0 0 200 16"
               fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+              preserveAspectRatio="none"
             >
               <path
+                d="M1 12 C 20 4, 30 16, 50 10 S 80 4, 100 12 S 130 4, 150 10 S 180 16, 199 8"
+                stroke="var(--brand-accent)"
+                strokeWidth="2"
                 strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M19 14l-7 7m0 0l-7-7m7 7V3"
+                fill="none"
+                opacity="0.5"
               />
             </svg>
-          </motion.div>
-        </button>
+          </span>{" "}
+          &amp; the web
+        </motion.h1>
+
+        {/* Subtitle */}
+        <motion.p
+          variants={childVariants}
+          className="mt-6 text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed"
+        >
+          High-performance Minecraft software, modern websites, and developer
+          tools — all open source and built with passion.
+        </motion.p>
+
+        {/* CTAs */}
+        <motion.div
+          variants={childVariants}
+          className="mt-10 flex flex-wrap items-center justify-center gap-4"
+        >
+          <a
+            href="https://github.com/VOMLabs"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center gap-2.5 px-6 py-3 rounded-xl border border-border bg-card/50 hover:bg-card text-foreground font-semibold text-sm transition-all active:scale-[0.97]"
+          >
+            <FaGithub className="w-5 h-5" />
+            GitHub
+            <span className="text-muted-foreground group-hover:text-foreground transition-colors">
+              →
+            </span>
+          </a>
+          <Link
+            href="https://discord.vomlabs.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center gap-2.5 px-6 py-3 rounded-xl bg-brand-accent hover:bg-brand-accent/90 text-background font-semibold text-sm transition-all active:scale-[0.97]"
+          >
+            <FaDiscord className="w-5 h-5" />
+            Join Discord
+            <ArrowRightIcon className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+          </Link>
+        </motion.div>
+
+        {/* Terminal */}
+        <motion.div variants={childVariants} className="mt-16 w-full max-w-md">
+          <div className="rounded-xl border border-border/60 bg-[#0d1117] shadow-2xl overflow-hidden">
+            <div className="flex items-center gap-2 px-4 py-2.5 border-b border-white/5 bg-[#161b22]">
+              <div className="flex gap-1.5">
+                <span className="w-2.5 h-2.5 rounded-full bg-red-400/60" />
+                <span className="w-2.5 h-2.5 rounded-full bg-yellow-400/60" />
+                <span className="w-2.5 h-2.5 rounded-full bg-green-400/60" />
+              </div>
+              <span className="text-[11px] text-white/40 font-mono ml-2 tracking-wide">
+                bash
+              </span>
+            </div>
+            <div className="px-4 py-3.5 space-y-1.5 font-mono text-[13px] leading-relaxed">
+              <div>
+                <span className="text-green-400">user@vomlabs</span>
+                <span className="text-white/30">:</span>
+                <span className="text-sky-400">~</span>
+                <span className="text-white/30">$</span>{" "}
+                <span className="text-white/80">ls</span>
+              </div>
+              <div className="flex flex-wrap gap-x-4 gap-y-0.5 text-white/60">
+                <span className="text-sky-400">src/</span>
+                <span className="text-emerald-400">package.json</span>
+                <span className="text-amber-400">tsconfig.json</span>
+                <span className="text-white/40">README.md</span>
+                <span className="text-rose-400">.env</span>
+              </div>
+              <div className="pt-1">
+                <span className="text-green-400">user@vomlabs</span>
+                <span className="text-white/30">:</span>
+                <span className="text-sky-400">~</span>
+                <span className="text-white/30">$</span>{" "}
+                <span className="text-white/80">npm run dev</span>
+              </div>
+              <div className="text-emerald-400">
+                &gt; vomlabs-website@1.0.0 dev
+              </div>
+              <div className="text-white/60">
+                <span className="text-white/40">▲</span> Next.js {nextVersion}
+              </div>
+              <div className="text-white/60">
+                <span className="text-emerald-400">✓</span> Ready in{" "}
+                <span className="text-white/80">236ms</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <span className="text-green-400">user@vomlabs</span>
+                <span className="text-white/30">:</span>
+                <span className="text-sky-400">~</span>
+                <span className="text-white/30">$</span>
+                <span className="inline-block w-2 h-4 bg-white/70 animate-pulse ml-0.5" />
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Scroll indicator */}
+        <motion.div variants={childVariants} className="mt-20">
+          <button
+            type="button"
+            onClick={() =>
+              document
+                .getElementById("features")
+                ?.scrollIntoView({ behavior: "smooth" })
+            }
+            className="flex flex-col items-center gap-2 text-muted-foreground/60 hover:text-muted-foreground transition-colors group"
+          >
+            <span className="text-[11px] font-mono tracking-widest uppercase">
+              Scroll
+            </span>
+            <motion.div
+              animate={{ y: [0, 6, 0] }}
+              transition={{
+                duration: 1.5,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            >
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 14l-7 7m0 0l-7-7m7 7V3"
+                />
+              </svg>
+            </motion.div>
+          </button>
+        </motion.div>
       </motion.div>
     </section>
   );

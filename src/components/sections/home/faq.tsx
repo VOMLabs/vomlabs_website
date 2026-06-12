@@ -4,6 +4,8 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
+import { micromark } from "micromark";
+import sanitizeHtml from "sanitize-html";
 
 interface FAQItem {
   question: string;
@@ -26,44 +28,55 @@ function AccordionFAQ({
 
   return (
     <div className="mx-auto max-w-3xl space-y-4">
-      {displayFaqs.map((faq, i) => (
-        <motion.div
-          key={faq.question}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4, delay: i * 0.05 }}
-          className="rounded-xl bg-muted/30 border border-border/60 hover:border-brand-accent/50 transition-all duration-300 overflow-hidden"
-        >
-          <button
-            className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left focus:outline-none group"
-            onClick={() => toggle(i)}
-            aria-expanded={openIndex === i}
+      {displayFaqs.map((faq, i) => {
+        const htmlContent = sanitizeHtml(micromark(faq.answer), {
+          allowedTags: sanitizeHtml.defaults.allowedTags.concat([
+            "img",
+            "code",
+            "pre",
+          ]),
+          allowedAttributes: {
+            ...sanitizeHtml.defaults.allowedAttributes,
+            a: ["href", "name", "target", "rel"],
+          },
+        });
+
+        return (
+          <motion.div
+            key={faq.question}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: i * 0.05 }}
+            className="rounded-xl bg-muted/30 border border-border/60 hover:border-brand-accent/50 transition-all duration-300 overflow-hidden"
           >
-            <span className="font-mono font-semibold text-foreground group-hover:text-brand-accent transition-colors">
-              {faq.question}
-            </span>
-            <ChevronDownIcon
-              className={`w-5 h-5 shrink-0 transition-transform duration-300 ${openIndex === i ? "rotate-180 text-brand-accent" : "text-muted-foreground"}`}
-            />
-          </button>
-          <AnimatePresence>
-            {openIndex === i && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: "auto", opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.3, ease: "easeInOut" }}
-                className="px-5 pb-5 text-muted-foreground text-sm"
-              >
-                {faq.answer.length > 150
-                  ? faq.answer.slice(0, 150) + "..."
-                  : faq.answer}
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </motion.div>
-      ))}
+            <button
+              className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left focus:outline-none group"
+              onClick={() => toggle(i)}
+              aria-expanded={openIndex === i}
+            >
+              <span className="font-mono font-semibold text-foreground group-hover:text-brand-accent transition-colors">
+                {faq.question}
+              </span>
+              <ChevronDownIcon
+                className={`w-5 h-5 shrink-0 transition-transform duration-300 ${openIndex === i ? "rotate-180 text-brand-accent" : "text-muted-foreground"}`}
+              />
+            </button>
+            <AnimatePresence>
+              {openIndex === i && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                  className="px-5 pb-5 text-muted-foreground text-sm prose prose-sm prose-invert max-w-none"
+                  dangerouslySetInnerHTML={{ __html: htmlContent }}
+                />
+              )}
+            </AnimatePresence>
+          </motion.div>
+        );
+      })}
     </div>
   );
 }

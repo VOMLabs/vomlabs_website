@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
@@ -27,51 +27,6 @@ import SocialsModal from "./socials-modal";
 import { ThemeToggle } from "./theme-toggle";
 import { IconVesper } from "../icons/vesper-icon";
 import { IconBrandDiscord } from "@tabler/icons-react";
-
-// Custom GitHub "star" icon
-function StarIcon({ className = "w-6 h-6" }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      fill="currentColor"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-    >
-      <title>GitHub Star</title>
-      <polygon
-        fill="currentColor"
-        stroke="none"
-        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-        className="star"
-      />
-    </svg>
-  );
-}
-
-function GitHubIcon({ className = "w-6 h-6" }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      fill="currentColor"
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-    >
-      <title>GitHub</title>
-      <path
-        fillRule="evenodd"
-        d="M12 2C6.477 2 2 6.484 2 12.021c0 4.427 2.867 8.184 6.839 9.504.5.093.682-.217.682-.482
-        0-.237-.009-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.153-1.11-1.46-1.11-1.46-.908-.62.069-.608.069-.608
-        1.004.071 1.532 1.032 1.532 1.032.892 1.53 2.341 1.088 2.91.832.091-.647.349-1.088.635-1.339-2.22-.253-4.555-1.113-4.555-4.951
-        0-1.093.39-1.987 1.029-2.686-.103-.254-.447-1.272.098-2.651 0 0 .84-.27 2.75 1.025A9.564 9.564 0
-        0 1 12 6.844a9.6 9.6 0 0 1 2.504.338c1.909-1.296 2.747-1.025 2.747-1.025.547 1.379.203 2.397.1 2.651.64.699
-        1.028 1.593 1.028 2.686 0 3.847-2.337 4.695-4.566 4.943.359.309.678.919.678 1.852 0 1.336-.012
-        2.417-.012 2.747 0 .267.18.579.688.481A10.019 10.019 0 0 0 22 12.021C22 6.484 17.522 2 12 2z"
-        clipRule="evenodd"
-      />
-    </svg>
-  );
-}
 
 interface NavLink {
   name: string;
@@ -100,89 +55,28 @@ const dropdowns: Dropdown[] = [
   {
     name: "Explore",
     items: [
-      {
-        name: "Roadmap",
-        href: "/roadmap",
-        icon: Map,
-        description: "Future plans",
-      },
-      {
-        name: "Tech Stack",
-        href: "/techstack",
-        icon: Code,
-        description: "Technologies used",
-      },
-      {
-        name: "About",
-        href: "/about",
-        icon: Info,
-        description: "About VOMLabs",
-      },
-
-      {
-        name: "FAQ",
-        href: "/faq",
-        icon: HelpCircle,
-        description: "Common questions",
-      },
+      { name: "Roadmap", href: "/roadmap", icon: Map, description: "Future plans" },
+      { name: "Tech Stack", href: "/techstack", icon: Code, description: "Technologies used" },
+      { name: "About", href: "/about", icon: Info, description: "About VOMLabs" },
+      { name: "FAQ", href: "/faq", icon: HelpCircle, description: "Common questions" },
     ],
   },
   {
     name: "Community",
     items: [
-      {
-        name: "Support",
-        href: "/support",
-        icon: Headphones,
-        description: "Get help & contact",
-      },
-      {
-        name: "GitHub",
-        href: "https://github.com/VOMLabs",
-        icon: ExternalLink,
-        description: "Our projects",
-      },
-      {
-        name: "Discord",
-        href: "/discord",
-        icon: IconBrandDiscord,
-        description: "Join our server",
-      },
-      {
-        name: "Documentation",
-        href: "https://docs.vomlabs.com/",
-        icon: ExternalLink,
-        description: "Join our server",
-      },
+      { name: "Support", href: "/support", icon: Headphones, description: "Get help & contact" },
+      { name: "GitHub", href: "https://github.com/VOMLabs", icon: ExternalLink, description: "Our projects" },
+      { name: "Discord", href: "/discord", icon: IconBrandDiscord, description: "Join our server" },
+      { name: "Documentation", href: "https://docs.vomlabs.com/", icon: ExternalLink, description: "Docs & guides" },
     ],
   },
   {
     name: "Legal",
     items: [
-      {
-        name: "Legal Notice",
-        href: "/legal",
-        icon: FileText,
-        description: "Legal information",
-      },
-      {
-        name: "Privacy Policy",
-        href: "/privacy",
-        icon: ShieldCheck,
-        description: "Data & privacy",
-      },
-      {
-        name: "Terms of Use",
-        href: "/terms",
-        icon: Scale,
-        description: "Usage terms",
-      },
-      {
-        name: "Terms of Service",
-        href: "/tos",
-        icon: Gavel,
-        description: "Service agreement",
-      },
+      { name: "Legal Notice", href: "/legal", icon: FileText, description: "Legal information" },
+      { name: "Privacy Policy", href: "/privacy", icon: ShieldCheck, description: "Data & privacy" },
+      { name: "Terms of Use", href: "/terms", icon: Scale, description: "Usage terms" },
+      { name: "Terms of Service", href: "/tos", icon: Gavel, description: "Service agreement" },
     ],
   },
 ];
@@ -215,10 +109,8 @@ export function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [socialsModalOpen, setSocialsModalOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [isCompact, setIsCompact] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const pathname = usePathname();
-  const navRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -237,23 +129,6 @@ export function Navigation() {
     };
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  useEffect(() => {
-    const checkWidth = () => {
-      if (navRef.current) {
-        const nav = navRef.current.querySelector(".nav-desktop") as HTMLElement;
-        if (nav) {
-          const navWidth = nav.offsetWidth;
-          const containerWidth = navRef.current.offsetWidth;
-          setIsCompact(navWidth > containerWidth - 32);
-        }
-      }
-    };
-
-    checkWidth();
-    window.addEventListener("resize", checkWidth);
-    return () => window.removeEventListener("resize", checkWidth);
   }, []);
 
   const handleOpenSocialsModal = () => {
@@ -278,7 +153,6 @@ export function Navigation() {
   return (
     <>
       <motion.header
-        ref={navRef}
         initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ type: "spring", stiffness: 130, damping: 25 }}
@@ -393,10 +267,7 @@ export function Navigation() {
             <div className="flex items-center gap-2 sm:gap-3">
               <button
                 onClick={handleOpenSearch}
-                className={cn(
-                  "hidden md:flex items-center justify-center gap-2 px-2.5 py-2 text-sm text-muted-foreground hover:text-foreground bg-card/50 border border-border hover:border-brand-accent/30 rounded-xl transition-all duration-200",
-                  isCompact && "hidden",
-                )}
+                className="hidden md:flex items-center justify-center gap-2 px-2.5 py-2 text-sm text-muted-foreground hover:text-foreground bg-card/50 border border-border hover:border-brand-accent/30 rounded-xl transition-all duration-200"
               >
                 <Search className="size-4 shrink-0" />
                 <span className="hidden lg:inline">Search</span>
