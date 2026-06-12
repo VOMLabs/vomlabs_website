@@ -3,8 +3,8 @@
 import { motion } from "framer-motion";
 import {
   UsersIcon,
-  ClockIcon,
   CodeBracketIcon,
+  WrenchScrewdriverIcon,
   ArrowTopRightOnSquareIcon,
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
@@ -23,11 +23,10 @@ export function beta_waitlist() {
         className="text-center mb-12"
       >
         <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4 tracking-tight">
-          Join the <span className="text-brand-accent italic">Beta</span>
+          Become a <span className="text-brand-accent italic">Developer</span>
         </h2>
         <p className="text-muted-foreground max-w-xl mx-auto leading-relaxed md:text-lg">
-          Be among the first to experience the next generation of Minecraft
-          launching.
+          Join our community and help build the future of Minecraft tooling.
         </p>
       </motion.div>
 
@@ -40,13 +39,13 @@ export function beta_waitlist() {
           className="rounded-xl bg-card/60 border border-border p-6 text-center"
         >
           <div className="flex items-center justify-center rounded-lg bg-brand-accent/10 w-12 h-12 mx-auto mb-4">
-            <ClockIcon className="w-6 h-6 text-brand-accent" />
+            <UsersIcon className="w-6 h-6 text-brand-accent" />
           </div>
           <h3 className="font-semibold text-foreground mb-2">
-            Beta Coming Soon
+            Join Our Community
           </h3>
           <p className="text-sm text-muted-foreground">
-            Public beta opening soon. Stay tuned for official release dates.
+            Connect with developers and contributors on Discord.
           </p>
         </motion.div>
 
@@ -58,13 +57,13 @@ export function beta_waitlist() {
           className="rounded-xl bg-card/60 border border-border p-6 text-center"
         >
           <div className="flex items-center justify-center rounded-lg bg-brand-accent/10 w-12 h-12 mx-auto mb-4">
-            <UsersIcon className="w-6 h-6 text-brand-accent" />
+            <CodeBracketIcon className="w-6 h-6 text-brand-accent" />
           </div>
           <h3 className="font-semibold text-foreground mb-2">
-            Join Our Community
+            Open Source
           </h3>
           <p className="text-sm text-muted-foreground">
-            Connect with fellow testers and get early access to features.
+            Contribute to our projects on GitHub. All skill levels welcome.
           </p>
         </motion.div>
 
@@ -76,13 +75,13 @@ export function beta_waitlist() {
           className="rounded-xl bg-card/60 border border-border p-6 text-center"
         >
           <div className="flex items-center justify-center rounded-lg bg-brand-accent/10 w-12 h-12 mx-auto mb-4">
-            <CodeBracketIcon className="w-6 h-6 text-brand-accent" />
+            <WrenchScrewdriverIcon className="w-6 h-6 text-brand-accent" />
           </div>
           <h3 className="font-semibold text-foreground mb-2">
-            Contributors Welcome
+            Build with Us
           </h3>
           <p className="text-sm text-muted-foreground">
-            Experienced with Rust + Tauri? Apply for early access via Discord.
+            Work on Rust, Tauri, and web projects alongside experienced devs.
           </p>
         </motion.div>
       </div>
@@ -104,8 +103,7 @@ export function beta_waitlist() {
           <ArrowTopRightOnSquareIcon className="w-4 h-4" />
         </Link>
         <p className="text-xs text-muted-foreground mt-4">
-          Limited spots available for early beta testers with Rust/Tauri
-          experience
+          Looking for Rust, Tauri, and web developers to join the team
         </p>
       </motion.div>
     </section>
