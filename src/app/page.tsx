@@ -1,17 +1,8 @@
-import fs from "fs";
-import path from "path";
-import * as yaml from "js-yaml";
+import { getAllFAQs } from "@/lib/faq";
 import HomeClient from "./HomeClient";
 
-interface FAQItem {
-  question: string;
-  answer: string;
-}
-
 export default function home() {
-  const filePath = path.join(process.cwd(), "src/data/faqs.yaml");
-  const fileContents = fs.readFileSync(filePath, "utf8");
-  const faqs = yaml.load(fileContents) as FAQItem[];
+  const faqs = getAllFAQs();
 
   return (
     <div className="min-h-screen relative overflow-hidden flex flex-col selection:bg-brand-accent/30 selection:text-brand-accent">
