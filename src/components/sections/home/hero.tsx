@@ -7,43 +7,17 @@ import { FaGithub, FaDiscord } from "react-icons/fa";
 import Link from "next/link";
 
 const tags = [
-  {
-    label: "Minecraft Software",
-    color:
-      "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20",
-  },
-  {
-    label: "Modern Websites",
-    color: "bg-sky-500/10 text-sky-600 dark:text-sky-400 border-sky-500/20",
-  },
-  {
-    label: "Open Source",
-    color:
-      "bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20",
-  },
-  {
-    label: "Developer Tools",
-    color:
-      "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20",
-  },
+  { label: "Minecraft Software", color: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20" },
+  { label: "Modern Websites", color: "bg-sky-500/10 text-sky-600 dark:text-sky-400 border-sky-500/20" },
+  { label: "Open Source", color: "bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20" },
+  { label: "Developer Tools", color: "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20" },
 ];
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.12, delayChildren: 0.1 },
-  },
-};
-
-const childVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: "easeOut" as const },
-  },
-};
+const fadeUp = (delay: number) => ({
+  initial: { opacity: 0, y: 30 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.6, delay, ease: "easeOut" as const },
+});
 
 export function Hero() {
   const [nextVersion, setNextVersion] = useState("");
@@ -54,16 +28,15 @@ export function Hero() {
       .then((data) => setNextVersion(data.version))
       .catch(() => {});
   }, []);
+
   return (
     <section className="relative flex flex-col items-center justify-center min-h-[90vh] py-24 px-6 overflow-hidden">
-      {/* Background effects */}
+      {/* Background */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-brand-accent/8 rounded-full blur-[150px]" />
         <div className="absolute bottom-1/4 right-1/4 w-[300px] h-[300px] bg-brand-accent/5 rounded-full blur-[100px]" />
         <div className="absolute top-1/3 left-1/4 w-[200px] h-[200px] bg-brand-accent/5 rounded-full blur-[80px]" />
       </div>
-
-      {/* Subtle grid overlay */}
       <div
         className="absolute inset-0 -z-10 opacity-[0.03] dark:opacity-[0.05]"
         style={{
@@ -71,17 +44,9 @@ export function Hero() {
         }}
       />
 
-      <motion.div
-        variants={containerVariants}
-        animate="visible"
-        className="flex flex-col items-center text-center max-w-5xl mx-auto"
-      >
+      <div className="flex flex-col items-center text-center max-w-5xl mx-auto">
         {/* Tags */}
-        <motion.div
-          variants={childVariants}
-          initial="hidden"
-          className="flex flex-wrap justify-center gap-2 mb-8"
-        >
+        <motion.div {...fadeUp(0)} className="flex flex-wrap justify-center gap-2 mb-8">
           {tags.map((tag) => (
             <span
               key={tag.label}
@@ -95,8 +60,7 @@ export function Hero() {
 
         {/* Heading */}
         <motion.h1
-          variants={childVariants}
-          initial="hidden"
+          {...fadeUp(0.1)}
           className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-foreground leading-[1.05]"
         >
           We build for{" "}
@@ -123,8 +87,7 @@ export function Hero() {
 
         {/* Subtitle */}
         <motion.p
-          variants={childVariants}
-          initial="hidden"
+          {...fadeUp(0.2)}
           className="mt-6 text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed"
         >
           High-performance Minecraft software, modern websites, and developer
@@ -133,8 +96,7 @@ export function Hero() {
 
         {/* CTAs */}
         <motion.div
-          variants={childVariants}
-          initial="hidden"
+          {...fadeUp(0.3)}
           className="mt-10 flex flex-wrap items-center justify-center gap-4"
         >
           <a
@@ -145,9 +107,7 @@ export function Hero() {
           >
             <FaGithub className="w-5 h-5" />
             GitHub
-            <span className="text-muted-foreground group-hover:text-foreground transition-colors">
-              →
-            </span>
+            <span className="text-muted-foreground group-hover:text-foreground transition-colors">→</span>
           </a>
           <Link
             href="https://discord.vomlabs.com"
@@ -162,7 +122,10 @@ export function Hero() {
         </motion.div>
 
         {/* Terminal */}
-        <motion.div variants={childVariants} initial="hidden" className="mt-16 w-full max-w-md">
+        <motion.div
+          {...fadeUp(0.4)}
+          className="mt-16 w-full max-w-md"
+        >
           <div className="rounded-xl border border-border/60 bg-[#0d1117] shadow-2xl overflow-hidden">
             <div className="flex items-center gap-2 px-4 py-2.5 border-b border-white/5 bg-[#161b22]">
               <div className="flex gap-1.5">
@@ -170,9 +133,7 @@ export function Hero() {
                 <span className="w-2.5 h-2.5 rounded-full bg-yellow-400/60" />
                 <span className="w-2.5 h-2.5 rounded-full bg-green-400/60" />
               </div>
-              <span className="text-[11px] text-white/40 font-mono ml-2 tracking-wide">
-                bash
-              </span>
+              <span className="text-[11px] text-white/40 font-mono ml-2 tracking-wide">bash</span>
             </div>
             <div className="px-4 py-3.5 space-y-1.5 font-mono text-[13px] leading-relaxed">
               <div>
@@ -196,9 +157,7 @@ export function Hero() {
                 <span className="text-white/30">$</span>{" "}
                 <span className="text-white/80">npm run dev</span>
               </div>
-              <div className="text-emerald-400">
-                &gt; vomlabs-website@1.0.0 dev
-              </div>
+              <div className="text-emerald-400">&gt; vomlabs-website@1.0.0 dev</div>
               {nextVersion && (
                 <div className="text-white/60">
                   <span className="text-white/40">▲</span> Next.js {nextVersion}
@@ -220,44 +179,29 @@ export function Hero() {
         </motion.div>
 
         {/* Scroll indicator */}
-        <motion.div variants={childVariants} initial="hidden" className="mt-20">
+        <motion.div
+          {...fadeUp(0.5)}
+          className="mt-20"
+        >
           <button
             type="button"
             onClick={() =>
-              document
-                .getElementById("features")
-                ?.scrollIntoView({ behavior: "smooth" })
+              document.getElementById("features")?.scrollIntoView({ behavior: "smooth" })
             }
             className="flex flex-col items-center gap-2 text-muted-foreground/60 hover:text-muted-foreground transition-colors group"
           >
-            <span className="text-[11px] font-mono tracking-widest uppercase">
-              Scroll
-            </span>
+            <span className="text-[11px] font-mono tracking-widest uppercase">Scroll</span>
             <motion.div
               animate={{ y: [0, 6, 0] }}
-              transition={{
-                duration: 1.5,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
             >
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 14l-7 7m0 0l-7-7m7 7V3"
-                />
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
               </svg>
             </motion.div>
           </button>
         </motion.div>
-      </motion.div>
+      </div>
     </section>
   );
 }

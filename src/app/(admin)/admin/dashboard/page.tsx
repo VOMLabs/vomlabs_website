@@ -1,21 +1,12 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { LayoutDashboard, LogOut, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 export default function AdminDashboard() {
-  const router = useRouter();
-
-  const handleLogout = async () => {
-    await fetch("/api/admin/logout", { method: "POST" });
-    router.push("/");
-    router.refresh();
-  };
-
   return (
-    <div className="min-h-screen relative overflow-hidden flex flex-col selection:bg-brand-accent/30 selection:text-brand-accent">
+    <div className="min-h-screen relative overflow-hidden flex flex-col selection:bg-brand-accent/30 selection:text-brand-accent pt-20">
       <div className="fixed inset-0 z-[-2] bg-background" />
       <div
         className="fixed inset-0 z-[-1] opacity-20 dark:opacity-10 pointer-events-none"
@@ -23,32 +14,6 @@ export default function AdminDashboard() {
           backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23a0a0a0' fill-opacity='0.4' fill-rule='evenodd'%3E%3Ccircle cx='2' cy='2' r='1'/%3E%3C/g%3E%3C/svg%3E")`,
         }}
       />
-
-      <header className="border-b border-border/10 bg-background/80 backdrop-blur-xl">
-        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <LayoutDashboard className="size-5 text-brand-accent" />
-            <span className="font-mono font-bold text-foreground tracking-tight">
-              Admin Panel
-            </span>
-          </div>
-          <div className="flex items-center gap-3">
-            <Link
-              href="/"
-              className="text-sm font-mono text-muted-foreground hover:text-foreground transition-colors"
-            >
-              $ cd /
-            </Link>
-            <button
-              onClick={handleLogout}
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-border/60 text-sm font-mono text-muted-foreground hover:text-foreground hover:bg-card/50 transition-all"
-            >
-              <LogOut className="size-3.5" />
-              logout
-            </button>
-          </div>
-        </div>
-      </header>
 
       <main className="flex-1 w-full pt-12 pb-24">
         <section className="max-w-6xl mx-auto px-6">
