@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
+import { getAdminKeys, hashKey } from "@/lib/admin-auth";
 
-const ADMIN_KEYS = (process.env.ADMIN_KEYS ?? "").split(",").map((k) => k.trim());
+const ADMIN_KEYS = getAdminKeys();
 
 export async function POST(request: Request) {
   const { key } = await request.json();
@@ -9,8 +10,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid key" }, { status: 401 });
   }
 
+  const hashed = await hashKey(key);
+
   const response = NextResponse.json({ ok: true });
-  response.cookies.set("admin_token", key, {
+  response.cookies.set("admin_token", hashed, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",

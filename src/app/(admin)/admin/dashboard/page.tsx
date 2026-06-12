@@ -1,13 +1,53 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Star, Users, GitFork } from "lucide-react";
 import Link from "next/link";
 
+interface Stats {
+  stars: number;
+  repos: number;
+  discordOnline: number;
+}
+
 export default function AdminDashboard() {
+  const [stats, setStats] = useState<Stats | null>(null);
+
+  useEffect(() => {
+    fetch("/api/admin/stats")
+      .then((res) => res.json())
+      .then(setStats)
+      .catch(() => {});
+  }, []);
+
+  const cards = [
+    {
+      title: "GitHub Stars",
+      value: stats?.stars ?? "--",
+      desc: "Across all VOMLabs repos",
+      icon: <Star className="size-4" />,
+      color: "text-amber-500",
+    },
+    {
+      title: "Discord Online",
+      value: stats?.discordOnline ?? "--",
+      desc: "Members currently online",
+      icon: <Users className="size-4" />,
+      color: "text-indigo-500",
+    },
+    {
+      title: "Repositories",
+      value: stats?.repos ?? "--",
+      desc: "Public VOMLabs repos",
+      icon: <GitFork className="size-4" />,
+      color: "text-emerald-500",
+    },
+  ];
+
   return (
     <div className="min-h-screen relative overflow-hidden flex flex-col selection:bg-brand-accent/30 selection:text-brand-accent pt-20">
-      <div className="fixed inset-0 z-[-2] bg-background" />
+      <div className="fixed inset-0 bg-background z-[-2]" />
       <div
         className="fixed inset-0 z-[-1] opacity-20 dark:opacity-10 pointer-events-none"
         style={{
@@ -17,39 +57,31 @@ export default function AdminDashboard() {
 
       <main className="flex-1 w-full pt-12 pb-24">
         <section className="max-w-6xl mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-accent/10 border border-brand-accent/20 text-[11px] font-mono text-brand-accent mb-6 tracking-wide">
-              <span className="w-1.5 h-1.5 rounded-full bg-brand-accent" />
-              DASHBOARD
-            </div>
-            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground mb-3">
-              Welcome back,{" "}
-              <span className="text-brand-accent">Admin</span>
-            </h1>
-            <p className="text-muted-foreground font-mono text-sm mb-12">
-              $ whoami &nbsp;→&nbsp; <span className="text-brand-accent">root</span>
-            </p>
-          </motion.div>
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-accent/10 border border-brand-accent/20 text-[11px] font-mono text-brand-accent mb-6 tracking-wide">
+            <span className="w-1.5 h-1.5 rounded-full bg-brand-accent" />
+            DASHBOARD
+          </div>
+          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground mb-3">
+            Welcome back,{" "}
+            <span className="text-brand-accent">Admin</span>
+          </h1>
+          <p className="text-muted-foreground font-mono text-sm mb-12">
+            $ whoami &nbsp;→&nbsp; <span className="text-brand-accent">root</span>
+          </p>
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {[
-              { title: "Users", value: "--", desc: "Registered users" },
-              { title: "Sessions", value: "--", desc: "Active sessions" },
-              { title: "Uptime", value: "--", desc: "Service uptime" },
-            ].map((card, i) => (
+            {cards.map((card, i) => (
               <motion.div
                 key={card.title}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
                 initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 + i * 0.08 }}
+                transition={{ duration: 0.5, delay: i * 0.08 }}
                 className="p-6 rounded-xl border border-border/60 bg-card/20 backdrop-blur-sm"
               >
-                <div className="text-xs font-mono text-muted-foreground mb-1">
-                  $ {card.title.toLowerCase()}
+                <div className="flex items-center gap-2 text-xs font-mono text-muted-foreground mb-3">
+                  <span className={card.color}>{card.icon}</span>
+                  <span>$ {card.title.toLowerCase().replace(/\s+/g, "_")}</span>
                 </div>
                 <div className="text-3xl font-bold text-foreground font-mono mb-1">
                   {card.value}
@@ -60,9 +92,10 @@ export default function AdminDashboard() {
           </div>
 
           <motion.div
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
             className="mt-12 p-8 rounded-xl border border-border/60 bg-card/20 backdrop-blur-sm text-center"
           >
             <p className="text-muted-foreground font-mono text-sm mb-2">

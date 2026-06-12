@@ -7,10 +7,25 @@ import { FaGithub, FaDiscord } from "react-icons/fa";
 import Link from "next/link";
 
 const tags = [
-  { label: "Minecraft Software", color: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20" },
-  { label: "Modern Websites", color: "bg-sky-500/10 text-sky-600 dark:text-sky-400 border-sky-500/20" },
-  { label: "Open Source", color: "bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20" },
-  { label: "Developer Tools", color: "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20" },
+  {
+    label: "Minecraft Software",
+    color:
+      "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20",
+  },
+  {
+    label: "Modern Websites",
+    color: "bg-sky-500/10 text-sky-600 dark:text-sky-400 border-sky-500/20",
+  },
+  {
+    label: "Open Source",
+    color:
+      "bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20",
+  },
+  {
+    label: "Developer Tools",
+    color:
+      "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20",
+  },
 ];
 
 const fadeUp = (delay: number) => ({
@@ -46,7 +61,10 @@ export function Hero() {
 
       <div className="flex flex-col items-center text-center max-w-5xl mx-auto">
         {/* Tags */}
-        <motion.div {...fadeUp(0)} className="flex flex-wrap justify-center gap-2 mb-8">
+        <motion.div
+          {...fadeUp(0)}
+          className="flex flex-wrap justify-center gap-2 mb-8"
+        >
           {tags.map((tag) => (
             <span
               key={tag.label}
@@ -107,7 +125,9 @@ export function Hero() {
           >
             <FaGithub className="w-5 h-5" />
             GitHub
-            <span className="text-muted-foreground group-hover:text-foreground transition-colors">→</span>
+            <span className="text-muted-foreground group-hover:text-foreground transition-colors">
+              →
+            </span>
           </a>
           <Link
             href="https://discord.vomlabs.com"
@@ -121,82 +141,40 @@ export function Hero() {
           </Link>
         </motion.div>
 
-        {/* Terminal */}
-        <motion.div
-          {...fadeUp(0.4)}
-          className="mt-16 w-full max-w-md"
-        >
-          <div className="rounded-xl border border-border/60 bg-[#0d1117] shadow-2xl overflow-hidden">
-            <div className="flex items-center gap-2 px-4 py-2.5 border-b border-white/5 bg-[#161b22]">
-              <div className="flex gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-red-400/60" />
-                <span className="w-2.5 h-2.5 rounded-full bg-yellow-400/60" />
-                <span className="w-2.5 h-2.5 rounded-full bg-green-400/60" />
-              </div>
-              <span className="text-[11px] text-white/40 font-mono ml-2 tracking-wide">bash</span>
-            </div>
-            <div className="px-4 py-3.5 space-y-1.5 font-mono text-[13px] leading-relaxed">
-              <div>
-                <span className="text-green-400">user@vomlabs</span>
-                <span className="text-white/30">:</span>
-                <span className="text-sky-400">~</span>
-                <span className="text-white/30">$</span>{" "}
-                <span className="text-white/80">ls</span>
-              </div>
-              <div className="flex flex-wrap gap-x-4 gap-y-0.5 text-white/60">
-                <span className="text-sky-400">src/</span>
-                <span className="text-emerald-400">package.json</span>
-                <span className="text-amber-400">tsconfig.json</span>
-                <span className="text-white/40">README.md</span>
-                <span className="text-rose-400">.env</span>
-              </div>
-              <div className="pt-1">
-                <span className="text-green-400">user@vomlabs</span>
-                <span className="text-white/30">:</span>
-                <span className="text-sky-400">~</span>
-                <span className="text-white/30">$</span>{" "}
-                <span className="text-white/80">npm run dev</span>
-              </div>
-              <div className="text-emerald-400">&gt; vomlabs-website@1.0.0 dev</div>
-              {nextVersion && (
-                <div className="text-white/60">
-                  <span className="text-white/40">▲</span> Next.js {nextVersion}
-                </div>
-              )}
-              <div className="text-white/60">
-                <span className="text-emerald-400">✓</span> Ready in{" "}
-                <span className="text-white/80">236ms</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <span className="text-green-400">user@vomlabs</span>
-                <span className="text-white/30">:</span>
-                <span className="text-sky-400">~</span>
-                <span className="text-white/30">$</span>
-                <span className="inline-block w-2 h-4 bg-white/70 animate-pulse ml-0.5" />
-              </div>
-            </div>
-          </div>
-        </motion.div>
-
         {/* Scroll indicator */}
-        <motion.div
-          {...fadeUp(0.5)}
-          className="mt-20"
-        >
+        <motion.div {...fadeUp(0.5)} className="mt-20">
           <button
             type="button"
             onClick={() =>
-              document.getElementById("features")?.scrollIntoView({ behavior: "smooth" })
+              document
+                .getElementById("features")
+                ?.scrollIntoView({ behavior: "smooth" })
             }
             className="flex flex-col items-center gap-2 text-muted-foreground/60 hover:text-muted-foreground transition-colors group"
           >
-            <span className="text-[11px] font-mono tracking-widest uppercase">Scroll</span>
+            <span className="text-[11px] font-mono tracking-widest uppercase">
+              Scroll
+            </span>
             <motion.div
               animate={{ y: [0, 6, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+              transition={{
+                duration: 1.5,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
             >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 14l-7 7m0 0l-7-7m7 7V3"
+                />
               </svg>
             </motion.div>
           </button>
