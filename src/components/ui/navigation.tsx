@@ -6,8 +6,6 @@ import { usePathname } from "next/navigation";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import {
   Search,
-  Image as ImageIcon,
-  History,
   Map,
   Home,
   Code,
@@ -25,8 +23,7 @@ import {
   BookOpen,
 } from "lucide-react";
 import Link from "next/link";
-import DownloadModal from "./download-modal";
-import GitHubModal from "./github-modal";
+import SocialsModal from "./socials-modal";
 import { ThemeToggle } from "./theme-toggle";
 import { IconVesper } from "../icons/vesper-icon";
 import { IconBrandDiscord } from "@tabler/icons-react";
@@ -121,18 +118,7 @@ const dropdowns: Dropdown[] = [
         icon: Info,
         description: "About VOMLabs",
       },
-      {
-        name: "Changelog",
-        href: "/changelog",
-        icon: History,
-        description: "Version history",
-      },
-      {
-        name: "Gallery",
-        href: "/gallery",
-        icon: ImageIcon,
-        description: "Screenshots",
-      },
+
       {
         name: "FAQ",
         href: "/faq",
@@ -227,8 +213,7 @@ const itemVariants: Variants = {
 
 export function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [downloadModalOpen, setDownloadModalOpen] = useState(false);
-  const [githubModalOpen, setGithubModalOpen] = useState(false);
+  const [socialsModalOpen, setSocialsModalOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isCompact, setIsCompact] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
@@ -271,8 +256,8 @@ export function Navigation() {
     return () => window.removeEventListener("resize", checkWidth);
   }, []);
 
-  const handleOpenDownloadModal = () => {
-    setDownloadModalOpen(true);
+  const handleOpenSocialsModal = () => {
+    setSocialsModalOpen(true);
     setMobileMenuOpen(false);
   };
 
@@ -282,12 +267,12 @@ export function Navigation() {
   };
 
   useEffect(() => {
-    const handleOpenGitHub = () => {
-      setGithubModalOpen(true);
+    const handleOpenSocials = () => {
+      setSocialsModalOpen(true);
     };
-    window.addEventListener("vomlabs:open-github", handleOpenGitHub);
+    window.addEventListener("vomlabs:open-socials", handleOpenSocials);
     return () =>
-      window.removeEventListener("vomlabs:open-github", handleOpenGitHub);
+      window.removeEventListener("vomlabs:open-socials", handleOpenSocials);
   }, []);
 
   return (
@@ -430,7 +415,7 @@ export function Navigation() {
               </button>
 
               <button
-                onClick={handleOpenDownloadModal}
+                onClick={handleOpenSocialsModal}
                 className="hidden md:flex items-center gap-2 px-2.5 lg:px-4 py-2 text-sm font-semibold bg-brand-accent hover:bg-brand-accent/90 text-background rounded-full transition-all duration-200"
               >
                 <svg
@@ -447,18 +432,8 @@ export function Navigation() {
                     d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
                   />
                 </svg>
-                <span className="hidden lg:inline">Download</span>
+                <span className="hidden lg:inline">Socials</span>
               </button>
-
-              <Link
-                href="https://github.com/VOMLabs"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-1.5 md:p-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-white/5 transition-all duration-200"
-                aria-label="Visit VOMLabs on GitHub"
-              >
-                <GitHubIcon className="size-5 md:size-6" />
-              </Link>
 
               <ThemeToggle />
 
@@ -575,21 +550,11 @@ export function Navigation() {
                     className="space-y-1 pt-3 pb-1"
                   >
                     <button
-                      onClick={handleOpenDownloadModal}
+                      onClick={handleOpenSocialsModal}
                       className="w-full px-4 py-2.5 bg-brand-accent text-background rounded-xl text-sm font-semibold shadow-sm active:scale-[0.98] transition-all"
                     >
-                      Explore Projects
+                      Socials
                     </button>
-                    <Link
-                      href="https://github.com/VOMLabs"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="w-full px-4 py-2.5 rounded-xl text-muted-foreground flex items-center justify-center gap-2 text-sm font-medium hover:bg-accent transition-colors"
-                    >
-                      <GitHubIcon className="size-4" />
-                      View on GitHub
-                    </Link>
                     <div className="flex items-center justify-between px-4 py-2 rounded-xl hover:bg-accent transition-colors">
                       <span className="text-sm text-muted-foreground font-medium">
                         Theme
@@ -603,13 +568,9 @@ export function Navigation() {
           )}
         </AnimatePresence>
       </motion.header>
-      <DownloadModal
-        open={downloadModalOpen}
-        onClose={() => setDownloadModalOpen(false)}
-      />
-      <GitHubModal
-        open={githubModalOpen}
-        onClose={() => setGithubModalOpen(false)}
+      <SocialsModal
+        open={socialsModalOpen}
+        onClose={() => setSocialsModalOpen(false)}
       />
     </>
   );

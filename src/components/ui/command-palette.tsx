@@ -4,14 +4,12 @@ import * as React from "react";
 import { useRouter } from "next/navigation";
 import { useHotkey } from "@tanstack/react-hotkeys";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { IconX, IconHome, IconMap, IconHistory, IconPhoto, IconSearch, IconFileText, IconShieldCheck, IconScale, IconGavel, IconCode, IconInfoCircle, IconHelpCircle, IconMessageCircle } from "@tabler/icons-react";
+import { IconX, IconHome, IconMap, IconSearch, IconFileText, IconShieldCheck, IconScale, IconGavel, IconCode, IconInfoCircle, IconHelpCircle, IconMessageCircle } from "@tabler/icons-react";
 
 const navigation_items = [
   { name: "Home", href: "/", icon: IconHome, description: "Go to homepage" },
   { name: "Roadmap", href: "/roadmap", icon: IconMap, description: "View roadmap" },
   { name: "Tech Stack", href: "/techstack", icon: IconCode, description: "Technologies we use" },
-  { name: "Changelog", href: "/changelog", icon: IconHistory, description: "Release history" },
-  { name: "Gallery", href: "/gallery", icon: IconPhoto, description: "Screenshots & media" },
   { name: "About", href: "/about", icon: IconInfoCircle, description: "About the project" },
   { name: "FAQ", href: "/faq", icon: IconHelpCircle, description: "Frequently asked questions" },
   { name: "Support", href: "/support", icon: IconMessageCircle, description: "Get help & contact" },
