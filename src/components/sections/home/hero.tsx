@@ -73,13 +73,13 @@ export function Hero() {
 
       <motion.div
         variants={containerVariants}
-        initial="hidden"
         animate="visible"
         className="flex flex-col items-center text-center max-w-5xl mx-auto"
       >
         {/* Tags */}
         <motion.div
           variants={childVariants}
+          initial="hidden"
           className="flex flex-wrap justify-center gap-2 mb-8"
         >
           {tags.map((tag) => (
@@ -96,6 +96,7 @@ export function Hero() {
         {/* Heading */}
         <motion.h1
           variants={childVariants}
+          initial="hidden"
           className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-foreground leading-[1.05]"
         >
           We build for{" "}
@@ -123,6 +124,7 @@ export function Hero() {
         {/* Subtitle */}
         <motion.p
           variants={childVariants}
+          initial="hidden"
           className="mt-6 text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed"
         >
           High-performance Minecraft software, modern websites, and developer
@@ -132,6 +134,7 @@ export function Hero() {
         {/* CTAs */}
         <motion.div
           variants={childVariants}
+          initial="hidden"
           className="mt-10 flex flex-wrap items-center justify-center gap-4"
         >
           <a
@@ -158,8 +161,66 @@ export function Hero() {
           </Link>
         </motion.div>
 
+        {/* Terminal */}
+        <motion.div variants={childVariants} initial="hidden" className="mt-16 w-full max-w-md">
+          <div className="rounded-xl border border-border/60 bg-[#0d1117] shadow-2xl overflow-hidden">
+            <div className="flex items-center gap-2 px-4 py-2.5 border-b border-white/5 bg-[#161b22]">
+              <div className="flex gap-1.5">
+                <span className="w-2.5 h-2.5 rounded-full bg-red-400/60" />
+                <span className="w-2.5 h-2.5 rounded-full bg-yellow-400/60" />
+                <span className="w-2.5 h-2.5 rounded-full bg-green-400/60" />
+              </div>
+              <span className="text-[11px] text-white/40 font-mono ml-2 tracking-wide">
+                bash
+              </span>
+            </div>
+            <div className="px-4 py-3.5 space-y-1.5 font-mono text-[13px] leading-relaxed">
+              <div>
+                <span className="text-green-400">user@vomlabs</span>
+                <span className="text-white/30">:</span>
+                <span className="text-sky-400">~</span>
+                <span className="text-white/30">$</span>{" "}
+                <span className="text-white/80">ls</span>
+              </div>
+              <div className="flex flex-wrap gap-x-4 gap-y-0.5 text-white/60">
+                <span className="text-sky-400">src/</span>
+                <span className="text-emerald-400">package.json</span>
+                <span className="text-amber-400">tsconfig.json</span>
+                <span className="text-white/40">README.md</span>
+                <span className="text-rose-400">.env</span>
+              </div>
+              <div className="pt-1">
+                <span className="text-green-400">user@vomlabs</span>
+                <span className="text-white/30">:</span>
+                <span className="text-sky-400">~</span>
+                <span className="text-white/30">$</span>{" "}
+                <span className="text-white/80">npm run dev</span>
+              </div>
+              <div className="text-emerald-400">
+                &gt; vomlabs-website@1.0.0 dev
+              </div>
+              {nextVersion && (
+                <div className="text-white/60">
+                  <span className="text-white/40">▲</span> Next.js {nextVersion}
+                </div>
+              )}
+              <div className="text-white/60">
+                <span className="text-emerald-400">✓</span> Ready in{" "}
+                <span className="text-white/80">236ms</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <span className="text-green-400">user@vomlabs</span>
+                <span className="text-white/30">:</span>
+                <span className="text-sky-400">~</span>
+                <span className="text-white/30">$</span>
+                <span className="inline-block w-2 h-4 bg-white/70 animate-pulse ml-0.5" />
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
         {/* Scroll indicator */}
-        <motion.div variants={childVariants} className="mt-20">
+        <motion.div variants={childVariants} initial="hidden" className="mt-20">
           <button
             type="button"
             onClick={() =>
