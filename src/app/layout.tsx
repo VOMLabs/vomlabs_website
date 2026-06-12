@@ -60,10 +60,10 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn("font-sans", fontSans.variable)}
+      className={cn("font-mono", fontMono.variable)}
     >
       <body
-        className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased min-h-screen bg-background text-foreground`}
+        className={`${fontSans.variable} ${fontMono.variable} font-mono antialiased min-h-screen bg-background text-foreground`}
       >
         <SpeedInsights />
         <Analytics />
