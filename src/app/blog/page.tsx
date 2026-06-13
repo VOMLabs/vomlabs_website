@@ -8,8 +8,9 @@ export const metadata: Metadata = {
   keywords: ["VOMLabs Blog", "VOMLabs News", "Development Updates", "Announcements"],
 };
 
-export default function BlogPage() {
-  const posts = getAllPosts();
+export default async function BlogPage() {
+  const allPosts = await getAllPosts();
+  const posts = Array.isArray(allPosts) ? allPosts : [];
 
   return (
     <div className="min-h-screen relative overflow-hidden flex flex-col selection:bg-brand-accent/30 selection:text-brand-accent">

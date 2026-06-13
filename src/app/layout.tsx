@@ -11,6 +11,7 @@ import { CommandPalette } from "@/components/ui/command-palette";
 import { ScrollToTop } from "@/components/ui/scroll-to-top";
 import { cn } from "@/lib/utils";
 import { SessionProvider } from "@/components/providers/session_provider";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -69,11 +70,13 @@ export default function RootLayout({
         <Analytics />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <SessionProvider>
-            <Navigation />
-            <CommandPalette />
-            <main>{children}</main>
-            <Toaster richColors />
-            <ScrollToTop />
+            <NuqsAdapter>
+              <Navigation />
+              <CommandPalette />
+              <main>{children}</main>
+              <Toaster richColors />
+              <ScrollToTop />
+            </NuqsAdapter>
           </SessionProvider>
           <FooterLogo
             aRR

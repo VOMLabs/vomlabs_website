@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Star, Users, GitFork } from "lucide-react";
+import { ArrowRight, Star, Users, GitFork, FileText, Plus, UserCircle } from "lucide-react";
 import Link from "next/link";
 
 interface Stats {
@@ -96,15 +96,56 @@ export default function AdminDashboard() {
             viewport={{ once: true }}
             initial={{ opacity: 0, y: 20 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="mt-12 p-8 rounded-xl border border-border/60 bg-card/20 backdrop-blur-sm text-center"
+            className="mt-12 p-8 rounded-xl border border-border/60 bg-card/20 backdrop-blur-sm"
           >
-            <p className="text-muted-foreground font-mono text-sm mb-2">
+            <p className="text-muted-foreground font-mono text-sm mb-6">
               $ ls /admin/features
             </p>
-            <p className="text-muted-foreground/60 font-mono text-sm">
-              <span className="text-brand-accent">→</span> More admin features coming soon
-            </p>
-            <div className="mt-6">
+            <div className="grid gap-4 sm:grid-cols-3">
+              <Link
+                href="/admin/blog"
+                className="group p-5 rounded-xl border border-border/60 bg-card/10 hover:border-brand-accent/30 transition-all"
+              >
+                <div className="flex items-center gap-3 mb-2">
+                  <FileText className="size-5 text-brand-accent" />
+                  <span className="font-semibold text-foreground group-hover:text-brand-accent transition-colors">
+                    Blog Manager
+                  </span>
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  Create, edit and manage blog posts
+                </p>
+              </Link>
+              <Link
+                href="/admin/blog/new"
+                className="group p-5 rounded-xl border border-border/60 bg-card/10 hover:border-brand-accent/30 transition-all"
+              >
+                <div className="flex items-center gap-3 mb-2">
+                  <Plus className="size-5 text-brand-accent" />
+                  <span className="font-semibold text-foreground group-hover:text-brand-accent transition-colors">
+                    New Post
+                  </span>
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  Write a new blog post
+                </p>
+              </Link>
+              <Link
+                href="/admin/authors"
+                className="group p-5 rounded-xl border border-border/60 bg-card/10 hover:border-brand-accent/30 transition-all"
+              >
+                <div className="flex items-center gap-3 mb-2">
+                  <UserCircle className="size-5 text-brand-accent" />
+                  <span className="font-semibold text-foreground group-hover:text-brand-accent transition-colors">
+                    Author Icons
+                  </span>
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  Set icons for blog authors
+                </p>
+              </Link>
+            </div>
+            <div className="mt-6 pt-6 border-t border-border/40 text-center">
               <Link
                 href="/"
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-accent hover:bg-brand-accent/90 text-background font-semibold text-sm transition-all"
