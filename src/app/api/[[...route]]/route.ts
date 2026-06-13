@@ -1,5 +1,3 @@
-import { Elysia } from "elysia";
-import { cookie } from "@elysiajs/cookie";
 import { getAllAuthors, getAuthor, createAuthor, updateAuthor, deleteAuthor } from "@/lib/blogs/authors";
 import { getAllPostsAdmin, getPostBySlug, createPost, updatePost, deletePost, getAllPosts } from "@/lib/blogs";
 import { hashKey, isValidToken } from "@/lib/admin-auth";
@@ -15,325 +13,264 @@ async function getUserCookie(request: Request): Promise<string | undefined> {
   return match?.[1];
 }
 
-const app = new Elysia()
-  .use(cookie())
+async function requireAuth(request: Request): Promise<boolean> {
+  const token = await getUserCookie(request);
+  return !!token && !!(await isValidToken(token));
+}
 
-  // Stats
-  .get("/api/admin/stats", async () => {
-    const guildId = process.env.NEXT_PUBLIC_DISCORD_GUILD_ID || "1495056269298630806";
-    const [githubRes, discordRes] = await Promise.all([
-      fetch("https://api.github.com/orgs/VOMLabs/repos?per_page=100&sort=updated"),
-      fetch(`https://discord.com/api/guilds/${guildId}/widget.json`),
-    ]);
+function json(data: unknown, status = 200): Response {
+  return Response.json(data, { status });
+}
 
-    let stars = 0, repos = 0;
-    if (githubRes.ok) {
-      const reposData: any[] = await githubRes.json();
-      stars = reposData.reduce((acc: number, r: any) => acc + (r.stargazers_count || 0), 0);
-      repos = reposData.length;
-    }
+async function handleRequest(request: Request): Promise<Response> {
+  const url = new URL(request.url);
+  const method = request.method;
+  const pathname = url.pathname;
 
-    let discordOnline = 0;
-    if (discordRes.ok) {
-      const widget: any = await discordRes.json();
-      discordOnline = widget.presence_count ?? 0;
-    }
-
-    return { stars, repos, discordOnline };
-  })
-
-  // Auth
-  .post("/api/admin/auth", async ({ body, set, cookie: { admin_token } }: any) => {
-    const { key } = body;
-    if (!key || !ADMIN_KEYS.includes(key)) {
-      set.status = 401;
-      return { error: "Invalid key" };
-    }
-    const hashed = await hashKey(key);
-    admin_token?.set({ value: hashed, httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "lax", path: "/", maxAge: 60 * 60 * 24 * 30 });
-    return { ok: true };
-  })
-  .get("/api/admin/check", async ({ cookie: { admin_token } }: any) => {
-    const authed = !!admin_token?.value && !!(await isValidToken(admin_token.value));
-    return { authed };
-  })
-  .post("/api/admin/logout", async ({ cookie: { admin_token } }: any) => {
-    admin_token?.set({ value: "", maxAge: 0, path: "/" });
-    return { ok: true };
-  })
-
-  // Authors
-  .get("/api/admin/authors", async () => {
-    return await getAllAuthors();
-  })
-  .post("/api/admin/authors", async ({ body, set, request }: any) => {
-    const token = await getUserCookie(request);
-    if (!token || !(await isValidToken(token))) {
-      set.status = 401;
-      return { error: "Unauthorized" };
-    }
-    const { name, avatar, role } = body;
-    if (!name?.trim()) {
-      set.status = 400;
-      return { error: "name is required" };
-    }
-    try {
-      const author = await createAuthor({ name: name.trim(), avatar: avatar || null, role: role || null });
-      set.status = 201;
-      return author;
-    } catch (e: any) {
-      if (e.message?.includes("already exists")) {
-        set.status = 409;
-        return { error: e.message };
+  // Helper to extract a named segment from the path
+  const matchPath = (pattern: string): Record<string, string> | null => {
+    const patternParts = pattern.split("/");
+    const pathParts = pathname.split("/");
+    if (patternParts.length !== pathParts.length) return null;
+    const params: Record<string, string> = {};
+    for (let i = 0; i < patternParts.length; i++) {
+      if (patternParts[i].startsWith(":")) {
+        params[patternParts[i].slice(1)] = decodeURIComponent(pathParts[i]);
+      } else if (patternParts[i] !== pathParts[i]) {
+        return null;
       }
-      throw e;
     }
-  })
-  .get("/api/admin/authors/:name", async ({ params: { name }, set }: any) => {
-    const author = await getAuthor(decodeURIComponent(name));
-    if (!author) {
-      set.status = 404;
-      return { error: "Not found" };
-    }
-    return author;
-  })
-  .put("/api/admin/authors/:name", async ({ params: { name }, body, set, request }: any) => {
-    const token = await getUserCookie(request);
-    if (!token || !(await isValidToken(token))) {
-      set.status = 401;
-      return { error: "Unauthorized" };
-    }
-    const { newName, avatar, role } = body;
-    const author = await updateAuthor(decodeURIComponent(name), {
-      name: newName?.trim(),
-      avatar: avatar !== undefined ? avatar : undefined,
-      role: role !== undefined ? role : undefined,
-    });
-    if (!author) {
-      set.status = 404;
-      return { error: "Not found" };
-    }
-    return author;
-  })
-  .delete("/api/admin/authors/:name", async ({ params: { name }, request, set }: any) => {
-    const token = await getUserCookie(request);
-    if (!token || !(await isValidToken(token))) {
-      set.status = 401;
-      return { error: "Unauthorized" };
-    }
-    const deleted = await deleteAuthor(decodeURIComponent(name));
-    if (!deleted) {
-      set.status = 404;
-      return { error: "Not found" };
-    }
-    return { ok: true };
-  })
+    return params;
+  };
 
-  // Blog posts (admin)
-  .get("/api/admin/blogs", async () => {
-    return await getAllPostsAdmin();
-  })
-  .post("/api/admin/blogs", async ({ body, set, request }: any) => {
-    const token = await getUserCookie(request);
-    if (!token || !(await isValidToken(token))) {
-      set.status = 401;
-      return { error: "Unauthorized" };
-    }
-    const { slug, title, date, authors, excerpt, content } = body;
-    if (!slug || !title) {
-      set.status = 400;
-      return { error: "slug and title are required" };
-    }
-    try {
-      const post = await createPost({
-        slug: slug.toLowerCase().replace(/[^a-z0-9-]/g, "-"),
-        title,
-        date: date || new Date().toISOString().split("T")[0],
-        authors: Array.isArray(authors) ? authors : [{ name: "VOMLabs", avatar: null }],
-        excerpt: excerpt || "",
-        content: content || "",
-      });
-      set.status = 201;
-      return post;
-    } catch (e: any) {
-      if (e.message?.includes("already exists")) {
-        set.status = 409;
-        return { error: e.message };
-      }
-      throw e;
-    }
-  })
-  .get("/api/admin/blogs/:slug", async ({ params: { slug }, set }: any) => {
-    const post = await getPostBySlug(slug);
-    if (!post) {
-      set.status = 404;
-      return { error: "Not found" };
-    }
-    return post;
-  })
-  .put("/api/admin/blogs/:slug", async ({ params: { slug }, body, set, request }: any) => {
-    const token = await getUserCookie(request);
-    if (!token || !(await isValidToken(token))) {
-      set.status = 401;
-      return { error: "Unauthorized" };
-    }
-    const { title, date, authors, excerpt, content } = body;
-    const post = await updatePost(slug, {
-      title, date,
-      authors: Array.isArray(authors) ? authors : undefined,
-      excerpt, content,
-    });
-    if (!post) {
-      set.status = 404;
-      return { error: "Not found" };
-    }
-    return post;
-  })
-  .delete("/api/admin/blogs/:slug", async ({ params: { slug }, request, set }: any) => {
-    const token = await getUserCookie(request);
-    if (!token || !(await isValidToken(token))) {
-      set.status = 401;
-      return { error: "Unauthorized" };
-    }
-    const deleted = await deletePost(slug);
-    if (!deleted) {
-      set.status = 404;
-      return { error: "Not found" };
-    }
-    return { ok: true };
-  })
-
-  // Image upload
-  .post("/api/admin/upload", async ({ body, set, request }: any) => {
-    const token = await getUserCookie(request);
-    if (!token || !(await isValidToken(token))) {
-      set.status = 401;
-      return { error: "Unauthorized" };
-    }
-    try {
-      const cloned = request.clone();
-      const formData = await cloned.formData();
-      const file = formData.get("file");
-      if (!file || !(file instanceof File)) {
-        set.status = 400;
-        return { error: "No file provided" };
-      }
-      if (!file.type.startsWith("image/")) {
-        set.status = 400;
-        return { error: "Only image files are allowed" };
-      }
-      if (file.size > 5 * 1024 * 1024) {
-        set.status = 400;
-        return { error: "File too large (max 5MB)" };
-      }
-      const filename = `${Date.now()}-${crypto.randomUUID().slice(0, 8)}.avif`;
-      const uploadDir = path.join(process.cwd(), "public", "uploads", "authors");
-      const buffer = Buffer.from(await file.arrayBuffer());
-      const metadata = await sharp(buffer).metadata();
-      const size = Math.min(metadata.width || 512, metadata.height || 512);
-      const avifBuffer = await sharp(buffer)
-        .resize(size, size, { fit: "cover", position: "centre" })
-        .avif({ quality: 65 })
-        .toBuffer();
-      await mkdir(uploadDir, { recursive: true });
-      await writeFile(path.join(uploadDir, filename), avifBuffer);
-      return { url: `/uploads/authors/${filename}` };
-    } catch (e) {
-      console.error("Upload error:", e);
-      set.status = 500;
-      return { error: "Failed to upload file" };
-    }
-  })
-
-  // Upload from URL
-  .post("/api/admin/upload-from-url", async ({ body, set, request }: any) => {
-    const token = await getUserCookie(request);
-    if (!token || !(await isValidToken(token))) {
-      set.status = 401;
-      return { error: "Unauthorized" };
-    }
-    try {
-      const { url } = body;
-      if (!url || typeof url !== "string") {
-        set.status = 400;
-        return { error: "No URL provided" };
-      }
-      const resp = await fetch(url);
-      if (!resp.ok || !resp.headers.get("content-type")?.startsWith("image/")) {
-        set.status = 400;
-        return { error: "Failed to fetch image from URL" };
-      }
-      const buffer = Buffer.from(await resp.arrayBuffer());
-      if (buffer.length > 5 * 1024 * 1024) {
-        set.status = 400;
-        return { error: "Image too large (max 5MB)" };
-      }
-      const filename = `${Date.now()}-${crypto.randomUUID().slice(0, 8)}.avif`;
-      const uploadDir = path.join(process.cwd(), "public", "uploads", "authors");
-      const metadata = await sharp(buffer).metadata();
-      const size = Math.min(metadata.width || 512, metadata.height || 512);
-      const avifBuffer = await sharp(buffer)
-        .resize(size, size, { fit: "cover", position: "centre" })
-        .avif({ quality: 65 })
-        .toBuffer();
-      await mkdir(uploadDir, { recursive: true });
-      await writeFile(path.join(uploadDir, filename), avifBuffer);
-      return { url: `/uploads/authors/${filename}` };
-    } catch (e) {
-      console.error("Upload from URL error:", e);
-      set.status = 500;
-      return { error: "Failed to process image from URL" };
-    }
-  })
-
-  // Minecraft
-  .get("/api/admin/minecraft", async ({ query: { username }, set }: any) => {
-    if (!username?.trim()) {
-      set.status = 400;
-      return { error: "username is required" };
-    }
-    try {
-      const mojangRes = await fetch(`https://api.mojang.com/users/profiles/minecraft/${encodeURIComponent(username.trim())}`);
-      if (!mojangRes.ok) return { found: false, url: null };
-      const profile: any = await mojangRes.json();
-      return { found: true, url: `https://crafatar.com/avatars/${profile.id}?size=128&overlay` };
-    } catch {
-      set.status = 500;
-      return { error: "Failed to check Minecraft username" };
-    }
-  })
-
-  // Public blog routes
-  .get("/api/blogs", async ({ query: { limit: limitStr } }: any) => {
-    const posts = await getAllPosts();
-    const limit = parseInt(limitStr || "10", 10);
-    return posts.slice(0, limit);
-  })
-  .get("/api/blogs/:slug", async ({ params: { slug }, set }: any) => {
-    const post = await getPostBySlug(slug);
-    if (!post) {
-      set.status = 404;
-      return { error: "Not found" };
-    }
-    return post;
-  });
-
-async function handler(request: Request): Promise<Response> {
   try {
-    const url = new URL(request.url);
-    const cleanRequest = new Request(url.toString(), {
-      method: request.method,
-      headers: request.headers,
-      body: request.method === "GET" || request.method === "HEAD" ? null : request.body,
-      duplex: "half",
-    } as RequestInit & { duplex: string });
-    const response = await app.fetch(cleanRequest);
-    if (response) return response;
-    return Response.json({ error: "Not found" }, { status: 404 });
+    // Stats
+    if (method === "GET" && pathname === "/api/admin/stats") {
+      const guildId = process.env.NEXT_PUBLIC_DISCORD_GUILD_ID || "1495056269298630806";
+      const [githubRes, discordRes] = await Promise.all([
+        fetch("https://api.github.com/orgs/VOMLabs/repos?per_page=100&sort=updated"),
+        fetch(`https://discord.com/api/guilds/${guildId}/widget.json`),
+      ]);
+      let stars = 0, repos = 0;
+      if (githubRes.ok) {
+        const reposData: any[] = await githubRes.json();
+        stars = reposData.reduce((acc: number, r: any) => acc + (r.stargazers_count || 0), 0);
+        repos = reposData.length;
+      }
+      let discordOnline = 0;
+      if (discordRes.ok) {
+        const widget: any = await discordRes.json();
+        discordOnline = widget.presence_count ?? 0;
+      }
+      return json({ stars, repos, discordOnline });
+    }
+
+    // Auth
+    if (method === "POST" && pathname === "/api/admin/auth") {
+      const { key } = await request.json();
+      if (!key || !ADMIN_KEYS.includes(key)) return json({ error: "Invalid key" }, 401);
+      const hashed = await hashKey(key);
+      const response = json({ ok: true });
+      response.headers.set(
+        "Set-Cookie",
+        `admin_token=${hashed}; HttpOnly; Secure=${process.env.NODE_ENV === "production"}; SameSite=Lax; Path=/; Max-Age=${60 * 60 * 24 * 30}`
+      );
+      return response;
+    }
+
+    if (method === "GET" && pathname === "/api/admin/check") {
+      return json({ authed: await requireAuth(request) });
+    }
+
+    if (method === "POST" && pathname === "/api/admin/logout") {
+      const response = json({ ok: true });
+      response.headers.set("Set-Cookie", "admin_token=; Max-Age=0; Path=/");
+      return response;
+    }
+
+    // Authors
+    if (method === "GET" && pathname === "/api/admin/authors") {
+      return json(await getAllAuthors());
+    }
+
+    if (method === "POST" && pathname === "/api/admin/authors") {
+      if (!(await requireAuth(request))) return json({ error: "Unauthorized" }, 401);
+      const { name, avatar, role } = await request.json();
+      if (!name?.trim()) return json({ error: "name is required" }, 400);
+      try {
+        const author = await createAuthor({ name: name.trim(), avatar: avatar || null, role: role || null });
+        return json(author, 201);
+      } catch (e: any) {
+        if (e.message?.includes("already exists")) return json({ error: e.message }, 409);
+        throw e;
+      }
+    }
+
+    const authorParams = matchPath("/api/admin/authors/:name");
+    if (authorParams) {
+      if (method === "GET") {
+        const author = await getAuthor(authorParams.name);
+        if (!author) return json({ error: "Not found" }, 404);
+        return json(author);
+      }
+      if (method === "PUT") {
+        if (!(await requireAuth(request))) return json({ error: "Unauthorized" }, 401);
+        const { newName, avatar, role } = await request.json();
+        const author = await updateAuthor(authorParams.name, {
+          name: newName?.trim(),
+          avatar: avatar !== undefined ? avatar : undefined,
+          role: role !== undefined ? role : undefined,
+        });
+        if (!author) return json({ error: "Not found" }, 404);
+        return json(author);
+      }
+      if (method === "DELETE") {
+        if (!(await requireAuth(request))) return json({ error: "Unauthorized" }, 401);
+        const deleted = await deleteAuthor(authorParams.name);
+        if (!deleted) return json({ error: "Not found" }, 404);
+        return json({ ok: true });
+      }
+    }
+
+    // Blog posts (admin)
+    if (method === "GET" && pathname === "/api/admin/blogs") {
+      return json(await getAllPostsAdmin());
+    }
+
+    if (method === "POST" && pathname === "/api/admin/blogs") {
+      if (!(await requireAuth(request))) return json({ error: "Unauthorized" }, 401);
+      const { slug, title, date, authors, excerpt, content } = await request.json();
+      if (!slug || !title) return json({ error: "slug and title are required" }, 400);
+      try {
+        const post = await createPost({
+          slug: slug.toLowerCase().replace(/[^a-z0-9-]/g, "-"),
+          title,
+          date: date || new Date().toISOString().split("T")[0],
+          authors: Array.isArray(authors) ? authors : [{ name: "VOMLabs", avatar: null }],
+          excerpt: excerpt || "",
+          content: content || "",
+        });
+        return json(post, 201);
+      } catch (e: any) {
+        if (e.message?.includes("already exists")) return json({ error: e.message }, 409);
+        throw e;
+      }
+    }
+
+    const blogParams = matchPath("/api/admin/blogs/:slug");
+    if (blogParams) {
+      if (method === "GET") {
+        const post = await getPostBySlug(blogParams.slug);
+        if (!post) return json({ error: "Not found" }, 404);
+        return json(post);
+      }
+      if (method === "PUT") {
+        if (!(await requireAuth(request))) return json({ error: "Unauthorized" }, 401);
+        const { title, date, authors, excerpt, content } = await request.json();
+        const post = await updatePost(blogParams.slug, {
+          title, date,
+          authors: Array.isArray(authors) ? authors : undefined,
+          excerpt, content,
+        });
+        if (!post) return json({ error: "Not found" }, 404);
+        return json(post);
+      }
+      if (method === "DELETE") {
+        if (!(await requireAuth(request))) return json({ error: "Unauthorized" }, 401);
+        const deleted = await deletePost(blogParams.slug);
+        if (!deleted) return json({ error: "Not found" }, 404);
+        return json({ ok: true });
+      }
+    }
+
+    // Image upload
+    if (method === "POST" && pathname === "/api/admin/upload") {
+      if (!(await requireAuth(request))) return json({ error: "Unauthorized" }, 401);
+      try {
+        const formData = await request.formData();
+        const file = formData.get("file");
+        if (!file || !(file instanceof File)) return json({ error: "No file provided" }, 400);
+        if (!file.type.startsWith("image/")) return json({ error: "Only image files are allowed" }, 400);
+        if (file.size > 5 * 1024 * 1024) return json({ error: "File too large (max 5MB)" }, 400);
+        const filename = `${Date.now()}-${crypto.randomUUID().slice(0, 8)}.avif`;
+        const uploadDir = path.join(process.cwd(), "public", "uploads", "authors");
+        const buffer = Buffer.from(await file.arrayBuffer());
+        const metadata = await sharp(buffer).metadata();
+        const size = Math.min(metadata.width || 512, metadata.height || 512);
+        const avifBuffer = await sharp(buffer)
+          .resize(size, size, { fit: "cover", position: "centre" })
+          .avif({ quality: 65 })
+          .toBuffer();
+        await mkdir(uploadDir, { recursive: true });
+        await writeFile(path.join(uploadDir, filename), avifBuffer);
+        return json({ url: `/uploads/authors/${filename}` });
+      } catch (e) {
+        console.error("Upload error:", e);
+        return json({ error: "Failed to upload file" }, 500);
+      }
+    }
+
+    // Upload from URL
+    if (method === "POST" && pathname === "/api/admin/upload-from-url") {
+      if (!(await requireAuth(request))) return json({ error: "Unauthorized" }, 401);
+      try {
+        const { url } = await request.json();
+        if (!url || typeof url !== "string") return json({ error: "No URL provided" }, 400);
+        const resp = await fetch(url);
+        if (!resp.ok || !resp.headers.get("content-type")?.startsWith("image/"))
+          return json({ error: "Failed to fetch image from URL" }, 400);
+        const buffer = Buffer.from(await resp.arrayBuffer());
+        if (buffer.length > 5 * 1024 * 1024) return json({ error: "Image too large (max 5MB)" }, 400);
+        const filename = `${Date.now()}-${crypto.randomUUID().slice(0, 8)}.avif`;
+        const uploadDir = path.join(process.cwd(), "public", "uploads", "authors");
+        const metadata = await sharp(buffer).metadata();
+        const size = Math.min(metadata.width || 512, metadata.height || 512);
+        const avifBuffer = await sharp(buffer)
+          .resize(size, size, { fit: "cover", position: "centre" })
+          .avif({ quality: 65 })
+          .toBuffer();
+        await mkdir(uploadDir, { recursive: true });
+        await writeFile(path.join(uploadDir, filename), avifBuffer);
+        return json({ url: `/uploads/authors/${filename}` });
+      } catch (e) {
+        console.error("Upload from URL error:", e);
+        return json({ error: "Failed to process image from URL" }, 500);
+      }
+    }
+
+    // Minecraft
+    if (method === "GET" && pathname === "/api/admin/minecraft") {
+      const username = url.searchParams.get("username");
+      if (!username?.trim()) return json({ error: "username is required" }, 400);
+      try {
+        const mojangRes = await fetch(`https://api.mojang.com/users/profiles/minecraft/${encodeURIComponent(username.trim())}`);
+        if (!mojangRes.ok) return json({ found: false, url: null });
+        const profile: any = await mojangRes.json();
+        return json({ found: true, url: `https://crafatar.com/avatars/${profile.id}?size=128&overlay` });
+      } catch {
+        return json({ error: "Failed to check Minecraft username" }, 500);
+      }
+    }
+
+    // Public blog routes
+    if (method === "GET" && pathname === "/api/blogs") {
+      const posts = await getAllPosts();
+      const limit = parseInt(url.searchParams.get("limit") || "10", 10);
+      return json(posts.slice(0, limit));
+    }
+
+    const blogPublicParams = matchPath("/api/blogs/:slug");
+    if (blogPublicParams && method === "GET") {
+      const post = await getPostBySlug(blogPublicParams.slug);
+      if (!post) return json({ error: "Not found" }, 404);
+      return json(post);
+    }
+
+    return json({ error: "Not found" }, 404);
   } catch (e) {
-    console.error("Elysia handler error:", e);
-    return Response.json({ error: "Internal server error" }, { status: 500 });
+    console.error("[/api] error:", e);
+    return json({ error: e instanceof Error ? e.message : String(e) }, 500);
   }
 }
 
-export { handler as GET, handler as POST, handler as PUT, handler as DELETE };
+export { handleRequest as GET, handleRequest as POST, handleRequest as PUT, handleRequest as DELETE };
