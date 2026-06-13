@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowLeft, Plus, Trash2, Image, Upload } from "lucide-react";
+import { ArrowLeft, Plus, Trash2, Pencil, Image, Upload } from "lucide-react";
 import { toast } from "sonner";
 
 interface AuthorEntry {
@@ -111,7 +111,8 @@ export default function AdminAuthors() {
   const [newName, setNewName] = useState("");
   const [newAvatar, setNewAvatar] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
-  const [editingAvatar, setEditingAvatar] = useState<string | null>(null);
+  const [editingAuthorName, setEditingAuthorName] = useState<string | null>(null);
+  const [editName, setEditName] = useState("");
   const [editAvatarUrl, setEditAvatarUrl] = useState<string | null>(null);
 
   const fetchAuthors = useCallback(async () => {
@@ -166,24 +167,30 @@ export default function AdminAuthors() {
     }
   };
 
-  const handleUpdateAvatar = async (name: string, avatar: string | null) => {
+  const handleUpdateAuthor = async (name: string, newName: string, avatar: string | null) => {
+    if (!newName.trim()) {
+      toast.error("Name is required");
+      return;
+    }
+
     try {
       const res = await fetch(`/api/admin/authors/${encodeURIComponent(name)}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ avatar }),
+        body: JSON.stringify({ newName: newName.trim(), avatar }),
       });
 
       if (!res.ok) throw new Error();
 
       const updated = await res.json();
       setAuthors((prev) => prev.map((a) => (a.name === name ? updated : a)));
-      toast.success("Avatar updated");
+      toast.success("Author updated");
     } catch {
-      toast.error("Failed to update avatar");
+      toast.error("Failed to update author");
     }
 
-    setEditingAvatar(null);
+    setEditingAuthorName(null);
+    setEditName("");
     setEditAvatarUrl(null);
   };
 
@@ -328,13 +335,14 @@ export default function AdminAuthors() {
                       <button
                         type="button"
                         onClick={() => {
-                          setEditingAvatar(author.name);
+                          setEditingAuthorName(author.name);
+                          setEditName(author.name);
                           setEditAvatarUrl(author.avatar);
                         }}
                         className="flex items-center justify-center size-8 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
-                        title="Set avatar"
+                        title="Edit author"
                       >
-                        <Image className="size-4" />
+                        <Pencil className="size-4" />
                       </button>
                       <button
                         type="button"
@@ -347,20 +355,26 @@ export default function AdminAuthors() {
                     </div>
                   </div>
 
-                  {editingAvatar === author.name && (
+                  {editingAuthorName === author.name && (
                     <motion.div
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: "auto" }}
-                      className="mt-3 pt-3 border-t border-border/40"
+                      className="mt-3 pt-3 border-t border-border/40 space-y-3"
                     >
+                      <input
+                        value={editName}
+                        onChange={(e) => setEditName(e.target.value)}
+                        placeholder="Author name..."
+                        className="w-full px-3 py-2 rounded-lg border border-border/60 bg-background/50 text-foreground text-sm placeholder:text-muted-foreground/40 focus:outline-none focus:border-brand-accent/40"
+                      />
                       <AvatarUpload
                         value={editAvatarUrl}
                         onChange={(url) => setEditAvatarUrl(url)}
                       />
-                      <div className="flex items-center gap-2 mt-2">
+                      <div className="flex items-center gap-2">
                         <button
                           type="button"
-                          onClick={() => handleUpdateAvatar(author.name, editAvatarUrl)}
+                          onClick={() => handleUpdateAuthor(author.name, editName, editAvatarUrl)}
                           className="px-3 py-2 rounded-lg bg-brand-accent hover:bg-brand-accent/90 text-background text-xs font-medium transition-all"
                         >
                           Save
@@ -368,7 +382,8 @@ export default function AdminAuthors() {
                         <button
                           type="button"
                           onClick={() => {
-                            setEditingAvatar(null);
+                            setEditingAuthorName(null);
+                            setEditName("");
                             setEditAvatarUrl(null);
                           }}
                           className="px-3 py-2 rounded-lg text-muted-foreground hover:text-foreground text-xs transition-all"
