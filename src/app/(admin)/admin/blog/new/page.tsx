@@ -3,9 +3,10 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Save, Plus, Check, Image } from "lucide-react";
+import { ArrowLeft, Save, Plus, Check, Image, X } from "lucide-react";
 import { toast } from "sonner";
 import { TiptapEditor } from "@/components/admin/tiptap-editor";
+import type { AuthorEntry } from "@/lib/blogs";
 
 interface AuthorOption {
   name: string;
@@ -17,7 +18,7 @@ export default function NewBlogPost() {
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
   const [excerpt, setExcerpt] = useState("");
-  const [author, setAuthor] = useState("");
+  const [authors, setAuthors] = useState<AuthorEntry[]>([]);
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
   const [content, setContent] = useState("");
   const [saving, setSaving] = useState(false);
@@ -34,10 +35,9 @@ export default function NewBlogPost() {
       .then((data) => {
         const opts = Array.isArray(data) ? data : [];
         setAuthorOptions(opts);
-        if (opts.length > 0 && !author) setAuthor(opts[0].name);
       })
       .catch(() => toast.error("Failed to load authors"));
-  }, [author]);
+  }, []);
 
   const handleCreateAuthor = async () => {
     if (!newAuthorName.trim()) return;
@@ -54,7 +54,7 @@ export default function NewBlogPost() {
       if (!res.ok) throw new Error();
       const created = await res.json();
       setAuthorOptions((prev) => [...prev, created]);
-      setAuthor(created.name);
+      setAuthors((prev) => [...prev, { name: created.name, avatar: created.avatar }]);
       setShowNewAuthor(false);
       setNewAuthorName("");
       setNewAuthorAvatar("");
@@ -66,7 +66,17 @@ export default function NewBlogPost() {
     }
   };
 
-  const selectedAuthor = authorOptions.find((a) => a.name === author);
+  const toggleAuthor = (opt: AuthorOption) => {
+    setAuthors((prev) => {
+      const exists = prev.find((a) => a.name === opt.name);
+      if (exists) return prev.filter((a) => a.name !== opt.name);
+      return [...prev, { name: opt.name, avatar: opt.avatar }];
+    });
+  };
+
+  const removeAuthor = (name: string) => {
+    setAuthors((prev) => prev.filter((a) => a.name !== name));
+  };
 
   const generateSlug = (val: string) => {
     return val
@@ -89,13 +99,17 @@ export default function NewBlogPost() {
       toast.error("Title and slug are required");
       return;
     }
+    if (authors.length === 0) {
+      toast.error("At least one author is required");
+      return;
+    }
 
     setSaving(true);
     try {
       const res = await fetch("/api/admin/blogs", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title: title.trim(), slug: slug.trim(), excerpt: excerpt.trim(), author, date, content }),
+        body: JSON.stringify({ title: title.trim(), slug: slug.trim(), excerpt: excerpt.trim(), authors, date, content }),
       });
 
       if (!res.ok) {
@@ -186,46 +200,69 @@ export default function NewBlogPost() {
               <div className="rounded-xl border border-border/60 bg-card/20 backdrop-blur-sm overflow-hidden relative">
                 <div className="px-3 py-2 border-b border-border/40 bg-muted/10">
                   <span className="text-[11px] font-mono text-muted-foreground">
-                    $ author
+                    $ authors
                   </span>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => setShowAuthorDropdown(!showAuthorDropdown)}
-                  className="w-full flex items-center gap-2 px-3 py-2.5 bg-transparent text-foreground text-sm font-mono text-left focus:outline-none"
-                >
-                  {selectedAuthor?.avatar ? (
-                    <img src={selectedAuthor.avatar} alt="" className="size-5 rounded-full object-cover" />
-                  ) : (
-                    <Image className="size-4 text-muted-foreground" />
-                  )}
-                  <span className="flex-1">{author || "Select author..."}</span>
-                  <Plus className="size-3.5 text-muted-foreground" />
-                </button>
+                <div className="p-2 min-h-[42px] flex flex-wrap items-center gap-1.5">
+                  {authors.map((a) => (
+                    <span
+                      key={a.name}
+                      className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-brand-accent/10 text-brand-accent text-xs font-medium"
+                    >
+                      {a.avatar ? (
+                        <img src={a.avatar} alt="" className="size-4 rounded-full object-cover" />
+                      ) : (
+                        <Image className="size-3" />
+                      )}
+                      {a.name}
+                      <button
+                        type="button"
+                        onClick={() => removeAuthor(a.name)}
+                        className="ml-0.5 hover:text-destructive transition-colors"
+                      >
+                        <X className="size-3" />
+                      </button>
+                    </span>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={() => setShowAuthorDropdown(!showAuthorDropdown)}
+                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/30 text-xs transition-colors"
+                  >
+                    <Plus className="size-3" />
+                    {authors.length === 0 ? "Add authors" : "Add"}
+                  </button>
+                </div>
 
                 {showAuthorDropdown && (
                   <div className="absolute top-full left-0 right-0 z-10 mt-1 rounded-xl border border-border/60 bg-card backdrop-blur-xl overflow-hidden shadow-lg">
-                    {authorOptions.map((opt) => (
-                      <button
-                        key={opt.name}
-                        type="button"
-                        onClick={() => {
-                          setAuthor(opt.name);
-                          setShowAuthorDropdown(false);
-                        }}
-                        className="w-full flex items-center gap-2 px-3 py-2.5 text-sm text-left hover:bg-muted/50 transition-colors"
-                      >
-                        {opt.avatar ? (
-                          <img src={opt.avatar} alt="" className="size-5 rounded-full object-cover" />
-                        ) : (
-                          <Image className="size-4 text-muted-foreground" />
-                        )}
-                        <span className="flex-1 text-foreground">{opt.name}</span>
-                        {opt.name === author && (
-                          <Check className="size-3.5 text-brand-accent" />
-                        )}
-                      </button>
-                    ))}
+                    {authorOptions.length === 0 ? (
+                      <div className="px-3 py-4 text-xs text-muted-foreground text-center">
+                        No authors yet
+                      </div>
+                    ) : (
+                      authorOptions.map((opt) => {
+                        const selected = authors.some((a) => a.name === opt.name);
+                        return (
+                          <button
+                            key={opt.name}
+                            type="button"
+                            onClick={() => toggleAuthor(opt)}
+                            className="w-full flex items-center gap-2 px-3 py-2.5 text-sm text-left hover:bg-muted/50 transition-colors"
+                          >
+                            {opt.avatar ? (
+                              <img src={opt.avatar} alt="" className="size-5 rounded-full object-cover" />
+                            ) : (
+                              <Image className="size-4 text-muted-foreground" />
+                            )}
+                            <span className="flex-1 text-foreground">{opt.name}</span>
+                            {selected && (
+                              <Check className="size-3.5 text-brand-accent" />
+                            )}
+                          </button>
+                        );
+                      })
+                    )}
                     <div className="border-t border-border/40">
                       {showNewAuthor ? (
                         <div className="p-3 space-y-2">

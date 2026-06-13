@@ -10,7 +10,8 @@ interface JsonPost {
   slug: string;
   title: string;
   date: string;
-  author: string;
+  author?: string;
+  authors?: { name: string; avatar: string | null }[];
   excerpt: string;
   content: string;
 }
@@ -47,12 +48,13 @@ export async function migrateJsonToDb() {
       continue;
     }
 
+    const authors = post.authors || [{ name: post.author || "VOMLabs", avatar: null }];
     await db.insert(posts).values({
       title: post.title,
       slug: post.slug,
       content: post.content,
       excerpt: post.excerpt || null,
-      author: post.author || "VOMLabs",
+      authors,
       published: true,
       publishedAt: publishedDate,
       createdAt: publishedDate,

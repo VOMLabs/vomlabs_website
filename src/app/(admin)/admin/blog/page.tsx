@@ -142,7 +142,7 @@ export default function AdminBlogList() {
                           </span>
                           <span className="text-muted-foreground/30">·</span>
                           <span className="text-xs text-muted-foreground font-mono">
-                            {post.author}
+                            {post.authors?.map((a) => a.name).join(", ") || "VOMLabs"}
                           </span>
                         </div>
                         <h2 className="text-base font-semibold text-foreground truncate">

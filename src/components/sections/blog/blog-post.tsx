@@ -44,12 +44,12 @@ export function BlogPost({ post }: BlogPostProps) {
             </span>
             <span className="text-muted-foreground/30">·</span>
             <span className="flex items-center gap-1.5">
-              {post.authorAvatar ? (
-                <img src={post.authorAvatar} alt="" className="size-5 rounded-full object-cover" />
+              {post.authors?.length === 1 && post.authors[0].avatar ? (
+                <img src={post.authors[0].avatar} alt="" className="size-5 rounded-full object-cover" />
               ) : (
                 <IconUser className="size-4" />
               )}
-              {post.author}
+              {post.authors?.map((a) => a.name).join(", ") || "VOMLabs"}
             </span>
           </div>
           <div className="flex items-center gap-4 mb-6">

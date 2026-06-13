@@ -7,7 +7,7 @@ import { Bars3Icon, XMarkIcon, MagnifyingGlassIcon } from "@heroicons/react/24/o
 import {
   Search, Map, Home, Code, Info, ChevronDown,
   ExternalLink, MessageCircle, FileText, Scale, ShieldCheck, Gavel,
-  HelpCircle, Headphones, BookOpen, FileCode,
+  HelpCircle, Headphones, BookOpen, FileCode, Share2,
 } from "lucide-react";
 import Link from "next/link";
 import SocialsModal from "./socials-modal";
@@ -251,9 +251,7 @@ export function Navigation() {
                 onClick={() => { setSocialsModalOpen(true); setMobileMenuOpen(false); }}
                 className="hidden md:inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold bg-brand-accent hover:bg-brand-accent/90 text-background rounded-lg transition-all active:scale-[0.97]"
               >
-                <svg className="size-4" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
-                </svg>
+                <Share2 className="size-4" />
                 <span className="hidden lg:inline">Socials</span>
               </button>
               <AdminStatus />
@@ -371,10 +369,9 @@ export function Navigation() {
                   >
                     Socials
                   </button>
+                  <AdminStatus mobile onNavigate={closeMobile} />
                   <div className="flex items-center gap-2 px-4 py-2.5">
-                    <div className="flex-1">
-                      <AdminStatus />
-                    </div>
+                    <div className="flex-1" />
                     <div className="flex items-center gap-2">
                       <span className="text-sm text-muted-foreground font-medium">Theme</span>
                       <ThemeToggle />

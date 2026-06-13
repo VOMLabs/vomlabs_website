@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
@@ -68,6 +68,7 @@ const MenuButton = ({
 export function TiptapEditor({ content = "", onChange, placeholder = "Start writing..." }: TiptapEditorProps) {
   const [showSource, setShowSource] = useState(false);
   const [sourceText, setSourceText] = useState("");
+  const sourceTextRef = useRef("");
 
   const editor = useEditor({
     extensions: [
@@ -101,17 +102,19 @@ export function TiptapEditor({ content = "", onChange, placeholder = "Start writ
     if (!editor) return;
 
     if (showSource) {
-      (editor.commands.setContent as any)(sourceText, { format: "markdown" });
+      editor.commands.setContent(sourceTextRef.current, { contentType: "markdown" });
       onChange?.(editor.getHTML());
       setShowSource(false);
     } else {
       const md = editor.storage.markdown.manager.serialize(editor.getJSON());
+      sourceTextRef.current = md;
       setSourceText(md);
       setShowSource(true);
     }
-  }, [editor, showSource, sourceText, onChange]);
+  }, [editor, showSource, onChange]);
 
   const handleSourceChange = useCallback((val: string) => {
+    sourceTextRef.current = val;
     setSourceText(val);
     onChange?.(val);
   }, [onChange]);

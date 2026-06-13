@@ -3,7 +3,7 @@
     "slug": "join-our-discord",
     "title": "Join our Discord now!",
     "date": "2026-04-12",
-    "author": "ItzzMateo",
+    "authors": [{ "name": "ItzzMateo", "avatar": null }],
     "excerpt": "Connect with the VOMLabs community on Discord — get support, contribute to projects, and hang out with fellow developers.",
     "content": "<h2>Why Join?</h2><p>Our Discord server is the heart of the VOMLabs community. Whether you're a developer, designer, or just curious about what we're building, there's a place for you.</p><ul><li><strong>Get Support</strong> — Have questions about our tools or projects? Our community is here to help.</li><li><strong>Contribute</strong> — Interested in contributing to open source? Join the discussion and find a place to start.</li><li><strong>Stay Updated</strong> — Get the latest news, release announcements, and sneak peeks at what's coming next.</li><li><strong>Hang Out</strong> — Chat with fellow Minecraft enthusiasts, share your projects, and make new friends.</li></ul><h2>What's Happening</h2><p>We're actively building Minecraft software, modern websites, and developer tools with <strong>Rust</strong>, <strong>Next.js</strong>, and <strong>Tauri</strong>. The community is growing, and we'd love to have you with us.</p><h2>Join Us</h2><p>Ready to jump in? Click the link below to join our Discord server.</p><p><a href=\"https://discord.vomlabs.com\" target=\"_blank\" rel=\"noopener noreferrer\">Join VOMLabs on Discord</a></p><p>We can't wait to meet you!</p>"
   }

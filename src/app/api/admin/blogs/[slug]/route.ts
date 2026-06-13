@@ -31,9 +31,15 @@ export async function PUT(
 
   const { slug } = await params;
   const body = await request.json();
-  const { title, date, author, excerpt, content } = body;
+  const { title, date, authors, excerpt, content } = body;
 
-  const post = await updatePost(slug, { title, date, author, excerpt, content });
+  const post = await updatePost(slug, {
+    title,
+    date,
+    authors: Array.isArray(authors) ? authors : undefined,
+    excerpt,
+    content,
+  });
   if (!post) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }

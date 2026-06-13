@@ -6,11 +6,12 @@ import { ThemeProvider } from "next-themes";
 import { JetBrains_Mono as FontMono, Noto_Sans as FontSans } from "next/font/google";
 import "./globals.css";
 import { FooterLogo } from "@/components/ui/footer-logo";
-import { Toaster } from "sonner";
 import { CommandPalette } from "@/components/ui/command-palette";
 import { ScrollToTop } from "@/components/ui/scroll-to-top";
 import { cn } from "@/lib/utils";
 import { SessionProvider } from "@/components/providers/session_provider";
+import { ToastProvider } from "@/components/providers/toast-provider";
+import { ThemeShortcut } from "@/components/ui/theme-shortcut";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 const fontSans = FontSans({
@@ -74,7 +75,8 @@ export default function RootLayout({
               <Navigation />
               <CommandPalette />
               <main>{children}</main>
-              <Toaster richColors />
+              <ToastProvider />
+              <ThemeShortcut />
               <ScrollToTop />
             </NuqsAdapter>
           </SessionProvider>

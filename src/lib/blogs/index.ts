@@ -3,21 +3,24 @@ import path from "path";
 import { eq, desc, sql } from "drizzle-orm";
 import { posts as postsTable, type Post, type NewPost } from "@/db/schema";
 import { getDb } from "@/db";
-import { getAllAuthors } from "./authors";
+
+export interface AuthorEntry {
+  name: string;
+  avatar: string | null;
+}
 
 export interface BlogPostData {
   id?: string;
   slug: string;
   title: string;
   date: string;
-  author: string;
+  authors: AuthorEntry[];
   excerpt: string;
   content: string;
   published?: boolean;
   publishedAt?: string;
   createdAt?: string;
   updatedAt?: string;
-  authorAvatar?: string | null;
 }
 
 type DbPost = Post;
@@ -48,7 +51,7 @@ function jsonPostToDbRow(p: Record<string, unknown>): DbPost {
     slug: (p.slug as string) || "",
     content: (p.content as string) || "",
     excerpt: (p.excerpt as string) || null,
-    author: (p.author as string) || "VOMLabs",
+    authors: (p.authors as AuthorEntry[]) || [{ name: (p.author as string) || "VOMLabs", avatar: null }],
     published: (p.published as boolean) ?? true,
     publishedAt: p.publishedAt
       ? new Date(p.publishedAt as string)
@@ -69,26 +72,26 @@ function dbRowToJson(p: DbPost): Record<string, unknown> {
     slug: p.slug,
     title: p.title,
     date: p.publishedAt?.toISOString().split("T")[0] || p.createdAt?.toISOString().split("T")[0] || "",
-    author: p.author,
+    authors: p.authors,
     excerpt: p.excerpt || "",
     content: p.content,
   };
 }
 
-function toBlogPostData(post: DbPost, authorAvatar?: string | null): BlogPostData {
+function toBlogPostData(post: DbPost): BlogPostData {
+  const authors = Array.isArray(post.authors) ? post.authors : [{ name: "VOMLabs", avatar: null }];
   return {
     id: post.id,
     slug: post.slug,
     title: post.title,
     date: post.publishedAt?.toISOString().split("T")[0] || post.createdAt?.toISOString().split("T")[0] || "",
-    author: post.author,
+    authors,
     excerpt: post.excerpt || "",
     content: post.content,
     published: post.published,
     publishedAt: post.publishedAt?.toISOString(),
     createdAt: post.createdAt?.toISOString(),
     updatedAt: post.updatedAt?.toISOString(),
-    authorAvatar,
   };
 }
 
@@ -98,25 +101,14 @@ function toDbInsert(data: Partial<BlogPostData>): Partial<DbNewPost> {
   if (data.slug !== undefined) insert.slug = data.slug;
   if (data.content !== undefined) insert.content = data.content;
   if (data.excerpt !== undefined) insert.excerpt = data.excerpt || null;
-  if (data.author !== undefined) insert.author = data.author;
+  if (data.authors !== undefined) insert.authors = data.authors;
   if (data.published !== undefined) insert.published = data.published;
   if (data.publishedAt !== undefined) insert.publishedAt = new Date(data.publishedAt);
   else if (data.date !== undefined) insert.publishedAt = new Date(data.date);
   return insert;
 }
 
-async function getAuthorAvatarMap(): Promise<Record<string, string | null>> {
-  const authors = await getAllAuthors();
-  const map: Record<string, string | null> = {};
-  for (const a of authors) {
-    map[a.name] = a.avatar;
-  }
-  return map;
-}
-
 export async function getAllPosts(): Promise<BlogPostData[]> {
-  const avatarMap = await getAuthorAvatarMap();
-
   if (hasDb()) {
     const db = getDb();
     const rows = await db
@@ -124,18 +116,16 @@ export async function getAllPosts(): Promise<BlogPostData[]> {
       .from(postsTable)
       .where(eq(postsTable.published, true))
       .orderBy(desc(postsTable.publishedAt));
-    return rows.map((r) => toBlogPostData(r, avatarMap[r.author]));
+    return rows.map(toBlogPostData);
   }
 
   return readJsonData()
     .filter((p) => p.published)
     .sort((a, b) => (b.publishedAt?.getTime() || 0) - (a.publishedAt?.getTime() || 0))
-    .map((r) => toBlogPostData(r, avatarMap[r.author]));
+    .map(toBlogPostData);
 }
 
 export async function getPostBySlug(slug: string): Promise<BlogPostData | undefined> {
-  const avatarMap = await getAuthorAvatarMap();
-
   if (hasDb()) {
     const db = getDb();
     const rows = await db
@@ -143,22 +133,22 @@ export async function getPostBySlug(slug: string): Promise<BlogPostData | undefi
       .from(postsTable)
       .where(sql`${postsTable.slug} = ${slug} AND ${postsTable.published} = true`)
       .limit(1);
-    return rows.length > 0 ? toBlogPostData(rows[0], avatarMap[rows[0].author]) : undefined;
+    return rows.length > 0 ? toBlogPostData(rows[0]) : undefined;
   }
 
   const post = readJsonData().find((p) => p.slug === slug && p.published);
-  return post ? toBlogPostData(post, avatarMap[post.author]) : undefined;
+  return post ? toBlogPostData(post) : undefined;
 }
 
 export async function getPostById(id: string): Promise<BlogPostData | undefined> {
   if (hasDb()) {
     const db = getDb();
     const rows = await db.select().from(postsTable).where(eq(postsTable.id, id)).limit(1);
-    return rows.length > 0 ? toBlogPostData(rows[0], undefined) : undefined;
+    return rows.length > 0 ? toBlogPostData(rows[0]) : undefined;
   }
 
   const post = readJsonData().find((p) => p.id === id);
-  return post ? toBlogPostData(post, undefined) : undefined;
+  return post ? toBlogPostData(post) : undefined;
 }
 
 export async function createPost(data: BlogPostData): Promise<BlogPostData> {
@@ -176,13 +166,14 @@ export async function createPost(data: BlogPostData): Promise<BlogPostData> {
 
   const now = new Date();
   const pubDate = data.date ? new Date(data.date) : now;
+  const authors = Array.isArray(data.authors) ? data.authors : [{ name: "VOMLabs", avatar: null }];
   const newPost: DbPost = {
     id: crypto.randomUUID(),
     title: data.title,
     slug: data.slug,
     content: data.content,
     excerpt: data.excerpt || null,
-    author: data.author || "VOMLabs",
+    authors,
     published: true,
     publishedAt: pubDate,
     createdAt: now,
@@ -221,7 +212,7 @@ export async function updatePost(
   if (data.title !== undefined) updated.title = data.title;
   if (data.content !== undefined) updated.content = data.content;
   if (data.excerpt !== undefined) updated.excerpt = data.excerpt || null;
-  if (data.author !== undefined) updated.author = data.author;
+  if (data.authors !== undefined) updated.authors = data.authors;
   if (data.published !== undefined) updated.published = data.published;
   if (data.publishedAt !== undefined) updated.publishedAt = new Date(data.publishedAt);
   else if (data.date !== undefined) updated.publishedAt = new Date(data.date);
@@ -251,12 +242,10 @@ export async function getAllPostsAdmin(): Promise<BlogPostData[]> {
   if (hasDb()) {
     const db = getDb();
     const rows = await db.select().from(postsTable).orderBy(desc(postsTable.createdAt));
-    return rows.map((r) => toBlogPostData(r));
+    return rows.map(toBlogPostData);
   }
 
   return readJsonData()
     .sort((a, b) => (b.createdAt?.getTime() || 0) - (a.createdAt?.getTime() || 0))
-    .map((r) => toBlogPostData(r));
+    .map(toBlogPostData);
 }
-
-

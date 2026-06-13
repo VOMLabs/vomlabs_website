@@ -21,7 +21,7 @@ export async function POST(request: Request) {
 
   try {
     const body = await request.json();
-    const { slug, title, date, author, excerpt, content } = body;
+    const { slug, title, date, authors, excerpt, content } = body;
 
     if (!slug || !title) {
       return NextResponse.json({ error: "slug and title are required" }, { status: 400 });
@@ -31,7 +31,7 @@ export async function POST(request: Request) {
       slug: slug.toLowerCase().replace(/[^a-z0-9-]/g, "-"),
       title,
       date: date || new Date().toISOString().split("T")[0],
-      author: author || "VOMLabs",
+      authors: Array.isArray(authors) ? authors : [{ name: "VOMLabs", avatar: null }],
       excerpt: excerpt || "",
       content: content || "",
     });
