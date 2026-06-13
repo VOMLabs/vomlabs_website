@@ -1,12 +1,22 @@
 "use client";
 
 import { useRouter, usePathname } from "next/navigation";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Footer, type FooterProps } from "./footer";
 
 export function FooterLogo(props: FooterProps) {
   const router = useRouter();
   const pathname = usePathname();
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => { setMounted(true); }, []);
+
+  const src = !mounted || resolvedTheme === "dark"
+    ? "/logo/svg/logo-nobg.svg"
+    : "/logo/svg/logo.svg";
 
   const handleLogoClick = () => {
     if (pathname === "/") {
@@ -21,7 +31,7 @@ export function FooterLogo(props: FooterProps) {
       {...props}
       logo={
         <Image
-          src="/logo/svg/logo-nobg.svg"
+          src={src}
           alt="Logo"
           width={40}
           height={40}
