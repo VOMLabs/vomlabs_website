@@ -1,23 +1,25 @@
+import { sql } from "drizzle-orm";
 import fs from "fs";
 import path from "path";
-import { sql } from "drizzle-orm";
 import { getDb } from "./index";
 import { posts } from "./schema";
 
 const DATA_FILE = path.join(process.cwd(), "src/data/blogs.json");
 
 interface JsonPost {
-  slug: string;
-  title: string;
-  date: string;
   author?: string;
   authors?: { name: string; avatar: string | null }[];
-  excerpt: string;
   content: string;
+  date: string;
+  excerpt: string;
+  slug: string;
+  title: string;
 }
 
 function readJsonPosts(): JsonPost[] {
-  if (!fs.existsSync(DATA_FILE)) return [];
+  if (!fs.existsSync(DATA_FILE)) {
+    return [];
+  }
   return JSON.parse(fs.readFileSync(DATA_FILE, "utf-8"));
 }
 
@@ -48,7 +50,9 @@ export async function migrateJsonToDb() {
       continue;
     }
 
-    const authors = post.authors || [{ name: post.author || "VOMLabs", avatar: null }];
+    const authors = post.authors || [
+      { name: post.author || "VOMLabs", avatar: null },
+    ];
     await db.insert(posts).values({
       title: post.title,
       slug: post.slug,

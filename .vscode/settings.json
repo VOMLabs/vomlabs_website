@@ -1,7 +1,4 @@
 {
-    "cSpell.words": [
-        "devflare",
-        "unrs"
-    ],
-    "typescript.tsdk": "node_modules\\typescript\\lib"
+  "cSpell.words": ["devflare", "unrs"],
+  "typescript.tsdk": "node_modules\\typescript\\lib"
 }

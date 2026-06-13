@@ -1,40 +1,40 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
-import { useEditor, EditorContent } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import Placeholder from "@tiptap/extension-placeholder";
-import { Markdown } from "@tiptap/markdown";
-import Image from "@tiptap/extension-image";
-import TaskList from "@tiptap/extension-task-list";
-import TaskItem from "@tiptap/extension-task-item";
-import TextAlign from "@tiptap/extension-text-align";
-import Highlight from "@tiptap/extension-highlight";
-import Underline from "@tiptap/extension-underline";
 import {
-  IconBold,
-  IconItalic,
-  IconStrikethrough,
-  IconCode,
-  IconList,
-  IconListNumbers,
-  IconQuote,
-  IconHeading,
-  IconH1,
-  IconMinus,
+  IconAlignCenter,
+  IconAlignLeft,
+  IconAlignRight,
   IconArrowBackUp,
   IconArrowForwardUp,
+  IconBold,
+  IconCheckbox,
+  IconCode,
+  IconCodeCircle,
+  IconH1,
+  IconHeading,
+  IconHighlight,
+  IconItalic,
+  IconList,
+  IconListNumbers,
+  IconMarkdown,
+  IconMinus,
   IconPhoto,
   IconPlayerPlay,
-  IconCodeCircle,
-  IconCheckbox,
+  IconQuote,
+  IconStrikethrough,
   IconUnderline,
-  IconHighlight,
-  IconAlignLeft,
-  IconAlignCenter,
-  IconAlignRight,
-  IconMarkdown,
 } from "@tabler/icons-react";
+import Highlight from "@tiptap/extension-highlight";
+import Image from "@tiptap/extension-image";
+import Placeholder from "@tiptap/extension-placeholder";
+import TaskItem from "@tiptap/extension-task-item";
+import TaskList from "@tiptap/extension-task-list";
+import TextAlign from "@tiptap/extension-text-align";
+import Underline from "@tiptap/extension-underline";
+import { Markdown } from "@tiptap/markdown";
+import { EditorContent, useEditor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import { useCallback, useRef, useState } from "react";
 
 interface TiptapEditorProps {
   content?: string;
@@ -54,18 +54,22 @@ const MenuButton = ({
   label: string;
 }) => (
   <button
-    type="button"
-    onClick={onClick}
-    data-active={active || undefined}
     aria-label={label}
+    className="flex size-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground data-[active]:bg-brand-accent/10 data-[active]:text-brand-accent"
+    data-active={active || undefined}
+    onClick={onClick}
     title={label}
-    className="flex items-center justify-center size-8 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors data-[active]:bg-brand-accent/10 data-[active]:text-brand-accent"
+    type="button"
   >
     {children}
   </button>
 );
 
-export function TiptapEditor({ content = "", onChange, placeholder = "Start writing..." }: TiptapEditorProps) {
+export function TiptapEditor({
+  content = "",
+  onChange,
+  placeholder = "Start writing...",
+}: TiptapEditorProps) {
   const [showSource, setShowSource] = useState(false);
   const [sourceText, setSourceText] = useState("");
   const sourceTextRef = useRef("");
@@ -99,10 +103,14 @@ export function TiptapEditor({ content = "", onChange, placeholder = "Start writ
   });
 
   const toggleSource = useCallback(() => {
-    if (!editor) return;
+    if (!editor) {
+      return;
+    }
 
     if (showSource) {
-      editor.commands.setContent(sourceTextRef.current, { contentType: "markdown" });
+      editor.commands.setContent(sourceTextRef.current, {
+        contentType: "markdown",
+      });
       onChange?.(editor.getHTML());
       setShowSource(false);
     } else {
@@ -113,14 +121,19 @@ export function TiptapEditor({ content = "", onChange, placeholder = "Start writ
     }
   }, [editor, showSource, onChange]);
 
-  const handleSourceChange = useCallback((val: string) => {
-    sourceTextRef.current = val;
-    setSourceText(val);
-    onChange?.(val);
-  }, [onChange]);
+  const handleSourceChange = useCallback(
+    (val: string) => {
+      sourceTextRef.current = val;
+      setSourceText(val);
+      onChange?.(val);
+    },
+    [onChange]
+  );
 
   const addImage = useCallback(() => {
-    if (!editor) return;
+    if (!editor) {
+      return;
+    }
     const url = window.prompt("Enter image URL:");
     if (url) {
       editor.chain().focus().setImage({ src: url }).run();
@@ -128,7 +141,9 @@ export function TiptapEditor({ content = "", onChange, placeholder = "Start writ
   }, [editor]);
 
   const addAudio = useCallback(() => {
-    if (!editor) return;
+    if (!editor) {
+      return;
+    }
     const url = window.prompt("Enter audio URL:");
     if (url) {
       editor
@@ -139,7 +154,9 @@ export function TiptapEditor({ content = "", onChange, placeholder = "Start writ
     }
   }, [editor]);
 
-  if (!editor) return null;
+  if (!editor) {
+    return null;
+  }
 
   const addLink = () => {
     const url = window.prompt("Enter URL:");
@@ -149,150 +166,164 @@ export function TiptapEditor({ content = "", onChange, placeholder = "Start writ
   };
 
   return (
-    <div className="rounded-xl border border-border/60 bg-card/20 backdrop-blur-sm overflow-hidden">
-      <div className="flex flex-wrap items-center gap-0.5 px-2 py-1.5 border-b border-border/40 bg-muted/10">
+    <div className="overflow-hidden rounded-xl border border-border/60 bg-card/20 backdrop-blur-sm">
+      <div className="flex flex-wrap items-center gap-0.5 border-border/40 border-b bg-muted/10 px-2 py-1.5">
         <MenuButton
-          onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
           active={editor.isActive("heading", { level: 1 })}
           label="Heading 1"
+          onClick={() =>
+            editor.chain().focus().toggleHeading({ level: 1 }).run()
+          }
         >
           <IconH1 className="size-4" />
         </MenuButton>
         <MenuButton
-          onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
           active={editor.isActive("heading", { level: 2 })}
           label="Heading 2"
+          onClick={() =>
+            editor.chain().focus().toggleHeading({ level: 2 }).run()
+          }
         >
           <IconHeading className="size-4" />
         </MenuButton>
 
-        <div className="w-px h-5 bg-border/40 mx-1" />
+        <div className="mx-1 h-5 w-px bg-border/40" />
 
         <MenuButton
-          onClick={() => editor.chain().focus().toggleBold().run()}
           active={editor.isActive("bold")}
           label="Bold"
+          onClick={() => editor.chain().focus().toggleBold().run()}
         >
           <IconBold className="size-4" />
         </MenuButton>
         <MenuButton
-          onClick={() => editor.chain().focus().toggleItalic().run()}
           active={editor.isActive("italic")}
           label="Italic"
+          onClick={() => editor.chain().focus().toggleItalic().run()}
         >
           <IconItalic className="size-4" />
         </MenuButton>
         <MenuButton
-          onClick={() => editor.chain().focus().toggleUnderline().run()}
           active={editor.isActive("underline")}
           label="Underline"
+          onClick={() => editor.chain().focus().toggleUnderline().run()}
         >
           <IconUnderline className="size-4" />
         </MenuButton>
         <MenuButton
-          onClick={() => editor.chain().focus().toggleStrike().run()}
           active={editor.isActive("strike")}
           label="Strikethrough"
+          onClick={() => editor.chain().focus().toggleStrike().run()}
         >
           <IconStrikethrough className="size-4" />
         </MenuButton>
         <MenuButton
-          onClick={() => editor.chain().focus().toggleCode().run()}
           active={editor.isActive("code")}
           label="Inline code"
+          onClick={() => editor.chain().focus().toggleCode().run()}
         >
           <IconCode className="size-4" />
         </MenuButton>
 
-        <div className="w-px h-5 bg-border/40 mx-1" />
+        <div className="mx-1 h-5 w-px bg-border/40" />
 
         <MenuButton
-          onClick={() => editor.chain().focus().toggleBulletList().run()}
           active={editor.isActive("bulletList")}
           label="Bullet list"
+          onClick={() => editor.chain().focus().toggleBulletList().run()}
         >
           <IconList className="size-4" />
         </MenuButton>
         <MenuButton
-          onClick={() => editor.chain().focus().toggleOrderedList().run()}
           active={editor.isActive("orderedList")}
           label="Ordered list"
+          onClick={() => editor.chain().focus().toggleOrderedList().run()}
         >
           <IconListNumbers className="size-4" />
         </MenuButton>
         <MenuButton
-          onClick={() => editor.chain().focus().toggleTaskList().run()}
           active={editor.isActive("taskList")}
           label="Task list"
+          onClick={() => editor.chain().focus().toggleTaskList().run()}
         >
           <IconCheckbox className="size-4" />
         </MenuButton>
         <MenuButton
-          onClick={() => editor.chain().focus().toggleBlockquote().run()}
           active={editor.isActive("blockquote")}
           label="Blockquote"
+          onClick={() => editor.chain().focus().toggleBlockquote().run()}
         >
           <IconQuote className="size-4" />
         </MenuButton>
         <MenuButton
-          onClick={() => editor.chain().focus().toggleCodeBlock().run()}
           active={editor.isActive("codeBlock")}
           label="Code block"
+          onClick={() => editor.chain().focus().toggleCodeBlock().run()}
         >
           <IconCodeCircle className="size-4" />
         </MenuButton>
         <MenuButton
-          onClick={() => editor.chain().focus().setHorizontalRule().run()}
           label="Horizontal rule"
+          onClick={() => editor.chain().focus().setHorizontalRule().run()}
         >
           <IconMinus className="size-4" />
         </MenuButton>
 
-        <div className="w-px h-5 bg-border/40 mx-1" />
+        <div className="mx-1 h-5 w-px bg-border/40" />
 
-        <MenuButton onClick={addLink} active={editor.isActive("link")} label="Link">
-          <svg className="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <MenuButton
+          active={editor.isActive("link")}
+          label="Link"
+          onClick={addLink}
+        >
+          <svg
+            className="size-4"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+          >
             <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
             <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
           </svg>
         </MenuButton>
-        <MenuButton onClick={addImage} label="Image">
+        <MenuButton label="Image" onClick={addImage}>
           <IconPhoto className="size-4" />
         </MenuButton>
-        <MenuButton onClick={addAudio} label="Audio">
+        <MenuButton label="Audio" onClick={addAudio}>
           <IconPlayerPlay className="size-4" />
         </MenuButton>
 
-        <div className="w-px h-5 bg-border/40 mx-1" />
+        <div className="mx-1 h-5 w-px bg-border/40" />
 
         <MenuButton
-          onClick={() => editor.chain().focus().setTextAlign("left").run()}
           active={editor.isActive({ textAlign: "left" })}
           label="Align left"
+          onClick={() => editor.chain().focus().setTextAlign("left").run()}
         >
           <IconAlignLeft className="size-4" />
         </MenuButton>
         <MenuButton
-          onClick={() => editor.chain().focus().setTextAlign("center").run()}
           active={editor.isActive({ textAlign: "center" })}
           label="Align center"
+          onClick={() => editor.chain().focus().setTextAlign("center").run()}
         >
           <IconAlignCenter className="size-4" />
         </MenuButton>
         <MenuButton
-          onClick={() => editor.chain().focus().setTextAlign("right").run()}
           active={editor.isActive({ textAlign: "right" })}
           label="Align right"
+          onClick={() => editor.chain().focus().setTextAlign("right").run()}
         >
           <IconAlignRight className="size-4" />
         </MenuButton>
 
-        <div className="w-px h-5 bg-border/40 mx-1" />
+        <div className="mx-1 h-5 w-px bg-border/40" />
 
         <MenuButton
-          onClick={() => editor.chain().focus().toggleHighlight().run()}
           active={editor.isActive("highlight")}
           label="Highlight"
+          onClick={() => editor.chain().focus().toggleHighlight().run()}
         >
           <IconHighlight className="size-4" />
         </MenuButton>
@@ -300,24 +331,24 @@ export function TiptapEditor({ content = "", onChange, placeholder = "Start writ
         <div className="flex-1" />
 
         <MenuButton
-          onClick={toggleSource}
           active={showSource}
           label={showSource ? "Rich text" : "Markdown source"}
+          onClick={toggleSource}
         >
           <IconMarkdown className="size-4" />
         </MenuButton>
 
-        <div className="w-px h-5 bg-border/40 mx-1" />
+        <div className="mx-1 h-5 w-px bg-border/40" />
 
         <MenuButton
-          onClick={() => editor.chain().focus().undo().run()}
           label="Undo"
+          onClick={() => editor.chain().focus().undo().run()}
         >
           <IconArrowBackUp className="size-4" />
         </MenuButton>
         <MenuButton
-          onClick={() => editor.chain().focus().redo().run()}
           label="Redo"
+          onClick={() => editor.chain().focus().redo().run()}
         >
           <IconArrowForwardUp className="size-4" />
         </MenuButton>
@@ -326,10 +357,10 @@ export function TiptapEditor({ content = "", onChange, placeholder = "Start writ
       <div className="bg-background/50">
         {showSource ? (
           <textarea
-            value={sourceText}
+            className="tiptap min-h-[300px] w-full resize-y bg-transparent px-4 py-3 font-mono text-foreground text-sm focus:outline-none"
             onChange={(e) => handleSourceChange(e.target.value)}
-            className="tiptap focus:outline-none min-h-[300px] w-full px-4 py-3 bg-transparent text-foreground font-mono text-sm resize-y"
             placeholder={placeholder}
+            value={sourceText}
           />
         ) : (
           <EditorContent editor={editor} />

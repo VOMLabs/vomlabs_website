@@ -1,8 +1,9 @@
 "use client";
 
-import Link from "next/link";
+import { IconArrowLeft, IconCalendar } from "@tabler/icons-react";
 import { motion } from "framer-motion";
-import { IconCalendar, IconUser, IconArrowLeft } from "@tabler/icons-react";
+import Link from "next/link";
+import { AuthorAvatars } from "@/components/ui/author-avatars";
 import type { BlogPostData } from "@/lib/blogs";
 
 interface BlogPostProps {
@@ -18,14 +19,14 @@ const pageTransition = {
 export function BlogPost({ post }: BlogPostProps) {
   return (
     <motion.div
-      className="max-w-2xl mx-auto px-6"
-      initial={pageTransition.initial}
       animate={pageTransition.animate}
+      className="mx-auto max-w-2xl px-6"
+      initial={pageTransition.initial}
       transition={pageTransition.transition}
     >
       <Link
+        className="mb-12 inline-flex items-center gap-2 text-muted-foreground text-sm transition-colors hover:text-brand-accent"
         href="/blog"
-        className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-brand-accent transition-colors mb-12"
       >
         <IconArrowLeft className="size-4" />
         Back to Blog
@@ -33,7 +34,7 @@ export function BlogPost({ post }: BlogPostProps) {
 
       <article>
         <header className="mb-12">
-          <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
+          <div className="mb-4 flex items-center gap-2 text-muted-foreground text-sm">
             <span className="flex items-center gap-1.5">
               <IconCalendar className="size-4" />
               {new Date(post.date).toLocaleDateString("en-US", {
@@ -43,36 +44,17 @@ export function BlogPost({ post }: BlogPostProps) {
               })}
             </span>
             <span className="text-muted-foreground/30">·</span>
-            <span className="flex items-center gap-1.5">
-              {post.authors?.length ? (
-                <>
-                  <span className="flex -space-x-1.5">
-                    {post.authors.map((a, i) =>
-                      a.avatar ? (
-                        <img key={i} src={a.avatar} alt="" className="size-5 rounded-full object-cover ring-1 ring-background" />
-                      ) : (
-                        <span key={i} className="size-5 rounded-full bg-muted flex items-center justify-center ring-1 ring-background">
-                          <IconUser className="size-3" />
-                        </span>
-                      )
-                    )}
-                  </span>
-                  {post.authors.map((a) => a.name).join(", ")}
-                </>
-              ) : (
-                <IconUser className="size-4" />
-              )}
-            </span>
+            <AuthorAvatars authors={post.authors} size="md" />
           </div>
-          <div className="flex items-center gap-4 mb-6">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground tracking-tight leading-tight">
+          <div className="mb-6 flex items-center gap-4">
+            <h1 className="font-bold text-3xl text-foreground leading-tight tracking-tight md:text-4xl lg:text-5xl">
               {post.title}
             </h1>
           </div>
         </header>
 
         <div
-          className="prose prose-lg max-w-none prose-headings:text-foreground prose-headings:font-bold prose-h2:text-2xl prose-h2:md:text-3xl prose-h2:tracking-tight prose-h3:text-xl prose-h3:md:text-2xl prose-h3:font-semibold prose-p:text-muted-foreground prose-p:leading-relaxed prose-a:text-brand-accent prose-a:no-underline hover:prose-a:underline prose-strong:text-foreground prose-strong:font-semibold prose-code:text-brand-accent prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm prose-code:font-mono prose-pre:bg-muted prose-pre:border prose-pre:border-border prose-blockquote:border-l-brand-accent/50 prose-blockquote:text-muted-foreground/90 prose-blockquote:italic prose-li:text-muted-foreground prose-li:leading-relaxed prose-hr:border-border"
+          className="prose prose-lg max-w-none prose-code:rounded prose-pre:border prose-hr:border-border prose-pre:border-border prose-blockquote:border-l-brand-accent/50 prose-code:bg-muted prose-pre:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:font-mono prose-h3:font-semibold prose-headings:font-bold prose-strong:font-semibold prose-a:text-brand-accent prose-blockquote:text-muted-foreground/90 prose-code:text-brand-accent prose-code:text-sm prose-h2:text-2xl prose-h3:text-xl prose-headings:text-foreground prose-li:text-muted-foreground prose-p:text-muted-foreground prose-strong:text-foreground prose-blockquote:italic prose-li:leading-relaxed prose-p:leading-relaxed prose-h2:tracking-tight prose-a:no-underline hover:prose-a:underline prose-h2:md:text-3xl prose-h3:md:text-2xl"
           dangerouslySetInnerHTML={{ __html: post.content }}
         />
       </article>

@@ -1,16 +1,18 @@
 "use client";
 
-import { motion } from "framer-motion";
 import {
-  SparklesIcon,
-  EnvelopeIcon,
+  ArrowRightIcon,
   ChatBubbleLeftRightIcon,
   CodeBracketIcon,
-  ArrowRightIcon,
+  EnvelopeIcon,
   QuestionMarkCircleIcon,
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import React from "react";
+import type React from "react";
+import { FadeInView } from "@/components/ui/fade-in-view";
+import { GlowBackground } from "@/components/ui/glow-bg";
+import { SectionHeading } from "@/components/ui/section-heading";
+import { SectionPill } from "@/components/ui/section-pill";
 
 const contactMethods = [
   {
@@ -51,136 +53,98 @@ interface SupportSectionProps {
 
 export function SupportSection({ children }: SupportSectionProps) {
   return (
-    <section className="py-24 px-6 relative overflow-hidden">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[1000px] h-80 bg-brand-accent/8 rounded-full blur-[150px] -z-10 pointer-events-none" />
+    <section className="relative overflow-hidden px-6 py-24">
+      <GlowBackground size="lg" />
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-        className="max-w-5xl mx-auto"
-      >
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-16"
-        >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4 }}
-            className="inline-flex items-center gap-2 px-4 py-2 mb-8 rounded-full bg-brand-accent/10 border border-brand-accent/20"
-          >
-            <SparklesIcon className="w-4 h-4 text-brand-accent" />
-            <span className="text-sm font-medium text-brand-accent">
-              Need Help?
-            </span>
-          </motion.div>
+      <div className="mx-auto max-w-5xl">
+        <FadeInView>
+          <div className="mb-16 text-center">
+            <div className="flex justify-center">
+              <SectionPill>Need Help?</SectionPill>
+            </div>
+            <SectionHeading accent="help" className="mb-0" size="md">
+              We&apos;re here to
+            </SectionHeading>
+            <p className="mx-auto max-w-xl text-lg text-muted-foreground">
+              Have questions, feedback, or need assistance? Choose the channel
+              that works best for you.
+            </p>
+          </div>
+        </FadeInView>
 
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-foreground mb-4">
-            We&apos;re here to{" "}
-            <span className="text-brand-accent italic">help</span>
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-xl mx-auto">
-            Have questions, feedback, or need assistance? Choose the channel
-            that works best for you.
-          </p>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-16 sm:mb-20"
+        <FadeInView
+          className="mb-16 grid grid-cols-1 gap-5 sm:mb-20 md:grid-cols-3"
+          delay={0.1}
         >
           {contactMethods.map((method, i) => {
             const Icon = method.icon;
             return (
-              <motion.div
-                key={method.name}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.1 }}
+              <FadeInView
                 className="group relative"
+                delay={i * 0.1}
+                key={method.name}
               >
                 <div
-                  className={`absolute -inset-0.5 rounded-2xl opacity-0 group-hover:opacity-100 blur-lg transition-opacity duration-300 ${method.bgGlow}`}
+                  className={`absolute -inset-0.5 rounded-2xl opacity-0 blur-lg transition-opacity duration-300 group-hover:opacity-100 ${method.bgGlow}`}
                 />
                 <Link
+                  className={`relative flex flex-col items-center rounded-2xl border border-border bg-card/50 p-8 text-center backdrop-blur-sm ${method.borderHover} h-full transition-all duration-300`}
                   href={method.href || `mailto:${method.email}`}
-                  target="_blank"
                   rel="noopener noreferrer"
-                  className={`relative flex flex-col items-center text-center p-8 rounded-2xl border border-border bg-card/50 backdrop-blur-sm ${method.borderHover} transition-all duration-300 h-full`}
+                  target="_blank"
                 >
                   <div
-                    className={`p-3.5 rounded-xl bg-gradient-to-br ${method.gradient} shadow-lg mb-5`}
+                    className={`rounded-xl bg-gradient-to-br p-3.5 ${method.gradient} mb-5 shadow-lg`}
                   >
-                    <Icon className="w-7 h-7 text-white" />
+                    <Icon className="h-7 w-7 text-white" />
                   </div>
 
-                  <h3 className="font-semibold text-foreground text-lg mb-2 group-hover:text-brand-accent transition-colors">
+                  <h3 className="mb-2 font-semibold text-foreground text-lg transition-colors group-hover:text-brand-accent">
                     {method.name}
                   </h3>
-                  <p className="text-sm text-muted-foreground mb-4">
+                  <p className="mb-4 text-muted-foreground text-sm">
                     {method.description}
                   </p>
 
-                  <span className="mt-auto inline-flex items-center gap-1.5 text-sm font-medium text-brand-accent opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-200">
+                  <span className="mt-auto inline-flex translate-y-1 items-center gap-1.5 font-medium text-brand-accent text-sm opacity-0 transition-all duration-200 group-hover:translate-y-0 group-hover:opacity-100">
                     {method.email ? "Send an email" : "Open link"}
-                    <ArrowRightIcon className="w-3.5 h-3.5" />
+                    <ArrowRightIcon className="h-3.5 w-3.5" />
                   </span>
 
-                  <span className="absolute top-4 right-4 text-[10px] font-mono text-muted-foreground/40 group-hover:text-muted-foreground/70 transition-colors">
+                  <span className="absolute top-4 right-4 font-mono text-[10px] text-muted-foreground/40 transition-colors group-hover:text-muted-foreground/70">
                     {method.detail}
                   </span>
                 </Link>
-              </motion.div>
+              </FadeInView>
             );
           })}
-        </motion.div>
+        </FadeInView>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.15 }}
-          className="mb-16 sm:mb-20"
-        >
-          <div className="text-center mb-10">
-            <h3 className="text-2xl sm:text-3xl font-bold text-foreground mb-3">
+        <FadeInView className="mb-16 sm:mb-20" delay={0.15}>
+          <div className="mb-10 text-center">
+            <h3 className="mb-3 font-bold text-2xl text-foreground sm:text-3xl">
               Join Our Community
             </h3>
-            <p className="text-muted-foreground max-w-lg mx-auto">
-              Connect with other developers and users in real-time. Get
-              answers, share ideas, and stay up to date.
+            <p className="mx-auto max-w-lg text-muted-foreground">
+              Connect with other developers and users in real-time. Get answers,
+              share ideas, and stay up to date.
             </p>
           </div>
-          <div className="max-w-2xl mx-auto">{children}</div>
-        </motion.div>
+          <div className="mx-auto max-w-2xl">{children}</div>
+        </FadeInView>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-        >
-          <div className="text-center mb-10">
-            <h3 className="text-2xl sm:text-3xl font-bold text-foreground mb-3">
+        <FadeInView delay={0.2}>
+          <div className="mb-10 text-center">
+            <h3 className="mb-3 font-bold text-2xl text-foreground sm:text-3xl">
               Frequently Asked Questions
             </h3>
-            <p className="text-muted-foreground max-w-lg mx-auto">
+            <p className="mx-auto max-w-lg text-muted-foreground">
               Quick answers to common questions. For more details, visit our
               full FAQ page.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl mx-auto">
+          <div className="mx-auto grid max-w-3xl grid-cols-1 gap-4 sm:grid-cols-2">
             {[
               {
                 q: "How do I download VOMLabs projects?",
@@ -199,70 +163,59 @@ export function SupportSection({ children }: SupportSectionProps) {
                 a: "Open an issue on the relevant GitHub repository or reach out on Discord.",
               },
             ].map((item, i) => (
-              <motion.div
+              <FadeInView
+                className="group relative rounded-xl border border-border bg-card/30 p-5 transition-all duration-200 hover:border-brand-accent/20 hover:bg-card/50"
+                delay={i * 0.05}
+                direction="up"
                 key={item.q}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.3, delay: i * 0.05 }}
-                className="relative group p-5 rounded-xl border border-border bg-card/30 hover:bg-card/50 hover:border-brand-accent/20 transition-all duration-200"
               >
                 <div className="flex items-start gap-3">
-                  <QuestionMarkCircleIcon className="w-5 h-5 text-brand-accent shrink-0 mt-0.5" />
+                  <QuestionMarkCircleIcon className="mt-0.5 h-5 w-5 shrink-0 text-brand-accent" />
                   <div>
-                    <h4 className="font-medium text-foreground mb-1.5">
+                    <h4 className="mb-1.5 font-medium text-foreground">
                       {item.q}
                     </h4>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
+                    <p className="text-muted-foreground text-sm leading-relaxed">
                       {item.a}
                     </p>
                   </div>
                 </div>
-              </motion.div>
+              </FadeInView>
             ))}
           </div>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: 0.3 }}
-            className="text-center mt-10"
-          >
+          <FadeInView className="mt-10 text-center" delay={0.3}>
             <Link
+              className="inline-flex items-center gap-2 rounded-xl border border-brand-accent/20 bg-brand-accent/10 px-6 py-3 font-medium text-brand-accent text-sm transition-all hover:bg-brand-accent/20"
               href="/faq"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-brand-accent/10 border border-brand-accent/20 text-brand-accent font-medium text-sm hover:bg-brand-accent/20 transition-all"
             >
               View all FAQs
-              <ArrowRightIcon className="w-4 h-4" />
+              <ArrowRightIcon className="h-4 w-4" />
             </Link>
-          </motion.div>
-        </motion.div>
+          </FadeInView>
+        </FadeInView>
 
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="text-center text-sm text-muted-foreground mt-16"
+        <FadeInView
+          className="mt-16 text-center text-muted-foreground text-sm"
+          delay={0.4}
         >
           Still need help?{" "}
           <Link
+            className="font-medium text-brand-accent hover:underline"
             href="mailto:support@vomlabs.com"
-            className="text-brand-accent hover:underline font-medium"
           >
             Email us directly
           </Link>{" "}
           or check the{" "}
           <Link
+            className="font-medium text-brand-accent hover:underline"
             href="/faq"
-            className="text-brand-accent hover:underline font-medium"
           >
             FAQ page
           </Link>
           .
-        </motion.p>
-      </motion.div>
+        </FadeInView>
+      </div>
     </section>
   );
 }

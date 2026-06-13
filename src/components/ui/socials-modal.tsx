@@ -1,27 +1,27 @@
 "use client";
 
-import React from "react";
+import { IconExternalLink } from "@tabler/icons-react";
+import type React from "react";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { IconExternalLink } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
 
 interface SocialsModalProps {
-  open: boolean;
   onClose: () => void;
+  open: boolean;
 }
 
 interface SocialLink {
-  name: string;
+  bgColor: string;
+  color: string;
   description: string;
   href: string;
   icon: React.ReactNode;
-  color: string;
-  bgColor: string;
+  name: string;
 }
 
 const socials: SocialLink[] = [
@@ -30,7 +30,7 @@ const socials: SocialLink[] = [
     description: "Browse our mods and projects",
     href: "https://modrinth.com/organization/vomlabs",
     icon: (
-      <svg viewBox="0 0 24 24" className="size-5" fill="currentColor">
+      <svg className="size-5" fill="currentColor" viewBox="0 0 24 24">
         <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 2.4c5.303 0 9.6 4.297 9.6 9.6s-4.297 9.6-9.6 9.6-9.6-4.297-9.6-9.6S6.697 2.4 12 2.4zm4.8 9.6a.6.6 0 0 1-.6.6H7.8a.6.6 0 0 1-.6-.6V9.6a.6.6 0 0 1 .6-.6h8.4a.6.6 0 0 1 .6.6v2.4zm-3.6-1.2h-2.4v1.2h2.4V10.8z" />
       </svg>
     ),
@@ -63,61 +63,59 @@ const socials: SocialLink[] = [
   },
 ];
 
-const SocialsModal: React.FC<SocialsModalProps> = ({ open, onClose }) => {
-  return (
-    <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
-      <DialogContent className="max-w-md gap-0 overflow-hidden p-0 sm:max-w-md max-h-[90dvh] flex flex-col">
-        <div className="shrink-0 border-b border-border px-4 py-4 sm:px-6 sm:py-5">
-          <DialogHeader>
-            <DialogTitle className="text-lg font-semibold tracking-tight">
-              Socials
-            </DialogTitle>
-          </DialogHeader>
-        </div>
+const SocialsModal: React.FC<SocialsModalProps> = ({ open, onClose }) => (
+  <Dialog onOpenChange={(o) => !o && onClose()} open={open}>
+    <DialogContent className="flex max-h-[90dvh] max-w-md flex-col gap-0 overflow-hidden p-0 sm:max-w-md">
+      <div className="shrink-0 border-border border-b px-4 py-4 sm:px-6 sm:py-5">
+        <DialogHeader>
+          <DialogTitle className="font-semibold text-lg tracking-tight">
+            Socials
+          </DialogTitle>
+        </DialogHeader>
+      </div>
 
-        <div className="p-4 sm:p-6">
-          <div className="grid grid-cols-1 gap-3">
-            {socials.map((social) => (
-              <a
-                key={social.name}
-                href={social.href}
-                target="_blank"
-                rel="noopener noreferrer"
+      <div className="p-4 sm:p-6">
+        <div className="grid grid-cols-1 gap-3">
+          {socials.map((social) => (
+            <a
+              className={cn(
+                "group flex min-w-0 items-center gap-3 rounded-xl border border-border bg-card px-4 py-3 text-left transition-all",
+                "hover:border-border/80 hover:bg-muted/50 hover:shadow-sm",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              )}
+              href={social.href}
+              key={social.name}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <div
                 className={cn(
-                  "group flex min-w-0 items-center gap-3 rounded-xl border border-border bg-card px-4 py-3 text-left transition-all",
-                  "hover:border-border/80 hover:bg-muted/50 hover:shadow-sm",
-                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                  "flex size-9 shrink-0 items-center justify-center rounded-lg",
+                  social.bgColor,
+                  social.color
                 )}
               >
-                <div
-                  className={cn(
-                    "flex size-9 shrink-0 items-center justify-center rounded-lg",
-                    social.bgColor,
-                    social.color,
-                  )}
-                >
-                  {social.icon}
-                </div>
-                <div className="min-w-0 flex-1">
-                  <span className="block text-sm font-medium text-foreground">
-                    {social.name}
-                  </span>
-                  <span className="block text-xs text-muted-foreground">
-                    {social.description}
-                  </span>
-                </div>
-                <div className="shrink-0">
-                  <span className="flex w-14 h-8 items-center justify-center rounded-lg bg-muted text-muted-foreground transition-colors group-hover:bg-brand-accent/20 group-hover:text-brand-accent">
-                    <IconExternalLink className="size-5" stroke={2} />
-                  </span>
-                </div>
-              </a>
-            ))}
-          </div>
+                {social.icon}
+              </div>
+              <div className="min-w-0 flex-1">
+                <span className="block font-medium text-foreground text-sm">
+                  {social.name}
+                </span>
+                <span className="block text-muted-foreground text-xs">
+                  {social.description}
+                </span>
+              </div>
+              <div className="shrink-0">
+                <span className="flex h-8 w-14 items-center justify-center rounded-lg bg-muted text-muted-foreground transition-colors group-hover:bg-brand-accent/20 group-hover:text-brand-accent">
+                  <IconExternalLink className="size-5" stroke={2} />
+                </span>
+              </div>
+            </a>
+          ))}
         </div>
-      </DialogContent>
-    </Dialog>
-  );
-};
+      </div>
+    </DialogContent>
+  </Dialog>
+);
 
 export default SocialsModal;

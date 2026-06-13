@@ -1,21 +1,22 @@
 "use client";
 
+import { IconArrowRight, IconCalendar } from "@tabler/icons-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { IconCalendar, IconUser, IconArrowRight } from "@tabler/icons-react";
+import { AuthorAvatars } from "@/components/ui/author-avatars";
 import type { BlogPostData } from "@/lib/blogs";
 
 export function BlogList({ posts }: { posts: BlogPostData[] }) {
   const items = Array.isArray(posts) ? posts : [];
   return (
-    <div className="max-w-2xl mx-auto px-6">
+    <div className="mx-auto max-w-2xl px-6">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
         className="mb-16"
+        initial={{ opacity: 0, y: 20 }}
+        transition={{ duration: 0.6 }}
       >
-        <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4 tracking-tight">
+        <h1 className="mb-4 font-bold text-4xl text-foreground tracking-tight md:text-5xl">
           Blog
         </h1>
         <p className="text-lg text-muted-foreground">
@@ -26,17 +27,17 @@ export function BlogList({ posts }: { posts: BlogPostData[] }) {
       <div className="space-y-12">
         {items.map((post, index) => (
           <motion.article
-            key={post.slug}
-            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            key={post.slug}
             transition={{ duration: 0.5, delay: index * 0.1 }}
           >
             <Link
+              className="group block rounded-xl border border-transparent transition-all duration-200 hover:border-brand-accent/30 hover:bg-card/30"
               href={`/blog/${post.slug}`}
-              className="group block rounded-xl border border-transparent hover:border-brand-accent/30 hover:bg-card/30 transition-all duration-200"
             >
-              <div className="p-6 -m-px rounded-xl group-hover:bg-card/30 transition-all duration-200">
-                <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
+              <div className="-m-px rounded-xl p-6 transition-all duration-200 group-hover:bg-card/30">
+                <div className="mb-3 flex items-center gap-2 text-muted-foreground text-sm">
                   <span className="flex items-center gap-1.5">
                     <IconCalendar className="size-3.5" />
                     {new Date(post.date).toLocaleDateString("en-US", {
@@ -46,36 +47,17 @@ export function BlogList({ posts }: { posts: BlogPostData[] }) {
                     })}
                   </span>
                   <span className="text-muted-foreground/30">·</span>
-                  <span className="flex items-center gap-1.5">
-                    {post.authors?.length ? (
-                      <>
-                        <span className="flex -space-x-1">
-                          {post.authors.slice(0, 3).map((a, i) =>
-                            a.avatar ? (
-                              <img key={i} src={a.avatar} alt="" className="size-4 rounded-full object-cover ring-1 ring-background" />
-                            ) : (
-                              <span key={i} className="size-4 rounded-full bg-muted flex items-center justify-center ring-1 ring-background">
-                                <IconUser className="size-2.5" />
-                              </span>
-                            )
-                          )}
-                        </span>
-                        {post.authors.map((a) => a.name).join(", ")}
-                      </>
-                    ) : (
-                      <IconUser className="size-3.5" />
-                    )}
-                  </span>
+                  <AuthorAvatars authors={post.authors} />
                 </div>
-                <div className="flex items-center gap-2 mb-2">
-                  <h2 className="text-xl md:text-2xl font-semibold text-foreground group-hover:text-brand-accent transition-colors">
+                <div className="mb-2 flex items-center gap-2">
+                  <h2 className="font-semibold text-foreground text-xl transition-colors group-hover:text-brand-accent md:text-2xl">
                     {post.title}
                   </h2>
                 </div>
-                <p className="text-muted-foreground leading-relaxed mb-3">
+                <p className="mb-3 text-muted-foreground leading-relaxed">
                   {post.excerpt}
                 </p>
-                <span className="inline-flex items-center gap-1 text-sm font-medium text-brand-accent group-hover:gap-2 transition-all">
+                <span className="inline-flex items-center gap-1 font-medium text-brand-accent text-sm transition-all group-hover:gap-2">
                   Read more
                   <IconArrowRight className="size-4" />
                 </span>

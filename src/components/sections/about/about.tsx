@@ -1,22 +1,24 @@
 "use client";
 
-import { motion } from "framer-motion";
 import {
-  SparklesIcon,
   ArrowRightIcon,
   BoltIcon,
-  ShieldCheckIcon,
   HeartIcon,
+  ShieldCheckIcon,
 } from "@heroicons/react/24/outline";
 import {
-  IconRocket,
-  IconShield,
-  IconCode,
-  IconHeartHandshake,
   IconClock,
+  IconCode,
   IconEye,
   IconGift,
+  IconHeartHandshake,
+  IconRocket,
+  IconShield,
 } from "@tabler/icons-react";
+import { FadeInView } from "@/components/ui/fade-in-view";
+import { FeatureCard } from "@/components/ui/feature-card";
+import { GlowBackground } from "@/components/ui/glow-bg";
+import { SectionPill } from "@/components/ui/section-pill";
 
 const stats = [
   { value: "99%", label: "Open Source", icon: IconCode },
@@ -86,181 +88,122 @@ const guarantees = [
 
 export function AboutSection() {
   return (
-    <section className="py-24 px-6 relative overflow-hidden">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-96 bg-brand-accent/5 rounded-full blur-[150px] -z-10 pointer-events-none" />
+    <section className="relative overflow-hidden px-6 py-24">
+      <GlowBackground className="h-96 max-w-4xl blur-[150px]" size="lg" />
 
-      <div className="max-w-5xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mb-24"
-        >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="text-center"
-          >
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 mb-6 rounded-full bg-gradient-to-r from-brand-accent/20 to-brand-accent/5 border border-brand-accent/30">
-              <SparklesIcon className="w-4 h-4 text-brand-accent" />
-              <span className="text-sm font-medium text-brand-accent">
-                About VOMLabs
-              </span>
+      <div className="mx-auto max-w-5xl">
+        <FadeInView className="mb-24">
+          <div className="text-center">
+            <div className="flex justify-center">
+              <SectionPill>About VOMLabs</SectionPill>
             </div>
 
-            <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight text-foreground mb-6">
+            <h1 className="mb-6 font-bold text-5xl text-foreground tracking-tight sm:text-6xl md:text-7xl">
               Building software{" "}
               <span className="bg-gradient-to-r from-brand-accent to-brand-accent/60 bg-clip-text text-transparent">
                 differently
               </span>
             </h1>
 
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            <p className="mx-auto max-w-2xl text-muted-foreground text-xl leading-relaxed">
               Most software is bloated, slow, and full of tracking. We built
               VOMLabs Software to be the opposite: fast, private, and made for
               users who just want great tools.
             </p>
-          </motion.div>
-        </motion.div>
+          </div>
+        </FadeInView>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-24"
-        >
-          {stats.map((stat, i) => (
-            <motion.div
+        <FadeInView className="mb-24 grid grid-cols-2 gap-3 md:grid-cols-4">
+          {stats.map((stat) => (
+            <div
+              className="group rounded-2xl border border-border bg-card/30 p-4 transition-all duration-300 hover:border-brand-accent/50 hover:bg-card/50"
               key={stat.label}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.1 }}
-              className="group p-4 rounded-2xl bg-card/30 border border-border hover:border-brand-accent/50 hover:bg-card/50 transition-all duration-300"
             >
-              <stat.icon className="w-5 h-5 text-brand-accent mb-2" />
-              <div className="text-2xl font-bold text-foreground mb-1">
+              <stat.icon className="mb-2 h-5 w-5 text-brand-accent" />
+              <div className="mb-1 font-bold text-2xl text-foreground">
                 {stat.value}
               </div>
-              <div className="text-xs text-muted-foreground">{stat.label}</div>
-            </motion.div>
+              <div className="text-muted-foreground text-xs">{stat.label}</div>
+            </div>
           ))}
-        </motion.div>
+        </FadeInView>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="mb-24"
-        >
-          <div className="text-center mb-10">
-            <h2 className="text-3xl font-bold text-foreground mb-3">
+        <FadeInView className="mb-24">
+          <div className="mb-10 text-center">
+            <h2 className="mb-3 font-bold text-3xl text-foreground">
               Our Story
             </h2>
-            <p className="text-muted-foreground max-w-xl mx-auto">
+            <p className="mx-auto max-w-xl text-muted-foreground">
               From a side project to a community-driven launcher
             </p>
           </div>
 
           <div className="relative">
-            <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-brand-accent/30" />
+            <div className="absolute top-0 bottom-0 left-4 w-px bg-brand-accent/30 md:left-1/2" />
 
             <div className="space-y-12">
               {milestones.map((milestone, i) => (
-                <motion.div
-                  key={milestone.title}
-                  initial={{ opacity: 0, x: i % 2 === 0 ? -20 : 20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                <FadeInView
                   className={`relative flex items-center ${
                     i % 2 === 0 ? "md:flex-row-reverse" : "md:flex-row"
                   } gap-6`}
+                  delay={i * 0.1}
+                  direction={i % 2 === 0 ? "left" : "right"}
+                  key={milestone.title}
                 >
-                  <div className="flex-1 hidden md:block" />
-                  <div className="absolute left-0 md:left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-brand-accent border-4 border-background flex items-center justify-center">
-                    <span className="text-xs font-bold text-black">
+                  <div className="hidden flex-1 md:block" />
+                  <div className="absolute left-0 flex h-8 w-8 -translate-x-1/2 items-center justify-center rounded-full border-4 border-background bg-brand-accent md:left-1/2">
+                    <span className="font-bold text-black text-xs">
                       {milestone.year.slice(-2)}
                     </span>
                   </div>
                   <div className="flex-1 pl-12 md:pl-0">
-                    <div className="p-6 rounded-2xl border border-border bg-card/40 hover:border-brand-accent/30 hover:bg-card/60 transition-all">
-                      <span className="text-sm font-medium text-brand-accent">
+                    <div className="rounded-2xl border border-border bg-card/40 p-6 transition-all hover:border-brand-accent/30 hover:bg-card/60">
+                      <span className="font-medium text-brand-accent text-sm">
                         {milestone.year}
                       </span>
-                      <h3 className="text-lg font-semibold text-foreground mt-1 mb-2">
+                      <h3 className="mt-1 mb-2 font-semibold text-foreground text-lg">
                         {milestone.title}
                       </h3>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-muted-foreground text-sm">
                         {milestone.description}
                       </p>
                     </div>
                   </div>
-                </motion.div>
+                </FadeInView>
               ))}
             </div>
           </div>
-        </motion.div>
+        </FadeInView>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="mb-24"
-        >
-          <div className="text-center mb-10">
-            <h2 className="text-3xl font-bold text-foreground mb-3">
+        <FadeInView className="mb-24">
+          <div className="mb-10 text-center">
+            <h2 className="mb-3 font-bold text-3xl text-foreground">
               What We Believe
             </h2>
-            <p className="text-muted-foreground max-w-xl mx-auto">
+            <p className="mx-auto max-w-xl text-muted-foreground">
               Core principles that guide every decision we make
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             {values.map((value, i) => (
-              <motion.div
+              <FeatureCard
+                delay={i * 0.1}
+                description={value.description}
+                icon={<value.icon className="h-6 w-6" />}
                 key={value.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.1 }}
-                className="group relative overflow-hidden rounded-2xl bg-card/40 border border-border hover:border-brand-accent/30 hover:bg-card/60 transition-all duration-300"
-              >
-                <div className="relative p-6 flex items-start gap-4">
-                  <div className="p-3 rounded-xl bg-brand-accent/10">
-                    <value.icon className="w-6 h-6 text-brand-accent" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-foreground mb-2">
-                      {value.title}
-                    </h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
-                      {value.description}
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
+                title={value.title}
+                variant="developer"
+              />
             ))}
           </div>
-        </motion.div>
+        </FadeInView>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="mb-12"
-        >
-          <div className="p-8 rounded-3xl bg-card/30 border border-border">
-            <div className="text-center mb-8">
-              <h2 className="text-2xl font-bold text-foreground mb-2">
+        <FadeInView className="mb-12">
+          <div className="rounded-3xl border border-border bg-card/30 p-8">
+            <div className="mb-8 text-center">
+              <h2 className="mb-2 font-bold text-2xl text-foreground">
                 Our Promise to You
               </h2>
               <p className="text-muted-foreground">
@@ -268,46 +211,38 @@ export function AboutSection() {
               </p>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
               {guarantees.map((guarantee, i) => (
-                <motion.div
-                  key={guarantee.title}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.3, delay: i * 0.1 }}
+                <FadeInView
                   className="text-center"
+                  delay={i * 0.1}
+                  direction="scale"
+                  key={guarantee.title}
                 >
-                  <guarantee.icon className="w-6 h-6 text-brand-accent mx-auto mb-3" />
-                  <h4 className="font-semibold text-foreground text-sm mb-1">
+                  <guarantee.icon className="mx-auto mb-3 h-6 w-6 text-brand-accent" />
+                  <h4 className="mb-1 font-semibold text-foreground text-sm">
                     {guarantee.title}
                   </h4>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-muted-foreground text-xs">
                     {guarantee.description}
                   </p>
-                </motion.div>
+                </FadeInView>
               ))}
             </div>
           </div>
-        </motion.div>
+        </FadeInView>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center"
-        >
+        <FadeInView className="text-center">
           <a
+            className="inline-flex items-center gap-2 rounded-xl bg-brand-accent px-6 py-3 font-medium text-black transition-colors hover:bg-brand-accent/90"
             href="https://github.com/VOMLabs"
-            target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-brand-accent hover:bg-brand-accent/90 text-black font-medium transition-colors"
+            target="_blank"
           >
             View on GitHub
-            <ArrowRightIcon className="w-4 h-4" />
+            <ArrowRightIcon className="h-4 w-4" />
           </a>
-        </motion.div>
+        </FadeInView>
       </div>
     </section>
   );

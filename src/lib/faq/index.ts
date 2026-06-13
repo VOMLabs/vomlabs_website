@@ -2,8 +2,8 @@ import fs from "fs";
 import path from "path";
 
 export interface FAQItem {
-  question: string;
   answer: string;
+  question: string;
 }
 
 const FAQ_DIR = path.join(process.cwd(), "src/lib/faq");
@@ -24,7 +24,10 @@ function parseFrontmatter(raw: string): { question: string; answer: string } {
       const key = line.slice(0, sepIndex).trim();
       if (key === "question") {
         let value = line.slice(sepIndex + 1).trim();
-        if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
+        if (
+          (value.startsWith('"') && value.endsWith('"')) ||
+          (value.startsWith("'") && value.endsWith("'"))
+        ) {
           value = value.slice(1, -1);
         }
         question = value;
@@ -36,7 +39,9 @@ function parseFrontmatter(raw: string): { question: string; answer: string } {
 }
 
 export function getAllFAQs(): FAQItem[] {
-  const files = fs.readdirSync(FAQ_DIR).filter((f) => f.endsWith(".mdx") && f !== "index.ts");
+  const files = fs
+    .readdirSync(FAQ_DIR)
+    .filter((f) => f.endsWith(".mdx") && f !== "index.ts");
 
   const faqs: FAQItem[] = [];
 

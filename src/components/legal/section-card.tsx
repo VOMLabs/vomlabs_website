@@ -1,13 +1,13 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 interface SectionCardProps {
-  title?: string;
+  children: ReactNode;
   icon?: ReactNode;
   index: number;
-  children: ReactNode;
+  title?: string;
 }
 
 export default function SectionCard({
@@ -18,20 +18,20 @@ export default function SectionCard({
 }: SectionCardProps) {
   return (
     <motion.section
+      className="rounded-2xl border border-border/60 bg-card/20 p-6 backdrop-blur-sm sm:p-8"
       initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.08 }}
-      className="p-6 sm:p-8 rounded-2xl border border-border/60 bg-card/20 backdrop-blur-sm"
+      viewport={{ once: true }}
+      whileInView={{ opacity: 1, y: 0 }}
     >
       {title && (
-        <div className="flex items-center gap-3 mb-5">
+        <div className="mb-5 flex items-center gap-3">
           {icon && (
-            <div className="p-2 rounded-lg bg-brand-accent/10 text-brand-accent">
+            <div className="rounded-lg bg-brand-accent/10 p-2 text-brand-accent">
               {icon}
             </div>
           )}
-          <h2 className="text-lg font-semibold text-foreground font-mono tracking-tight">
+          <h2 className="font-mono font-semibold text-foreground text-lg tracking-tight">
             {icon ? "" : "$ "}
             {title}
           </h2>

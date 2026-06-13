@@ -1,9 +1,9 @@
 "use client";
 
+import { TriangleAlert, User, Zap } from "lucide-react";
+import Link from "next/link";
 import LegalPageLayout from "@/components/legal/legal-page-layout";
 import SectionCard from "@/components/legal/section-card";
-import { User, Zap, TriangleAlert } from "lucide-react";
-import Link from "next/link";
 
 const sections = [
   {
@@ -15,8 +15,7 @@ const sections = [
         these Terms of Service.
       </p>
     ),
-    text:
-      "These Terms of Service explain the rules and expectations for using VOMLabs software and this website. By accessing or using VOMLabs software, you agree to abide by these Terms of Service.",
+    text: "These Terms of Service explain the rules and expectations for using VOMLabs software and this website. By accessing or using VOMLabs software, you agree to abide by these Terms of Service.",
   },
   {
     title: "Who Can Use VOMLabs Software",
@@ -24,7 +23,7 @@ const sections = [
     content: (
       <ul className="space-y-3 text-muted-foreground">
         <li className="flex items-start gap-3">
-          <span className="text-brand-accent mt-1 font-mono">$</span>
+          <span className="mt-1 font-mono text-brand-accent">$</span>
           <span>
             VOMLabs software is for{" "}
             <span className="font-medium text-foreground">
@@ -34,13 +33,13 @@ const sections = [
           </span>
         </li>
         <li className="flex items-start gap-3">
-          <span className="text-brand-accent mt-1 font-mono">$</span>
+          <span className="mt-1 font-mono text-brand-accent">$</span>
           <span>
             You must be of legal age to use this software in your jurisdiction.
           </span>
         </li>
         <li className="flex items-start gap-3">
-          <span className="text-brand-accent mt-1 font-mono">$</span>
+          <span className="mt-1 font-mono text-brand-accent">$</span>
           <span>
             You must not violate any applicable laws or infringe intellectual
             property rights.
@@ -48,14 +47,15 @@ const sections = [
         </li>
       </ul>
     ),
-    text:
-      "VOMLabs software is for personal, non-commercial use only.\nYou must be of legal age to use this software in your jurisdiction.\nYou must not violate any applicable laws or infringe intellectual property rights.",
+    text: "VOMLabs software is for personal, non-commercial use only.\nYou must be of legal age to use this software in your jurisdiction.\nYou must not violate any applicable laws or infringe intellectual property rights.",
   },
   {
     title: "Service Rules",
     content: (
       <>
-        <p className="text-muted-foreground mb-4">When using VOMLabs software, you must NOT:</p>
+        <p className="mb-4 text-muted-foreground">
+          When using VOMLabs software, you must NOT:
+        </p>
         <div className="space-y-2">
           {[
             "Use the service for any illegal purposes",
@@ -65,10 +65,10 @@ const sections = [
             "Attempt to damage or disrupt the service or servers",
           ].map((rule, i) => (
             <div
+              className="flex items-start gap-3 rounded-lg border border-destructive/20 bg-destructive/5 p-3"
               key={i}
-              className="flex items-start gap-3 p-3 rounded-lg bg-destructive/5 border border-destructive/20"
             >
-              <span className="text-destructive font-mono text-sm shrink-0">
+              <span className="shrink-0 font-mono text-destructive text-sm">
                 {String(i + 1).padStart(2, "0")}.
               </span>
               <span className="text-muted-foreground text-sm">{rule}</span>
@@ -77,15 +77,14 @@ const sections = [
         </div>
       </>
     ),
-    text:
-      "When using VOMLabs software, you must NOT:\n- Use the service for any illegal purposes\n- Hack, exploit, or attempt to bypass security measures\n- Reverse engineer or decompile the software\n- Violate Mojang's or Microsoft's EULA\n- Attempt to damage or disrupt the service or servers",
+    text: "When using VOMLabs software, you must NOT:\n- Use the service for any illegal purposes\n- Hack, exploit, or attempt to bypass security measures\n- Reverse engineer or decompile the software\n- Violate Mojang's or Microsoft's EULA\n- Attempt to damage or disrupt the service or servers",
   },
   {
     title: "Service Availability",
     icon: <Zap className="size-5" />,
     content: (
       <>
-        <p className="text-muted-foreground leading-relaxed mb-4">
+        <p className="mb-4 text-muted-foreground leading-relaxed">
           VOMLabs software and this website are provided{" "}
           <span className="font-medium text-foreground">&quot;as is&quot;</span>{" "}
           and{" "}
@@ -94,15 +93,14 @@ const sections = [
           </span>
           .
         </p>
-        <p className="text-sm text-muted-foreground">
-          <span className="text-brand-accent font-medium">No warranty</span> —
+        <p className="text-muted-foreground text-sm">
+          <span className="font-medium text-brand-accent">No warranty</span> —
           express or implied — including fitness for a particular purpose,
           non-infringement, or uninterrupted/error-free operation.
         </p>
       </>
     ),
-    text:
-      "VOMLabs software and this website are provided as-is and as-available. No warranty, express or implied, including fitness for a particular purpose, non-infringement, or uninterrupted/error-free operation.",
+    text: "VOMLabs software and this website are provided as-is and as-available. No warranty, express or implied, including fitness for a particular purpose, non-infringement, or uninterrupted/error-free operation.",
   },
   {
     title: "Liability",
@@ -111,7 +109,7 @@ const sections = [
       <>
         <p className="text-muted-foreground leading-relaxed">
           VOMLabs contributors are{" "}
-          <span className="text-brand-accent font-medium">not liable</span> for
+          <span className="font-medium text-brand-accent">not liable</span> for
           any damages arising from your use of VOMLabs software.
         </p>
         <ul className="mt-4 space-y-2 text-muted-foreground">
@@ -120,47 +118,43 @@ const sections = [
             "Business interruption",
             "Indirect, consequential, or punitive damages",
           ].map((item, i) => (
-            <li key={i} className="flex items-start gap-2 text-sm">
-              <span className="text-brand-accent font-mono">$</span>
+            <li className="flex items-start gap-2 text-sm" key={i}>
+              <span className="font-mono text-brand-accent">$</span>
               <span>{item}</span>
             </li>
           ))}
         </ul>
       </>
     ),
-    text:
-      "VOMLabs contributors are not liable for any damages arising from your use of VOMLabs software, including loss of data, business interruption, and indirect or consequential damages.",
+    text: "VOMLabs contributors are not liable for any damages arising from your use of VOMLabs software, including loss of data, business interruption, and indirect or consequential damages.",
   },
   {
     title: "Ownership",
     content: (
       <ul className="space-y-3 text-muted-foreground">
         <li className="flex items-start gap-3">
-          <span className="text-brand-accent mt-1 font-mono">$</span>
-          <span>
-            Minecraft is a trademark of Microsoft and Mojang.
-          </span>
+          <span className="mt-1 font-mono text-brand-accent">$</span>
+          <span>Minecraft is a trademark of Microsoft and Mojang.</span>
         </li>
         <li className="flex items-start gap-3">
-          <span className="text-brand-accent mt-1 font-mono">$</span>
+          <span className="mt-1 font-mono text-brand-accent">$</span>
           <span>
             VOMLabs is independent and not affiliated with Mojang or Microsoft.
           </span>
         </li>
         <li className="flex items-start gap-3">
-          <span className="text-brand-accent mt-1 font-mono">$</span>
+          <span className="mt-1 font-mono text-brand-accent">$</span>
           <span>
             All referenced content and assets belong to their respective owners.
           </span>
         </li>
         <li className="flex items-start gap-3">
-          <span className="text-brand-accent mt-1 font-mono">$</span>
+          <span className="mt-1 font-mono text-brand-accent">$</span>
           <span>VOMLabs is open source. View on GitHub.</span>
         </li>
       </ul>
     ),
-    text:
-      "Minecraft is a trademark of Microsoft and Mojang.\nVOMLabs is independent and not affiliated with Mojang or Microsoft.\nAll referenced content and assets belong to their respective owners.\nVOMLabs is open source. View on GitHub.",
+    text: "Minecraft is a trademark of Microsoft and Mojang.\nVOMLabs is independent and not affiliated with Mojang or Microsoft.\nAll referenced content and assets belong to their respective owners.\nVOMLabs is open source. View on GitHub.",
   },
   {
     title: "Service Changes",
@@ -174,8 +168,7 @@ const sections = [
         and continued use constitutes acceptance of changes.
       </p>
     ),
-    text:
-      "We reserve the right to modify, suspend, or discontinue any part of VOMLabs software at any time. These Terms may be updated, and continued use constitutes acceptance of changes.",
+    text: "We reserve the right to modify, suspend, or discontinue any part of VOMLabs software at any time. These Terms may be updated, and continued use constitutes acceptance of changes.",
   },
   {
     title: "Termination",
@@ -183,7 +176,9 @@ const sections = [
       <>
         <p className="text-muted-foreground leading-relaxed">
           Your access may be{" "}
-          <span className="font-medium text-foreground">revoked at any time</span>
+          <span className="font-medium text-foreground">
+            revoked at any time
+          </span>
           , with or without notice, for:
         </p>
         <ul className="mt-4 space-y-2 text-muted-foreground">
@@ -192,34 +187,33 @@ const sections = [
             "Illegal activity",
             "Any reason at our discretion",
           ].map((item, i) => (
-            <li key={i} className="flex items-start gap-2 text-sm">
-              <span className="text-destructive font-mono">$</span>
+            <li className="flex items-start gap-2 text-sm" key={i}>
+              <span className="font-mono text-destructive">$</span>
               <span>{item}</span>
             </li>
           ))}
         </ul>
       </>
     ),
-    text:
-      "Your access may be revoked at any time, with or without notice, for violation of these Terms, illegal activity, or any reason at our discretion.",
+    text: "Your access may be revoked at any time, with or without notice, for violation of these Terms, illegal activity, or any reason at our discretion.",
   },
   {
     title: "Contact",
     content: (
       <>
-        <p className="text-muted-foreground leading-relaxed mb-4">
+        <p className="mb-4 text-muted-foreground leading-relaxed">
           Questions about these Terms of Service?
         </p>
         <div className="flex flex-wrap gap-3">
           <a
+            className="inline-flex items-center gap-2 rounded-lg border border-border/60 bg-card/30 px-4 py-2 font-mono text-muted-foreground text-sm transition-all hover:bg-card/50 hover:text-foreground"
             href="mailto:support@devflare.de"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border/60 bg-card/30 hover:bg-card/50 text-sm font-mono text-muted-foreground hover:text-foreground transition-all"
           >
             $ support@devflare.de
           </a>
           <Link
+            className="rounded-lg border border-border/60 bg-card/30 px-4 py-2 font-mono text-muted-foreground text-sm transition-all hover:bg-card/50 hover:text-foreground"
             href="/legal"
-            className="px-4 py-2 rounded-lg border border-border/60 bg-card/30 hover:bg-card/50 text-sm font-mono text-muted-foreground hover:text-foreground transition-all"
           >
             $ cat /legal
           </Link>
@@ -233,20 +227,20 @@ const sections = [
     content: (
       <div className="flex flex-wrap gap-3">
         <Link
+          className="rounded-lg border border-border/60 bg-card/30 px-4 py-2 font-mono text-muted-foreground text-sm transition-all hover:bg-card/50 hover:text-foreground"
           href="/legal"
-          className="px-4 py-2 rounded-lg border border-border/60 bg-card/30 hover:bg-card/50 text-sm font-mono text-muted-foreground hover:text-foreground transition-all"
         >
           $ cat /legal
         </Link>
         <Link
+          className="rounded-lg border border-border/60 bg-card/30 px-4 py-2 font-mono text-muted-foreground text-sm transition-all hover:bg-card/50 hover:text-foreground"
           href="/privacy"
-          className="px-4 py-2 rounded-lg border border-border/60 bg-card/30 hover:bg-card/50 text-sm font-mono text-muted-foreground hover:text-foreground transition-all"
         >
           $ cat /privacy
         </Link>
         <Link
+          className="rounded-lg border border-border/60 bg-card/30 px-4 py-2 font-mono text-muted-foreground text-sm transition-all hover:bg-card/50 hover:text-foreground"
           href="/terms"
-          className="px-4 py-2 rounded-lg border border-border/60 bg-card/30 hover:bg-card/50 text-sm font-mono text-muted-foreground hover:text-foreground transition-all"
         >
           $ cat /terms
         </Link>
@@ -259,17 +253,20 @@ const sections = [
 export default function TermsOfService() {
   return (
     <LegalPageLayout
-      title="Terms of Service"
-      subtitle="The service agreement for using VOMLabs software."
       filename="terms-of-service.txt"
-      plaintextSections={sections.map((s) => ({ title: s.title, text: s.text }))}
+      plaintextSections={sections.map((s) => ({
+        title: s.title,
+        text: s.text,
+      }))}
+      subtitle="The service agreement for using VOMLabs software."
+      title="Terms of Service"
     >
       {sections.map((section, i) => (
         <SectionCard
-          key={i}
-          title={section.title}
           icon={section.icon}
           index={i}
+          key={i}
+          title={section.title}
         >
           {section.content}
         </SectionCard>

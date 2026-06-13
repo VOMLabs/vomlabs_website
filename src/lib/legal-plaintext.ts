@@ -1,9 +1,13 @@
-export function downloadPlaintext(filename: string, title: string, sections: { title?: string; text: string }[]) {
+export function downloadPlaintext(
+  filename: string,
+  title: string,
+  sections: { title?: string; text: string }[]
+) {
   const lines: string[] = [];
   lines.push(title);
   lines.push("=".repeat(title.length));
   lines.push("");
-  lines.push(`Last updated: May 2026`);
+  lines.push("Last updated: May 2026");
   lines.push("");
 
   for (const section of sections) {

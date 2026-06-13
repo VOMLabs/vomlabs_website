@@ -1,15 +1,19 @@
+import { desc, eq } from "drizzle-orm";
 import fs from "fs";
 import path from "path";
-import { eq, desc, sql } from "drizzle-orm";
-import { authors as authorsTable, type Author, type NewAuthor } from "@/db/schema";
 import { getDb } from "@/db";
+import {
+  type Author,
+  authors as authorsTable,
+  type NewAuthor,
+} from "@/db/schema";
 
 export interface AuthorData {
+  avatar: string | null;
+  createdAt?: string;
   id?: string;
   name: string;
-  avatar: string | null;
   role?: string | null;
-  createdAt?: string;
   updatedAt?: string;
 }
 
@@ -20,9 +24,13 @@ function hasDb(): boolean {
 }
 
 function readJsonData(): Author[] {
-  if (!fs.existsSync(DATA_FILE)) return [];
+  if (!fs.existsSync(DATA_FILE)) {
+    return [];
+  }
   const raw = JSON.parse(fs.readFileSync(DATA_FILE, "utf-8"));
-  if (!Array.isArray(raw)) return [];
+  if (!Array.isArray(raw)) {
+    return [];
+  }
   return raw.map((a: Record<string, unknown>) => ({
     id: (a.id as string) || crypto.randomUUID(),
     name: (a.name as string) || "",
@@ -56,7 +64,10 @@ function toAuthorData(a: Author): AuthorData {
 export async function getAllAuthors(): Promise<AuthorData[]> {
   if (hasDb()) {
     const db = getDb();
-    const rows = await db.select().from(authorsTable).orderBy(desc(authorsTable.createdAt));
+    const rows = await db
+      .select()
+      .from(authorsTable)
+      .orderBy(desc(authorsTable.createdAt));
     return rows.map(toAuthorData);
   }
 
@@ -66,7 +77,11 @@ export async function getAllAuthors(): Promise<AuthorData[]> {
 export async function getAuthor(name: string): Promise<AuthorData | undefined> {
   if (hasDb()) {
     const db = getDb();
-    const rows = await db.select().from(authorsTable).where(eq(authorsTable.name, name)).limit(1);
+    const rows = await db
+      .select()
+      .from(authorsTable)
+      .where(eq(authorsTable.name, name))
+      .limit(1);
     return rows.length > 0 ? toAuthorData(rows[0]) : undefined;
   }
 
@@ -74,12 +89,20 @@ export async function getAuthor(name: string): Promise<AuthorData | undefined> {
   return author ? toAuthorData(author) : undefined;
 }
 
-export async function createAuthor(data: { name: string; avatar?: string | null; role?: string | null }): Promise<AuthorData> {
+export async function createAuthor(data: {
+  name: string;
+  avatar?: string | null;
+  role?: string | null;
+}): Promise<AuthorData> {
   if (hasDb()) {
     const db = getDb();
     const rows = await db
       .insert(authorsTable)
-      .values({ name: data.name, avatar: data.avatar || null, role: data.role || null })
+      .values({
+        name: data.name,
+        avatar: data.avatar || null,
+        role: data.role || null,
+      })
       .returning();
     return toAuthorData(rows[0]);
   }
@@ -111,9 +134,15 @@ export async function updateAuthor(
   if (hasDb()) {
     const db = getDb();
     const updateData: Partial<NewAuthor> = {};
-    if (data.name !== undefined) updateData.name = data.name;
-    if (data.avatar !== undefined) updateData.avatar = data.avatar;
-    if (data.role !== undefined) updateData.role = data.role;
+    if (data.name !== undefined) {
+      updateData.name = data.name;
+    }
+    if (data.avatar !== undefined) {
+      updateData.avatar = data.avatar;
+    }
+    if (data.role !== undefined) {
+      updateData.role = data.role;
+    }
     updateData.updatedAt = new Date();
 
     const rows = await db
@@ -126,11 +155,19 @@ export async function updateAuthor(
 
   const authors = readJsonData();
   const index = authors.findIndex((a) => a.name === name);
-  if (index === -1) return null;
+  if (index === -1) {
+    return null;
+  }
 
-  if (data.name !== undefined) authors[index].name = data.name;
-  if (data.avatar !== undefined) authors[index].avatar = data.avatar;
-  if (data.role !== undefined) authors[index].role = data.role;
+  if (data.name !== undefined) {
+    authors[index].name = data.name;
+  }
+  if (data.avatar !== undefined) {
+    authors[index].avatar = data.avatar;
+  }
+  if (data.role !== undefined) {
+    authors[index].role = data.role;
+  }
   authors[index].updatedAt = new Date();
 
   writeJsonData(authors);
@@ -149,7 +186,9 @@ export async function deleteAuthor(name: string): Promise<boolean> {
 
   const authors = readJsonData();
   const index = authors.findIndex((a) => a.name === name);
-  if (index === -1) return false;
+  if (index === -1) {
+    return false;
+  }
   authors.splice(index, 1);
   writeJsonData(authors);
   return true;

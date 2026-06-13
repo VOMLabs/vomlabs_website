@@ -1,9 +1,9 @@
 "use client";
 
+import { Check, Shield } from "lucide-react";
+import Link from "next/link";
 import LegalPageLayout from "@/components/legal/legal-page-layout";
 import SectionCard from "@/components/legal/section-card";
-import { Shield, Check } from "lucide-react";
-import Link from "next/link";
 
 const sections = [
   {
@@ -11,16 +11,15 @@ const sections = [
     icon: <Shield className="size-5" />,
     content: (
       <p className="text-muted-foreground leading-relaxed">
-        <strong>VOMLabs</strong> is committed to protecting your privacy.
-        We believe in{" "}
-        <span className="text-brand-accent font-medium">
+        <strong>VOMLabs</strong> is committed to protecting your privacy. We
+        believe in{" "}
+        <span className="font-medium text-brand-accent">
           minimal data collection
         </span>{" "}
         — your data stays on your machine.
       </p>
     ),
-    text:
-      "VOMLabs is committed to protecting your privacy. We believe in minimal data collection - your data stays on your machine.",
+    text: "VOMLabs is committed to protecting your privacy. We believe in minimal data collection - your data stays on your machine.",
   },
   {
     title: "Data Collection",
@@ -40,15 +39,15 @@ const sections = [
             desc: "Data collection for plugins is generally non-optional and hardcoded to ensure consistent quality. Some plugins may allow disabling anonymous stats via their configuration files.",
           },
         ].map((item, j) => (
-          <div key={j} className="flex items-start gap-3">
-            <div className="flex items-center justify-center w-6 h-6 rounded-full bg-emerald-500/10 text-emerald-500 shrink-0 mt-0.5">
+          <div className="flex items-start gap-3" key={j}>
+            <div className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-500">
               <Check className="size-3.5" />
             </div>
             <div>
-              <span className="font-medium text-foreground font-mono text-sm">
+              <span className="font-medium font-mono text-foreground text-sm">
                 {item.title}
               </span>
-              <p className="text-sm text-muted-foreground mt-0.5">
+              <p className="mt-0.5 text-muted-foreground text-sm">
                 {item.desc}
               </p>
             </div>
@@ -56,8 +55,7 @@ const sections = [
         ))}
       </div>
     ),
-    text:
-      "Anonymous Statistics: If you use our plugins, we collect anonymous statistics using FastStats.\nNo Personal Tracking: We do not track any personal data, usage patterns on our website, or individual player information.\nOpt-out Policy: Data collection for plugins is generally non-optional and hardcoded. Some plugins may allow disabling stats via config.",
+    text: "Anonymous Statistics: If you use our plugins, we collect anonymous statistics using FastStats.\nNo Personal Tracking: We do not track any personal data, usage patterns on our website, or individual player information.\nOpt-out Policy: Data collection for plugins is generally non-optional and hardcoded. Some plugins may allow disabling stats via config.",
   },
   {
     title: "Your Rights",
@@ -72,19 +70,18 @@ const sections = [
         regarding your inquiry.
       </p>
     ),
-    text:
-      "Since we don't collect or store personal data, there's minimal data subject rights concerns. If you contact us, any information provided will be used solely for communication regarding your inquiry.",
+    text: "Since we don't collect or store personal data, there's minimal data subject rights concerns. If you contact us, any information provided will be used solely for communication regarding your inquiry.",
   },
   {
     title: "Contact",
     content: (
       <>
-        <p className="text-muted-foreground leading-relaxed mb-4">
+        <p className="mb-4 text-muted-foreground leading-relaxed">
           For privacy-related questions, contact us at:
         </p>
         <a
+          className="inline-flex items-center gap-2 font-mono text-brand-accent text-sm hover:underline"
           href="mailto:privacy@vomlabs.com"
-          className="inline-flex items-center gap-2 font-mono text-sm text-brand-accent hover:underline"
         >
           <span className="text-muted-foreground">$</span> privacy@vomlabs.com
         </a>
@@ -97,20 +94,20 @@ const sections = [
     content: (
       <div className="flex flex-wrap gap-3">
         <Link
+          className="rounded-lg border border-border/60 bg-card/30 px-4 py-2 font-mono text-muted-foreground text-sm transition-all hover:bg-card/50 hover:text-foreground"
           href="/legal"
-          className="px-4 py-2 rounded-lg border border-border/60 bg-card/30 hover:bg-card/50 text-sm font-mono text-muted-foreground hover:text-foreground transition-all"
         >
           $ cat /legal
         </Link>
         <Link
+          className="rounded-lg border border-border/60 bg-card/30 px-4 py-2 font-mono text-muted-foreground text-sm transition-all hover:bg-card/50 hover:text-foreground"
           href="/terms"
-          className="px-4 py-2 rounded-lg border border-border/60 bg-card/30 hover:bg-card/50 text-sm font-mono text-muted-foreground hover:text-foreground transition-all"
         >
           $ cat /terms
         </Link>
         <Link
+          className="rounded-lg border border-border/60 bg-card/30 px-4 py-2 font-mono text-muted-foreground text-sm transition-all hover:bg-card/50 hover:text-foreground"
           href="/tos"
-          className="px-4 py-2 rounded-lg border border-border/60 bg-card/30 hover:bg-card/50 text-sm font-mono text-muted-foreground hover:text-foreground transition-all"
         >
           $ cat /tos
         </Link>
@@ -123,17 +120,20 @@ const sections = [
 export default function PrivacyPolicy() {
   return (
     <LegalPageLayout
-      title="Privacy Policy"
-      subtitle="How we handle your data and protect your privacy."
       filename="privacy-policy.txt"
-      plaintextSections={sections.map((s) => ({ title: s.title, text: s.text }))}
+      plaintextSections={sections.map((s) => ({
+        title: s.title,
+        text: s.text,
+      }))}
+      subtitle="How we handle your data and protect your privacy."
+      title="Privacy Policy"
     >
       {sections.map((section, i) => (
         <SectionCard
-          key={section.title}
-          title={section.title}
           icon={section.icon}
           index={i}
+          key={section.title}
+          title={section.title}
         >
           {section.content}
         </SectionCard>

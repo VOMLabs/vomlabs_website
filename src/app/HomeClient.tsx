@@ -1,17 +1,17 @@
 "use client";
 
 import {
-  Hero,
-  FeatureCards,
-  performance_comparison,
   beta_waitlist,
-  for_developers,
   faq as FAQ,
+  FeatureCards,
+  for_developers,
+  Hero,
+  performance_comparison,
 } from "@/components/sections/home";
 
 interface FAQItem {
-  question: string;
   answer: string;
+  question: string;
 }
 
 export default function HomeClient({ faqs }: { faqs: FAQItem[] }) {

@@ -1,5 +1,8 @@
 export function getAdminKeys(): string[] {
-  return (process.env.ADMIN_KEYS ?? "").split(",").map((k) => k.trim()).filter(Boolean);
+  return (process.env.ADMIN_KEYS ?? "")
+    .split(",")
+    .map((k) => k.trim())
+    .filter(Boolean);
 }
 
 export async function hashKey(key: string): Promise<string> {
@@ -16,7 +19,9 @@ export async function getHashedKeys(): Promise<string[]> {
 }
 
 export async function isValidToken(token: string): Promise<boolean> {
-  if (!token) return false;
+  if (!token) {
+    return false;
+  }
   const hashedKeys = await getHashedKeys();
   return hashedKeys.includes(token);
 }

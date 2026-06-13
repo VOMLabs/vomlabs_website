@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpIcon } from "@heroicons/react/24/outline";
+import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 export function ScrollToTop() {
   const [is_visible, set_is_visible] = useState(false);
@@ -27,15 +27,15 @@ export function ScrollToTop() {
     <AnimatePresence>
       {is_visible && (
         <motion.button
-          initial={{ opacity: 0, scale: 0.8, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.8, y: 20 }}
-          transition={{ duration: 0.2 }}
-          onClick={scroll_to_top}
-          className="fixed bottom-6 right-6 z-50 p-3 rounded-full bg-card/80 backdrop-blur border border-border shadow-lg hover:bg-card hover:border-brand-accent/50 transition-all active:scale-95"
           aria-label="Scroll to top"
+          className="fixed right-6 bottom-6 z-50 rounded-full border border-border bg-card/80 p-3 shadow-lg backdrop-blur transition-all hover:border-brand-accent/50 hover:bg-card active:scale-95"
+          exit={{ opacity: 0, scale: 0.8, y: 20 }}
+          initial={{ opacity: 0, scale: 0.8, y: 20 }}
+          onClick={scroll_to_top}
+          transition={{ duration: 0.2 }}
         >
-          <ArrowUpIcon className="w-5 h-5 text-foreground" />
+          <ArrowUpIcon className="h-5 w-5 text-foreground" />
         </motion.button>
       )}
     </AnimatePresence>

@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect } from "react";
 import { useTheme } from "next-themes";
+import { useEffect } from "react";
 
 export function ThemeShortcut() {
   const { setTheme, resolvedTheme } = useTheme();
@@ -13,9 +13,11 @@ export function ThemeShortcut() {
         !e.metaKey &&
         !e.ctrlKey &&
         !e.altKey &&
-        !(e.target instanceof HTMLInputElement ||
+        !(
+          e.target instanceof HTMLInputElement ||
           e.target instanceof HTMLTextAreaElement ||
-          e.target instanceof HTMLSelectElement)
+          e.target instanceof HTMLSelectElement
+        )
       ) {
         e.preventDefault();
         setTheme(resolvedTheme === "dark" ? "light" : "dark");

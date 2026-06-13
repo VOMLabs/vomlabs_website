@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
-import { KeyRound, ArrowRight, ShieldAlert } from "lucide-react";
+import { ArrowRight, KeyRound, ShieldAlert } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
 
 export default function AdminLogin() {
   const [key, setKey] = useState("");
@@ -40,10 +40,10 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden flex flex-col items-center justify-center px-6 selection:bg-brand-accent/30 selection:text-brand-accent">
+    <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 selection:bg-brand-accent/30 selection:text-brand-accent">
       <div className="fixed inset-0 z-[-2] bg-background" />
       <div
-        className="fixed inset-0 z-[-1] opacity-20 dark:opacity-10 pointer-events-none"
+        className="pointer-events-none fixed inset-0 z-[-1] opacity-20 dark:opacity-10"
         style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23a0a0a0' fill-opacity='0.4' fill-rule='evenodd'%3E%3Ccircle cx='2' cy='2' r='1'/%3E%3C/g%3E%3C/svg%3E")`,
           maskImage: "linear-gradient(to bottom, black 40%, transparent 100%)",
@@ -51,49 +51,49 @@ export default function AdminLogin() {
             "linear-gradient(to bottom, black 40%, transparent 100%)",
         }}
       />
-      <div className="fixed top-1/3 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-brand-accent/5 rounded-full blur-[120px] -z-10 pointer-events-none" />
+      <div className="pointer-events-none fixed top-1/3 left-1/2 -z-10 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-brand-accent/5 blur-[120px]" />
 
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
         className="w-full max-w-md"
+        initial={{ opacity: 0, y: 20 }}
+        transition={{ duration: 0.6 }}
       >
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-accent/10 border border-brand-accent/20 text-[11px] font-mono text-brand-accent mb-6 tracking-wide">
-            <span className="w-1.5 h-1.5 rounded-full bg-brand-accent" />
+        <div className="mb-8 text-center">
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-brand-accent/20 bg-brand-accent/10 px-3 py-1.5 font-mono text-[11px] text-brand-accent tracking-wide">
+            <span className="h-1.5 w-1.5 rounded-full bg-brand-accent" />
             ADMIN ACCESS
           </div>
-          <h1 className="text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="font-bold text-3xl text-foreground tracking-tight">
             Authenticate
           </h1>
-          <p className="text-muted-foreground text-sm mt-2 font-mono">
+          <p className="mt-2 font-mono text-muted-foreground text-sm">
             $ ssh admin@vomlabs.com
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="rounded-xl border border-border/60 bg-card/20 backdrop-blur-sm overflow-hidden">
-            <div className="flex items-center gap-2 px-4 py-2.5 border-b border-border/40 bg-muted/10">
+        <form className="space-y-4" onSubmit={handleSubmit}>
+          <div className="overflow-hidden rounded-xl border border-border/60 bg-card/20 backdrop-blur-sm">
+            <div className="flex items-center gap-2 border-border/40 border-b bg-muted/10 px-4 py-2.5">
               <KeyRound className="size-4 text-brand-accent" />
-              <span className="text-xs font-mono text-muted-foreground">
+              <span className="font-mono text-muted-foreground text-xs">
                 admin_key.pub
               </span>
             </div>
             <textarea
-              value={key}
+              className="w-full resize-none bg-transparent px-4 py-3 font-mono text-foreground text-sm placeholder:text-muted-foreground/40 focus:outline-none"
               onChange={(e) => setKey(e.target.value)}
               placeholder="Paste your admin key here..."
               rows={3}
-              className="w-full px-4 py-3 bg-transparent text-foreground font-mono text-sm placeholder:text-muted-foreground/40 focus:outline-none resize-none"
+              value={key}
             />
           </div>
 
           {error && (
             <motion.div
-              initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
-              className="flex items-center gap-2 px-4 py-3 rounded-xl bg-destructive/10 border border-destructive/20 text-sm text-destructive"
+              className="flex items-center gap-2 rounded-xl border border-destructive/20 bg-destructive/10 px-4 py-3 text-destructive text-sm"
+              initial={{ opacity: 0, y: -8 }}
             >
               <ShieldAlert className="size-4 shrink-0" />
               <span>{error}</span>
@@ -101,12 +101,12 @@ export default function AdminLogin() {
           )}
 
           <button
-            type="submit"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand-accent px-6 py-3 font-semibold text-background text-sm transition-all hover:bg-brand-accent/90 active:scale-[0.97] disabled:pointer-events-none disabled:opacity-40"
             disabled={loading || !key.trim()}
-            className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-brand-accent hover:bg-brand-accent/90 text-background font-semibold text-sm transition-all active:scale-[0.97] disabled:opacity-40 disabled:pointer-events-none"
+            type="submit"
           >
             {loading ? (
-              <span className="inline-block w-4 h-4 border-2 border-background/30 border-t-background rounded-full animate-spin" />
+              <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-background/30 border-t-background" />
             ) : (
               <>
                 Authenticate
@@ -116,7 +116,7 @@ export default function AdminLogin() {
           </button>
         </form>
 
-        <p className="text-center text-[11px] text-muted-foreground/60 font-mono mt-6">
+        <p className="mt-6 text-center font-mono text-[11px] text-muted-foreground/60">
           $ echo &quot;Access restricted to authorized personnel&quot;
         </p>
       </motion.div>

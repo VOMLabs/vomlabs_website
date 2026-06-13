@@ -1,5 +1,5 @@
-import postgres from "postgres";
 import { drizzle } from "drizzle-orm/postgres-js";
+import postgres from "postgres";
 import * as schema from "./schema";
 
 const connectionString = process.env.DATABASE_URL;
@@ -8,7 +8,9 @@ let db: ReturnType<typeof drizzle<typeof schema>> | null = null;
 let client: postgres.Sql | null = null;
 
 export function getDb() {
-  if (db) return db;
+  if (db) {
+    return db;
+  }
 
   if (!connectionString) {
     throw new Error(
@@ -23,7 +25,9 @@ export function getDb() {
 }
 
 export function getClient() {
-  if (client) return client;
+  if (client) {
+    return client;
+  }
   getDb();
   return client!;
 }

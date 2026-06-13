@@ -1,10 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { LayoutDashboard } from "lucide-react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
-export default function AdminStatus({ mobile, onNavigate }: { mobile?: boolean; onNavigate?: () => void }) {
+export default function AdminStatus({
+  mobile,
+  onNavigate,
+}: {
+  mobile?: boolean;
+  onNavigate?: () => void;
+}) {
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
@@ -14,16 +20,18 @@ export default function AdminStatus({ mobile, onNavigate }: { mobile?: boolean; 
       .catch(() => setIsAdmin(false));
   }, []);
 
-  if (!isAdmin) return null;
+  if (!isAdmin) {
+    return null;
+  }
 
   if (mobile) {
     return (
       <Link
+        className="block w-full rounded-xl bg-brand-accent px-4 py-3 text-center font-semibold text-background text-sm transition-all hover:bg-brand-accent/90 active:scale-[0.98]"
         href="/admin/dashboard"
         onClick={onNavigate}
-        className="w-full px-4 py-3 bg-brand-accent hover:bg-brand-accent/90 text-background rounded-xl text-sm font-semibold transition-all active:scale-[0.98] text-center block"
       >
-        <LayoutDashboard className="size-4 inline-block mr-2" />
+        <LayoutDashboard className="mr-2 inline-block size-4" />
         Dashboard
       </Link>
     );
@@ -31,8 +39,8 @@ export default function AdminStatus({ mobile, onNavigate }: { mobile?: boolean; 
 
   return (
     <Link
+      className="hidden items-center gap-2 rounded-lg bg-brand-accent px-4 py-2 font-semibold text-background text-sm transition-all hover:bg-brand-accent/90 active:scale-[0.97] md:inline-flex"
       href="/admin/dashboard"
-      className="hidden md:inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold bg-brand-accent hover:bg-brand-accent/90 text-background rounded-lg transition-all active:scale-[0.97]"
     >
       <LayoutDashboard className="size-4" />
       <span className="hidden lg:inline">Dashboard</span>

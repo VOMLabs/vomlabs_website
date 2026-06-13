@@ -1,111 +1,74 @@
 "use client";
 
-import { motion } from "framer-motion";
 import {
-  UsersIcon,
-  CodeBracketIcon,
-  WrenchScrewdriverIcon,
   ArrowTopRightOnSquareIcon,
+  CodeBracketIcon,
+  UsersIcon,
+  WrenchScrewdriverIcon,
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
+import { FadeInView } from "@/components/ui/fade-in-view";
+import { FeatureCard } from "@/components/ui/feature-card";
+import { SectionHeading } from "@/components/ui/section-heading";
 
 export function beta_waitlist() {
   return (
     <section
+      className="mx-auto max-w-4xl border-border/50 border-t px-6 py-24"
       id="beta"
-      className="max-w-4xl mx-auto px-6 py-24 border-t border-border/50"
     >
-      <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.7 }}
-        className="text-center mb-12"
+      <SectionHeading
+        accent="Developer"
+        description="Join our community and help build the future of Minecraft tooling."
       >
-        <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4 tracking-tight">
-          Become a <span className="text-brand-accent italic">Developer</span>
-        </h2>
-        <p className="text-muted-foreground max-w-xl mx-auto leading-relaxed md:text-lg">
-          Join our community and help build the future of Minecraft tooling.
-        </p>
-      </motion.div>
+        Become a
+      </SectionHeading>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="rounded-xl bg-card/60 border border-border p-6 text-center"
-        >
-          <div className="flex items-center justify-center rounded-lg bg-brand-accent/10 w-12 h-12 mx-auto mb-4">
-            <UsersIcon className="w-6 h-6 text-brand-accent" />
-          </div>
-          <h3 className="font-semibold text-foreground mb-2">
-            Join Our Community
-          </h3>
-          <p className="text-sm text-muted-foreground">
-            Connect with developers and contributors on Discord.
-          </p>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="rounded-xl bg-card/60 border border-border p-6 text-center"
-        >
-          <div className="flex items-center justify-center rounded-lg bg-brand-accent/10 w-12 h-12 mx-auto mb-4">
-            <CodeBracketIcon className="w-6 h-6 text-brand-accent" />
-          </div>
-          <h3 className="font-semibold text-foreground mb-2">
-            Open Source
-          </h3>
-          <p className="text-sm text-muted-foreground">
-            Contribute to our projects on GitHub. All skill levels welcome.
-          </p>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="rounded-xl bg-card/60 border border-border p-6 text-center"
-        >
-          <div className="flex items-center justify-center rounded-lg bg-brand-accent/10 w-12 h-12 mx-auto mb-4">
-            <WrenchScrewdriverIcon className="w-6 h-6 text-brand-accent" />
-          </div>
-          <h3 className="font-semibold text-foreground mb-2">
-            Build with Us
-          </h3>
-          <p className="text-sm text-muted-foreground">
-            Work on Rust, Tauri, and web projects alongside experienced devs.
-          </p>
-        </motion.div>
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+        {[
+          {
+            title: "Join Our Community",
+            description: "Connect with developers and contributors on Discord.",
+            icon: UsersIcon,
+          },
+          {
+            title: "Open Source",
+            description:
+              "Contribute to our projects on GitHub. All skill levels welcome.",
+            icon: CodeBracketIcon,
+          },
+          {
+            title: "Build with Us",
+            description:
+              "Work on Rust, Tauri, and web projects alongside experienced devs.",
+            icon: WrenchScrewdriverIcon,
+          },
+        ].map((item, i) => (
+          <FeatureCard
+            delay={(i + 1) * 0.1}
+            description={item.description}
+            icon={<item.icon className="h-6 w-6" />}
+            key={item.title}
+            title={item.title}
+            variant="minimal"
+          />
+        ))}
       </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: 0.4 }}
-        className="mt-8 text-center"
-      >
+      <FadeInView className="mt-8 text-center" delay={0.4}>
         <Link
+          className="inline-flex items-center gap-2 rounded-xl bg-brand-accent px-6 py-3 font-semibold text-background text-sm transition-all hover:bg-brand-accent/90 active:scale-95"
           href="https://discord.vomlabs.com"
-          target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold bg-brand-accent hover:bg-brand-accent/90 text-background transition-all active:scale-95"
+          target="_blank"
         >
           Join Discord to Apply
-          <ArrowTopRightOnSquareIcon className="w-4 h-4" />
+          <ArrowTopRightOnSquareIcon className="h-4 w-4" />
         </Link>
-        <p className="text-xs text-muted-foreground mt-4">
+        <p className="mt-4 text-muted-foreground text-xs">
           Looking for Rust, Tauri, and web developers to join the team
         </p>
-      </motion.div>
+      </FadeInView>
     </section>
   );
 }

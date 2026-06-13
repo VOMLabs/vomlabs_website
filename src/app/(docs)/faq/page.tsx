@@ -1,5 +1,5 @@
-import { getAllFAQs } from "@/lib/faq";
 import FAQContent from "@/components/faq/faq-content";
+import { getAllFAQs } from "@/lib/faq";
 
 export default function FAQPage() {
   const faqs = getAllFAQs();

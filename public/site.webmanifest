@@ -1,0 +1,16 @@
+{
+  "name": "VOMLabs",
+  "short_name": "VOMLabs",
+  "description": "Minecraft Software & Developer Tools",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#d4955a",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
