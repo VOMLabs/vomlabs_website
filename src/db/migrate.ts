@@ -65,3 +65,5 @@ export async function migrateJsonToDb() {
 
   console.log(`\nDone. Inserted ${inserted}, skipped ${skipped}.`);
 }
+
+await migrateJsonToDb();

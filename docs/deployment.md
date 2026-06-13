@@ -1,6 +1,6 @@
 # Deployment
 
-The site deploys to a self-hosted Dokploy instance with PostgreSQL.
+The site deploys with PostgreSQL (Neon or self-hosted Dokploy).
 
 ## Environment Variables
 
@@ -10,7 +10,7 @@ The site deploys to a self-hosted Dokploy instance with PostgreSQL.
 ## Dokploy Setup
 
 1. Add `DATABASE_URL` and `ADMIN_KEYS` in the Dokploy environment settings
-2. Run `npm run db:push` to apply schema (or `db:generate` + manual migration)
+2. Run `npm run db:push` to apply schema
 3. Run `npm run db:migrate` to import existing JSON data into Postgres
 
 ## Build
