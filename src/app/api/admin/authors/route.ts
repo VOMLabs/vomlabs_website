@@ -21,13 +21,13 @@ export async function POST(request: Request) {
 
   try {
     const body = await request.json();
-    const { name, avatar } = body;
+    const { name, avatar, role } = body;
 
     if (!name || !name.trim()) {
       return NextResponse.json({ error: "name is required" }, { status: 400 });
     }
 
-    const author = await createAuthor({ name: name.trim(), avatar: avatar || null });
+    const author = await createAuthor({ name: name.trim(), avatar: avatar || null, role: role || null });
     return NextResponse.json(author, { status: 201 });
   } catch (e) {
     if (e instanceof Error && e.message.includes("already exists")) {

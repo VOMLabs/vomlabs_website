@@ -31,11 +31,12 @@ export async function PUT(
 
   const { name } = await params;
   const body = await request.json();
-  const { newName, avatar } = body;
+  const { newName, avatar, role } = body;
 
   const author = await updateAuthor(decodeURIComponent(name), {
     name: newName?.trim(),
     avatar: avatar !== undefined ? avatar : undefined,
+    role: role !== undefined ? role : undefined,
   });
 
   if (!author) {

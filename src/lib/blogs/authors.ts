@@ -8,6 +8,7 @@ export interface AuthorData {
   id?: string;
   name: string;
   avatar: string | null;
+  role?: string | null;
   createdAt?: string;
   updatedAt?: string;
 }
@@ -26,6 +27,7 @@ function readJsonData(): Author[] {
     id: (a.id as string) || crypto.randomUUID(),
     name: (a.name as string) || "",
     avatar: (a.avatar as string) || null,
+    role: (a.role as string) || null,
     createdAt: a.createdAt ? new Date(a.createdAt as string) : new Date(),
     updatedAt: a.updatedAt ? new Date(a.updatedAt as string) : new Date(),
   }));
@@ -35,6 +37,7 @@ function writeJsonData(data: Author[]): void {
   const json = data.map((a) => ({
     name: a.name,
     avatar: a.avatar,
+    role: a.role,
   }));
   fs.writeFileSync(DATA_FILE, JSON.stringify(json, null, 2), "utf-8");
 }
@@ -44,6 +47,7 @@ function toAuthorData(a: Author): AuthorData {
     id: a.id,
     name: a.name,
     avatar: a.avatar,
+    role: a.role,
     createdAt: a.createdAt?.toISOString(),
     updatedAt: a.updatedAt?.toISOString(),
   };
@@ -70,12 +74,12 @@ export async function getAuthor(name: string): Promise<AuthorData | undefined> {
   return author ? toAuthorData(author) : undefined;
 }
 
-export async function createAuthor(data: { name: string; avatar?: string | null }): Promise<AuthorData> {
+export async function createAuthor(data: { name: string; avatar?: string | null; role?: string | null }): Promise<AuthorData> {
   if (hasDb()) {
     const db = getDb();
     const rows = await db
       .insert(authorsTable)
-      .values({ name: data.name, avatar: data.avatar || null })
+      .values({ name: data.name, avatar: data.avatar || null, role: data.role || null })
       .returning();
     return toAuthorData(rows[0]);
   }
@@ -90,6 +94,7 @@ export async function createAuthor(data: { name: string; avatar?: string | null 
     id: crypto.randomUUID(),
     name: data.name,
     avatar: data.avatar || null,
+    role: data.role || null,
     createdAt: now,
     updatedAt: now,
   };
@@ -101,13 +106,14 @@ export async function createAuthor(data: { name: string; avatar?: string | null 
 
 export async function updateAuthor(
   name: string,
-  data: { name?: string; avatar?: string | null }
+  data: { name?: string; avatar?: string | null; role?: string | null }
 ): Promise<AuthorData | null> {
   if (hasDb()) {
     const db = getDb();
     const updateData: Partial<NewAuthor> = {};
     if (data.name !== undefined) updateData.name = data.name;
     if (data.avatar !== undefined) updateData.avatar = data.avatar;
+    if (data.role !== undefined) updateData.role = data.role;
     updateData.updatedAt = new Date();
 
     const rows = await db
@@ -124,6 +130,7 @@ export async function updateAuthor(
 
   if (data.name !== undefined) authors[index].name = data.name;
   if (data.avatar !== undefined) authors[index].avatar = data.avatar;
+  if (data.role !== undefined) authors[index].role = data.role;
   authors[index].updatedAt = new Date();
 
   writeJsonData(authors);

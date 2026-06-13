@@ -11,6 +11,7 @@ import type { AuthorEntry } from "@/lib/blogs";
 interface AuthorOption {
   name: string;
   avatar: string | null;
+  role?: string | null;
 }
 
 export default function NewBlogPost() {
@@ -27,6 +28,7 @@ export default function NewBlogPost() {
   const [showNewAuthor, setShowNewAuthor] = useState(false);
   const [newAuthorName, setNewAuthorName] = useState("");
   const [newAuthorAvatar, setNewAuthorAvatar] = useState("");
+  const [newAuthorRole, setNewAuthorRole] = useState("");
   const [creatingAuthor, setCreatingAuthor] = useState(false);
 
   useEffect(() => {
@@ -39,25 +41,42 @@ export default function NewBlogPost() {
       .catch(() => toast.error("Failed to load authors"));
   }, []);
 
+  const processAvatarUrl = async (url: string | null): Promise<string | null> => {
+    if (!url) return null;
+    if (url.startsWith("/uploads/")) return url;
+    const res = await fetch("/api/admin/upload-from-url", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url }),
+    });
+    if (!res.ok) throw new Error("Failed to process avatar URL");
+    const data = await res.json();
+    return data.url;
+  };
+
   const handleCreateAuthor = async () => {
     if (!newAuthorName.trim()) return;
     setCreatingAuthor(true);
     try {
+      const avatar = newAuthorAvatar.trim() || null;
+      const processedAvatar = avatar ? await processAvatarUrl(avatar) : null;
       const res = await fetch("/api/admin/authors", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: newAuthorName.trim(),
-          avatar: newAuthorAvatar.trim() || null,
+          avatar: processedAvatar,
+          role: newAuthorRole.trim() || null,
         }),
       });
       if (!res.ok) throw new Error();
       const created = await res.json();
       setAuthorOptions((prev) => [...prev, created]);
-      setAuthors((prev) => [...prev, { name: created.name, avatar: created.avatar }]);
+      setAuthors((prev) => [...prev, { name: created.name, avatar: created.avatar, role: created.role }]);
       setShowNewAuthor(false);
       setNewAuthorName("");
       setNewAuthorAvatar("");
+      setNewAuthorRole("");
       toast.success(`Author "${created.name}" created`);
     } catch {
       toast.error("Failed to create author");
@@ -70,7 +89,7 @@ export default function NewBlogPost() {
     setAuthors((prev) => {
       const exists = prev.find((a) => a.name === opt.name);
       if (exists) return prev.filter((a) => a.name !== opt.name);
-      return [...prev, { name: opt.name, avatar: opt.avatar }];
+      return [{ name: opt.name, avatar: opt.avatar, role: opt.role }, ...prev];
     });
   };
 
@@ -197,7 +216,7 @@ export default function NewBlogPost() {
                 />
               </div>
 
-              <div className="rounded-xl border border-border/60 bg-card/20 backdrop-blur-sm overflow-hidden relative">
+              <div className="rounded-xl border border-border/60 bg-card/20 backdrop-blur-sm relative">
                 <div className="px-3 py-2 border-b border-border/40 bg-muted/10">
                   <span className="text-[11px] font-mono text-muted-foreground">
                     $ authors
@@ -273,6 +292,12 @@ export default function NewBlogPost() {
                             className="w-full px-2.5 py-2 rounded-lg border border-border/60 bg-background/50 text-foreground text-xs placeholder:text-muted-foreground/40 focus:outline-none focus:border-brand-accent/40"
                           />
                           <input
+                            value={newAuthorRole}
+                            onChange={(e) => setNewAuthorRole(e.target.value)}
+                            placeholder="Role (e.g. Developer)"
+                            className="w-full px-2.5 py-2 rounded-lg border border-border/60 bg-background/50 text-foreground text-xs placeholder:text-muted-foreground/40 focus:outline-none focus:border-brand-accent/40"
+                          />
+                          <input
                             value={newAuthorAvatar}
                             onChange={(e) => setNewAuthorAvatar(e.target.value)}
                             placeholder="Avatar URL (optional)"
@@ -293,6 +318,7 @@ export default function NewBlogPost() {
                                 setShowNewAuthor(false);
                                 setNewAuthorName("");
                                 setNewAuthorAvatar("");
+                                setNewAuthorRole("");
                               }}
                               className="px-3 py-1.5 rounded-lg text-muted-foreground hover:text-foreground text-xs transition-all"
                             >

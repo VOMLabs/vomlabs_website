@@ -7,6 +7,7 @@ import { getDb } from "@/db";
 export interface AuthorEntry {
   name: string;
   avatar: string | null;
+  role?: string | null;
 }
 
 export interface BlogPostData {

@@ -10,11 +10,13 @@ interface AuthorEntry {
   id?: string;
   name: string;
   avatar: string | null;
+  role?: string | null;
 }
 
 function AvatarUpload({ value, onChange, username }: { value: string | null; onChange: (url: string | null) => void; username?: string }) {
   const [uploading, setUploading] = useState(false);
   const [fetchingMinecraft, setFetchingMinecraft] = useState(false);
+  const [downloadingUrl, setDownloadingUrl] = useState(false);
   const [dragOver, setDragOver] = useState(false);
   const [showUrlInput, setShowUrlInput] = useState(false);
   const [urlValue, setUrlValue] = useState("");
@@ -57,12 +59,26 @@ function AvatarUpload({ value, onChange, username }: { value: string | null; onC
     if (file) uploadFile(file);
   };
 
-  const handleUrlSubmit = () => {
+  const handleUrlSubmit = async () => {
     const trimmed = urlValue.trim();
     if (!trimmed) return;
-    onChange(trimmed);
-    setShowUrlInput(false);
-    setUrlValue("");
+    setDownloadingUrl(true);
+    try {
+      const res = await fetch("/api/admin/upload-from-url", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url: trimmed }),
+      });
+      if (!res.ok) throw new Error("Failed to download image");
+      const data = await res.json();
+      onChange(data.url);
+      setShowUrlInput(false);
+      setUrlValue("");
+    } catch {
+      toast.error("Failed to download image from URL");
+    } finally {
+      setDownloadingUrl(false);
+    }
   };
 
   const fetchMinecraftSkin = async () => {
@@ -169,10 +185,14 @@ function AvatarUpload({ value, onChange, username }: { value: string | null; onC
               <button
                 type="button"
                 onClick={handleUrlSubmit}
-                disabled={!urlValue.trim()}
+                disabled={!urlValue.trim() || downloadingUrl}
                 className="px-3 py-2 rounded-lg bg-brand-accent hover:bg-brand-accent/90 text-background text-xs font-medium transition-all disabled:opacity-40"
               >
-                Set
+                {downloadingUrl ? (
+                  <span className="inline-block size-3.5 border-2 border-background/30 border-t-background rounded-full animate-spin" />
+                ) : (
+                  "Set"
+                )}
               </button>
             </div>
           )}
@@ -188,10 +208,12 @@ export default function AdminAuthors() {
   const [showAdd, setShowAdd] = useState(false);
   const [newName, setNewName] = useState("");
   const [newAvatar, setNewAvatar] = useState<string | null>(null);
+  const [newRole, setNewRole] = useState("");
   const [saving, setSaving] = useState(false);
   const [editingAuthorName, setEditingAuthorName] = useState<string | null>(null);
   const [editName, setEditName] = useState("");
   const [editAvatarUrl, setEditAvatarUrl] = useState<string | null>(null);
+  const [editRole, setEditRole] = useState("");
 
   const fetchAuthors = useCallback(async () => {
     try {
@@ -224,6 +246,7 @@ export default function AdminAuthors() {
         body: JSON.stringify({
           name: newName.trim(),
           avatar: newAvatar,
+          role: newRole.trim() || null,
         }),
       });
 
@@ -236,6 +259,7 @@ export default function AdminAuthors() {
       setAuthors((prev) => [...prev, author]);
       setNewName("");
       setNewAvatar(null);
+      setNewRole("");
       setShowAdd(false);
       toast.success(`Author "${author.name}" created`);
     } catch (e) {
@@ -245,7 +269,7 @@ export default function AdminAuthors() {
     }
   };
 
-  const handleUpdateAuthor = async (name: string, newName: string, avatar: string | null) => {
+  const handleUpdateAuthor = async (name: string, newName: string, avatar: string | null, role: string) => {
     if (!newName.trim()) {
       toast.error("Name is required");
       return;
@@ -255,7 +279,7 @@ export default function AdminAuthors() {
       const res = await fetch(`/api/admin/authors/${encodeURIComponent(name)}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ newName: newName.trim(), avatar }),
+        body: JSON.stringify({ newName: newName.trim(), avatar, role: role.trim() || null }),
       });
 
       if (!res.ok) throw new Error();
@@ -270,6 +294,7 @@ export default function AdminAuthors() {
     setEditingAuthorName(null);
     setEditName("");
     setEditAvatarUrl(null);
+    setEditRole("");
   };
 
   const handleDelete = async (name: string) => {
@@ -345,6 +370,12 @@ export default function AdminAuthors() {
                   placeholder="Author name..."
                   className="w-full px-3 py-2.5 rounded-lg border border-border/60 bg-background/50 text-foreground text-sm placeholder:text-muted-foreground/40 focus:outline-none focus:border-brand-accent/40"
                 />
+                <input
+                  value={newRole}
+                  onChange={(e) => setNewRole(e.target.value)}
+                  placeholder="Role (e.g. Developer, Designer...)"
+                  className="w-full px-3 py-2.5 rounded-lg border border-border/60 bg-background/50 text-foreground text-sm placeholder:text-muted-foreground/40 focus:outline-none focus:border-brand-accent/40"
+                />
                 <AvatarUpload value={newAvatar} onChange={setNewAvatar} username={newName} />
                 <div className="flex items-center gap-2">
                   <button
@@ -361,6 +392,7 @@ export default function AdminAuthors() {
                       setShowAdd(false);
                       setNewName("");
                       setNewAvatar(null);
+                      setNewRole("");
                     }}
                     className="px-4 py-2 rounded-lg text-muted-foreground hover:text-foreground text-sm transition-all"
                   >
@@ -406,7 +438,7 @@ export default function AdminAuthors() {
                     <div className="flex-1 min-w-0">
                       <h2 className="font-semibold text-foreground truncate">{author.name}</h2>
                       <p className="text-xs text-muted-foreground font-mono truncate">
-                        {author.avatar || "no avatar"}
+                        {author.role || (author.avatar ? "avatar set" : "no avatar")}
                       </p>
                     </div>
                     <div className="flex items-center gap-1 shrink-0">
@@ -416,6 +448,7 @@ export default function AdminAuthors() {
                           setEditingAuthorName(author.name);
                           setEditName(author.name);
                           setEditAvatarUrl(author.avatar);
+                          setEditRole(author.role || "");
                         }}
                         className="flex items-center justify-center size-8 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
                         title="Edit author"
@@ -445,6 +478,12 @@ export default function AdminAuthors() {
                         placeholder="Author name..."
                         className="w-full px-3 py-2 rounded-lg border border-border/60 bg-background/50 text-foreground text-sm placeholder:text-muted-foreground/40 focus:outline-none focus:border-brand-accent/40"
                       />
+                      <input
+                        value={editRole}
+                        onChange={(e) => setEditRole(e.target.value)}
+                        placeholder="Role (e.g. Developer, Designer...)"
+                        className="w-full px-3 py-2 rounded-lg border border-border/60 bg-background/50 text-foreground text-sm placeholder:text-muted-foreground/40 focus:outline-none focus:border-brand-accent/40"
+                      />
                       <AvatarUpload
                         value={editAvatarUrl}
                         onChange={(url) => setEditAvatarUrl(url)}
@@ -453,7 +492,7 @@ export default function AdminAuthors() {
                       <div className="flex items-center gap-2">
                         <button
                           type="button"
-                          onClick={() => handleUpdateAuthor(author.name, editName, editAvatarUrl)}
+                          onClick={() => handleUpdateAuthor(author.name, editName, editAvatarUrl, editRole)}
                           className="px-3 py-2 rounded-lg bg-brand-accent hover:bg-brand-accent/90 text-background text-xs font-medium transition-all"
                         >
                           Save
@@ -464,6 +503,7 @@ export default function AdminAuthors() {
                             setEditingAuthorName(null);
                             setEditName("");
                             setEditAvatarUrl(null);
+                            setEditRole("");
                           }}
                           className="px-3 py-2 rounded-lg text-muted-foreground hover:text-foreground text-xs transition-all"
                         >

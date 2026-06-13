@@ -17,6 +17,7 @@ export const authors = pgTable("authors", {
   id: uuid("id").primaryKey().defaultRandom(),
   name: text("name").notNull().unique(),
   avatar: text("avatar"),
+  role: text("role"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
