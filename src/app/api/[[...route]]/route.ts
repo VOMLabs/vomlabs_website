@@ -1,4 +1,5 @@
 import { Elysia } from "elysia";
+import { cookie } from "@elysiajs/cookie";
 import { getAllAuthors, getAuthor, createAuthor, updateAuthor, deleteAuthor } from "@/lib/blogs/authors";
 import { getAllPostsAdmin, getPostBySlug, createPost, updatePost, deletePost, getAllPosts } from "@/lib/blogs";
 import { hashKey, isValidToken } from "@/lib/admin-auth";
@@ -15,12 +16,7 @@ async function getUserCookie(request: Request): Promise<string | undefined> {
 }
 
 const app = new Elysia()
-  .onError(({ code, error: err, set }) => {
-    if (code === "NOT_FOUND") return;
-    set.status = 500;
-    const message = err instanceof Error ? err.message : "Internal server error";
-    return { error: message };
-  })
+  .use(cookie())
 
   // Stats
   .get("/api/admin/stats", async () => {
@@ -323,8 +319,21 @@ const app = new Elysia()
   });
 
 async function handler(request: Request): Promise<Response> {
-  const response = await app.fetch(request);
-  return response || new Response("Not found", { status: 404 });
+  try {
+    const url = new URL(request.url);
+    const cleanRequest = new Request(url.toString(), {
+      method: request.method,
+      headers: request.headers,
+      body: request.method === "GET" || request.method === "HEAD" ? null : request.body,
+      duplex: "half",
+    } as RequestInit & { duplex: string });
+    const response = await app.fetch(cleanRequest);
+    if (response) return response;
+    return Response.json({ error: "Not found" }, { status: 404 });
+  } catch (e) {
+    console.error("Elysia handler error:", e);
+    return Response.json({ error: "Internal server error" }, { status: 500 });
+  }
 }
 
 export { handler as GET, handler as POST, handler as PUT, handler as DELETE };
