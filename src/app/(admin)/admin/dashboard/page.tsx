@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Star, Users, GitFork, FileText, Plus, UserCircle } from "lucide-react";
+import { ArrowRight, Star, Users, GitFork, FileText, Plus, UserCircle, LogOut } from "lucide-react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 interface Stats {
@@ -12,6 +13,7 @@ interface Stats {
 }
 
 export default function AdminDashboard() {
+  const router = useRouter();
   const [stats, setStats] = useState<Stats | null>(null);
 
   useEffect(() => {
@@ -20,6 +22,12 @@ export default function AdminDashboard() {
       .then(setStats)
       .catch(() => {});
   }, []);
+
+  const handleLogout = async () => {
+    await fetch("/api/admin/logout", { method: "POST" });
+    router.push("/admin/login");
+    router.refresh();
+  };
 
   const cards = [
     {
@@ -145,7 +153,7 @@ export default function AdminDashboard() {
                 </p>
               </Link>
             </div>
-            <div className="mt-6 pt-6 border-t border-border/40 text-center">
+            <div className="mt-6 pt-6 border-t border-border/40 flex items-center justify-center gap-3">
               <Link
                 href="/"
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-accent hover:bg-brand-accent/90 text-background font-semibold text-sm transition-all"
@@ -153,6 +161,14 @@ export default function AdminDashboard() {
                 Back to site
                 <ArrowRight className="size-4" />
               </Link>
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-destructive/40 hover:bg-destructive/10 text-muted-foreground hover:text-destructive font-semibold text-sm transition-all"
+              >
+                <LogOut className="size-4" />
+                Log out
+              </button>
             </div>
           </motion.div>
         </section>

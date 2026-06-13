@@ -40,6 +40,7 @@
         "clsx": "^2.1.1",
         "cmdk": "^1.1.1",
         "drizzle-orm": "^0.45.2",
+        "elysia": "^1.4.28",
         "framer-motion": "^12.38.0",
         "js-yaml": "^4.1.1",
         "lucide-react": "^0.575.0",

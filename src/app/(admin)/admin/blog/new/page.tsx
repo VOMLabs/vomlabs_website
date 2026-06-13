@@ -216,7 +216,7 @@ export default function NewBlogPost() {
                 />
               </div>
 
-              <div className="rounded-xl border border-border/60 bg-card/20 backdrop-blur-sm relative">
+              <div className="rounded-xl border border-border/60 bg-card/20 backdrop-blur-sm relative z-20">
                 <div className="px-3 py-2 border-b border-border/40 bg-muted/10">
                   <span className="text-[11px] font-mono text-muted-foreground">
                     $ authors
@@ -254,7 +254,7 @@ export default function NewBlogPost() {
                 </div>
 
                 {showAuthorDropdown && (
-                  <div className="absolute top-full left-0 right-0 z-10 mt-1 rounded-xl border border-border/60 bg-card backdrop-blur-xl overflow-hidden shadow-lg">
+                  <div className="absolute top-full left-0 right-0 z-50 mt-1 rounded-xl border border-border/60 bg-card backdrop-blur-xl overflow-hidden shadow-lg">
                     {authorOptions.length === 0 ? (
                       <div className="px-3 py-4 text-xs text-muted-foreground text-center">
                         No authors yet
