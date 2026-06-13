@@ -21,7 +21,7 @@ export function FooterLogo(props: FooterProps) {
       {...props}
       logo={
         <Image
-          src="/logo/png/logo.png"
+          src="/logo/svg/logo-nobg.svg"
           alt="Logo"
           width={40}
           height={40}
