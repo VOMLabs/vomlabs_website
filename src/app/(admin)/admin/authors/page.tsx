@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowLeft, Plus, Trash2, Pencil, Image, Upload, Gamepad2 } from "lucide-react";
+import { ArrowLeft, Plus, Trash2, Pencil, Image, Upload, Gamepad2, Link2 } from "lucide-react";
 import { toast } from "sonner";
 
 interface AuthorEntry {
@@ -16,6 +16,8 @@ function AvatarUpload({ value, onChange, username }: { value: string | null; onC
   const [uploading, setUploading] = useState(false);
   const [fetchingMinecraft, setFetchingMinecraft] = useState(false);
   const [dragOver, setDragOver] = useState(false);
+  const [showUrlInput, setShowUrlInput] = useState(false);
+  const [urlValue, setUrlValue] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
   const uploadFile = async (file: File) => {
@@ -53,6 +55,14 @@ function AvatarUpload({ value, onChange, username }: { value: string | null; onC
   const handleSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) uploadFile(file);
+  };
+
+  const handleUrlSubmit = () => {
+    const trimmed = urlValue.trim();
+    if (!trimmed) return;
+    onChange(trimmed);
+    setShowUrlInput(false);
+    setUrlValue("");
   };
 
   const fetchMinecraftSkin = async () => {
@@ -125,19 +135,47 @@ function AvatarUpload({ value, onChange, username }: { value: string | null; onC
               {uploading ? "Uploading..." : "Drop an image or click to upload"}
             </span>
           </div>
-          <button
-            type="button"
-            onClick={fetchMinecraftSkin}
-            disabled={fetchingMinecraft || !username?.trim()}
-            className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg border border-border/60 text-xs text-muted-foreground hover:text-foreground hover:bg-muted/20 transition-colors disabled:opacity-40"
-          >
-            {fetchingMinecraft ? (
-              <span className="inline-block size-4 border-2 border-border/30 border-t-brand-accent rounded-full animate-spin" />
-            ) : (
-              <Gamepad2 className="size-4" />
-            )}
-            {fetchingMinecraft ? "Checking..." : "Fetch Minecraft skin avatar"}
-          </button>
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={fetchMinecraftSkin}
+              disabled={fetchingMinecraft || !username?.trim()}
+              className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg border border-border/60 text-xs text-muted-foreground hover:text-foreground hover:bg-muted/20 transition-colors disabled:opacity-40"
+            >
+              {fetchingMinecraft ? (
+                <span className="inline-block size-4 border-2 border-border/30 border-t-brand-accent rounded-full animate-spin" />
+              ) : (
+                <Gamepad2 className="size-4" />
+              )}
+              {fetchingMinecraft ? "Checking..." : "Minecraft"}
+            </button>
+            <button
+              type="button"
+              onClick={() => setShowUrlInput(!showUrlInput)}
+              className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg border border-border/60 text-xs text-muted-foreground hover:text-foreground hover:bg-muted/20 transition-colors"
+            >
+              <Link2 className="size-4" />
+              Paste URL
+            </button>
+          </div>
+          {showUrlInput && (
+            <div className="flex items-center gap-2">
+              <input
+                value={urlValue}
+                onChange={(e) => setUrlValue(e.target.value)}
+                placeholder="https://example.com/avatar.jpg"
+                className="flex-1 px-3 py-2 rounded-lg border border-border/60 bg-background/50 text-foreground text-xs placeholder:text-muted-foreground/40 focus:outline-none focus:border-brand-accent/40"
+              />
+              <button
+                type="button"
+                onClick={handleUrlSubmit}
+                disabled={!urlValue.trim()}
+                className="px-3 py-2 rounded-lg bg-brand-accent hover:bg-brand-accent/90 text-background text-xs font-medium transition-all disabled:opacity-40"
+              >
+                Set
+              </button>
+            </div>
+          )}
         </div>
       )}
     </div>
