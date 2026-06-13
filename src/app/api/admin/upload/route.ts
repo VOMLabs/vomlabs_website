@@ -32,14 +32,20 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "File too large (max 5MB)" }, { status: 400 });
     }
 
-    const filename = `${Date.now()}-${crypto.randomUUID().slice(0, 8)}.webp`;
+    const filename = `${Date.now()}-${crypto.randomUUID().slice(0, 8)}.avif`;
     const uploadDir = path.join(process.cwd(), "public", "uploads", "authors");
     const buffer = Buffer.from(await file.arrayBuffer());
 
-    const webpBuffer = await sharp(buffer).webp({ quality: 85 }).toBuffer();
+    const metadata = await sharp(buffer).metadata();
+    const size = Math.min(metadata.width || 512, metadata.height || 512);
+
+    const avifBuffer = await sharp(buffer)
+      .resize(size, size, { fit: "cover", position: "centre" })
+      .avif({ quality: 65 })
+      .toBuffer();
 
     await mkdir(uploadDir, { recursive: true });
-    await writeFile(path.join(uploadDir, filename), webpBuffer);
+    await writeFile(path.join(uploadDir, filename), avifBuffer);
 
     const url = `/uploads/authors/${filename}`;
     return NextResponse.json({ url });
