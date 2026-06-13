@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { isValidToken } from "@/lib/admin-auth";
 import { writeFile, mkdir } from "fs/promises";
 import path from "path";
+import sharp from "sharp";
 
 async function isAuthenticated(): Promise<boolean> {
   const cookieStore = await cookies();
@@ -31,13 +32,14 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "File too large (max 5MB)" }, { status: 400 });
     }
 
-    const ext = file.name.split(".").pop() || "png";
-    const filename = `${Date.now()}-${crypto.randomUUID().slice(0, 8)}.${ext}`;
+    const filename = `${Date.now()}-${crypto.randomUUID().slice(0, 8)}.webp`;
     const uploadDir = path.join(process.cwd(), "public", "uploads", "authors");
     const buffer = Buffer.from(await file.arrayBuffer());
 
+    const webpBuffer = await sharp(buffer).webp({ quality: 85 }).toBuffer();
+
     await mkdir(uploadDir, { recursive: true });
-    await writeFile(path.join(uploadDir, filename), buffer);
+    await writeFile(path.join(uploadDir, filename), webpBuffer);
 
     const url = `/uploads/authors/${filename}`;
     return NextResponse.json({ url });
