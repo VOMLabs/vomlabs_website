@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowLeft, Plus, Trash2, Pencil, Image, Upload } from "lucide-react";
+import { ArrowLeft, Plus, Trash2, Pencil, Image, Upload, Gamepad2 } from "lucide-react";
 import { toast } from "sonner";
 
 interface AuthorEntry {
@@ -12,8 +12,9 @@ interface AuthorEntry {
   avatar: string | null;
 }
 
-function AvatarUpload({ value, onChange }: { value: string | null; onChange: (url: string | null) => void }) {
+function AvatarUpload({ value, onChange, username }: { value: string | null; onChange: (url: string | null) => void; username?: string }) {
   const [uploading, setUploading] = useState(false);
+  const [fetchingMinecraft, setFetchingMinecraft] = useState(false);
   const [dragOver, setDragOver] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -54,6 +55,30 @@ function AvatarUpload({ value, onChange }: { value: string | null; onChange: (ur
     if (file) uploadFile(file);
   };
 
+  const fetchMinecraftSkin = async () => {
+    if (!username?.trim()) {
+      toast.error("Enter a name first");
+      return;
+    }
+
+    setFetchingMinecraft(true);
+    try {
+      const res = await fetch(`/api/admin/minecraft?username=${encodeURIComponent(username.trim())}`);
+      if (!res.ok) throw new Error();
+      const data = await res.json();
+      if (data.found && data.url) {
+        onChange(data.url);
+        toast.success("Minecraft skin fetched");
+      } else {
+        toast.error("Minecraft user not found");
+      }
+    } catch {
+      toast.error("Failed to fetch Minecraft skin");
+    } finally {
+      setFetchingMinecraft(false);
+    }
+  };
+
   return (
     <div>
       <input ref={inputRef} type="file" accept="image/*" className="hidden" onChange={handleSelect} />
@@ -79,25 +104,40 @@ function AvatarUpload({ value, onChange }: { value: string | null; onChange: (ur
           </div>
         </div>
       ) : (
-        <div
-          onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
-          onDragLeave={() => setDragOver(false)}
-          onDrop={handleDrop}
-          onClick={() => inputRef.current?.click()}
-          className={`flex flex-col items-center justify-center gap-2 p-6 rounded-lg border-2 border-dashed cursor-pointer transition-colors ${
-            dragOver
-              ? "border-brand-accent bg-brand-accent/5"
-              : "border-border/60 hover:border-brand-accent/40 hover:bg-muted/20"
-          }`}
-        >
-          {uploading ? (
-            <span className="inline-block size-6 border-2 border-border/30 border-t-brand-accent rounded-full animate-spin" />
-          ) : (
-            <Upload className="size-6 text-muted-foreground" />
-          )}
-          <span className="text-xs text-muted-foreground font-mono">
-            {uploading ? "Uploading..." : "Drop an image or click to upload"}
-          </span>
+        <div className="space-y-2">
+          <div
+            onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+            onDragLeave={() => setDragOver(false)}
+            onDrop={handleDrop}
+            onClick={() => inputRef.current?.click()}
+            className={`flex flex-col items-center justify-center gap-2 p-6 rounded-lg border-2 border-dashed cursor-pointer transition-colors ${
+              dragOver
+                ? "border-brand-accent bg-brand-accent/5"
+                : "border-border/60 hover:border-brand-accent/40 hover:bg-muted/20"
+            }`}
+          >
+            {uploading ? (
+              <span className="inline-block size-6 border-2 border-border/30 border-t-brand-accent rounded-full animate-spin" />
+            ) : (
+              <Upload className="size-6 text-muted-foreground" />
+            )}
+            <span className="text-xs text-muted-foreground font-mono">
+              {uploading ? "Uploading..." : "Drop an image or click to upload"}
+            </span>
+          </div>
+          <button
+            type="button"
+            onClick={fetchMinecraftSkin}
+            disabled={fetchingMinecraft || !username?.trim()}
+            className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg border border-border/60 text-xs text-muted-foreground hover:text-foreground hover:bg-muted/20 transition-colors disabled:opacity-40"
+          >
+            {fetchingMinecraft ? (
+              <span className="inline-block size-4 border-2 border-border/30 border-t-brand-accent rounded-full animate-spin" />
+            ) : (
+              <Gamepad2 className="size-4" />
+            )}
+            {fetchingMinecraft ? "Checking..." : "Fetch Minecraft skin avatar"}
+          </button>
         </div>
       )}
     </div>
@@ -267,7 +307,7 @@ export default function AdminAuthors() {
                   placeholder="Author name..."
                   className="w-full px-3 py-2.5 rounded-lg border border-border/60 bg-background/50 text-foreground text-sm placeholder:text-muted-foreground/40 focus:outline-none focus:border-brand-accent/40"
                 />
-                <AvatarUpload value={newAvatar} onChange={setNewAvatar} />
+                <AvatarUpload value={newAvatar} onChange={setNewAvatar} username={newName} />
                 <div className="flex items-center gap-2">
                   <button
                     type="button"
@@ -370,6 +410,7 @@ export default function AdminAuthors() {
                       <AvatarUpload
                         value={editAvatarUrl}
                         onChange={(url) => setEditAvatarUrl(url)}
+                        username={editName}
                       />
                       <div className="flex items-center gap-2">
                         <button
