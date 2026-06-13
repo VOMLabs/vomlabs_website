@@ -3,7 +3,7 @@ import path from "path";
 import { eq, desc, sql } from "drizzle-orm";
 import { posts as postsTable, type Post, type NewPost } from "@/db/schema";
 import { getDb } from "@/db";
-import { getAuthorIconName, getAllAuthorIcons } from "./authors";
+import { getAllAuthors } from "./authors";
 
 export interface BlogPostData {
   id?: string;
@@ -17,7 +17,7 @@ export interface BlogPostData {
   publishedAt?: string;
   createdAt?: string;
   updatedAt?: string;
-  authorIcon?: string | null;
+  authorAvatar?: string | null;
 }
 
 type DbPost = Post;
@@ -75,7 +75,7 @@ function dbRowToJson(p: DbPost): Record<string, unknown> {
   };
 }
 
-function toBlogPostData(post: DbPost, authorIcon?: string | null): BlogPostData {
+function toBlogPostData(post: DbPost, authorAvatar?: string | null): BlogPostData {
   return {
     id: post.id,
     slug: post.slug,
@@ -88,7 +88,7 @@ function toBlogPostData(post: DbPost, authorIcon?: string | null): BlogPostData 
     publishedAt: post.publishedAt?.toISOString(),
     createdAt: post.createdAt?.toISOString(),
     updatedAt: post.updatedAt?.toISOString(),
-    authorIcon,
+    authorAvatar,
   };
 }
 
@@ -105,8 +105,17 @@ function toDbInsert(data: Partial<BlogPostData>): Partial<DbNewPost> {
   return insert;
 }
 
+async function getAuthorAvatarMap(): Promise<Record<string, string | null>> {
+  const authors = await getAllAuthors();
+  const map: Record<string, string | null> = {};
+  for (const a of authors) {
+    map[a.name] = a.avatar;
+  }
+  return map;
+}
+
 export async function getAllPosts(): Promise<BlogPostData[]> {
-  const iconMap = getAllAuthorIcons();
+  const avatarMap = await getAuthorAvatarMap();
 
   if (hasDb()) {
     const db = getDb();
@@ -115,17 +124,17 @@ export async function getAllPosts(): Promise<BlogPostData[]> {
       .from(postsTable)
       .where(eq(postsTable.published, true))
       .orderBy(desc(postsTable.publishedAt));
-    return rows.map((r) => toBlogPostData(r, iconMap[r.author]));
+    return rows.map((r) => toBlogPostData(r, avatarMap[r.author]));
   }
 
   return readJsonData()
     .filter((p) => p.published)
     .sort((a, b) => (b.publishedAt?.getTime() || 0) - (a.publishedAt?.getTime() || 0))
-    .map((r) => toBlogPostData(r, iconMap[r.author]));
+    .map((r) => toBlogPostData(r, avatarMap[r.author]));
 }
 
 export async function getPostBySlug(slug: string): Promise<BlogPostData | undefined> {
-  const iconMap = getAllAuthorIcons();
+  const avatarMap = await getAuthorAvatarMap();
 
   if (hasDb()) {
     const db = getDb();
@@ -134,11 +143,11 @@ export async function getPostBySlug(slug: string): Promise<BlogPostData | undefi
       .from(postsTable)
       .where(sql`${postsTable.slug} = ${slug} AND ${postsTable.published} = true`)
       .limit(1);
-    return rows.length > 0 ? toBlogPostData(rows[0], iconMap[rows[0].author]) : undefined;
+    return rows.length > 0 ? toBlogPostData(rows[0], avatarMap[rows[0].author]) : undefined;
   }
 
   const post = readJsonData().find((p) => p.slug === slug && p.published);
-  return post ? toBlogPostData(post, iconMap[post.author]) : undefined;
+  return post ? toBlogPostData(post, avatarMap[post.author]) : undefined;
 }
 
 export async function getPostById(id: string): Promise<BlogPostData | undefined> {
@@ -250,18 +259,4 @@ export async function getAllPostsAdmin(): Promise<BlogPostData[]> {
     .map((r) => toBlogPostData(r));
 }
 
-export async function getDistinctAuthorsFromPosts(): Promise<string[]> {
-  if (hasDb()) {
-    const db = getDb();
-    const rows = await db
-      .select({ author: postsTable.author })
-      .from(postsTable)
-      .groupBy(postsTable.author)
-      .orderBy(postsTable.author);
-    return rows.map((r) => r.author).filter(Boolean);
-  }
 
-  const posts = readJsonData();
-  const authors = new Set(posts.map((p) => p.author).filter(Boolean));
-  return Array.from(authors).sort();
-}

@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { isValidToken } from "@/lib/admin-auth";
-import { getAllAuthorIcons, setAuthorIcon, getDistinctAuthors } from "@/lib/blogs/authors";
-import { getDistinctAuthorsFromPosts } from "@/lib/blogs";
+import { getAllAuthors, createAuthor } from "@/lib/blogs/authors";
 
 async function isAuthenticated(): Promise<boolean> {
   const cookieStore = await cookies();
@@ -11,29 +10,29 @@ async function isAuthenticated(): Promise<boolean> {
 }
 
 export async function GET() {
-  const posts = await getDistinctAuthorsFromPosts();
-  const icons = getAllAuthorIcons();
-
-  const authors = posts.map((name) => ({
-    name,
-    icon: icons[name] || null,
-  }));
-
+  const authors = await getAllAuthors();
   return NextResponse.json(authors);
 }
 
-export async function PUT(request: Request) {
+export async function POST(request: Request) {
   if (!(await isAuthenticated())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const body = await request.json();
-  const { author, icon } = body;
+  try {
+    const body = await request.json();
+    const { name, avatar } = body;
 
-  if (!author) {
-    return NextResponse.json({ error: "author is required" }, { status: 400 });
+    if (!name || !name.trim()) {
+      return NextResponse.json({ error: "name is required" }, { status: 400 });
+    }
+
+    const author = await createAuthor({ name: name.trim(), avatar: avatar || null });
+    return NextResponse.json(author, { status: 201 });
+  } catch (e) {
+    if (e instanceof Error && e.message.includes("already exists")) {
+      return NextResponse.json({ error: e.message }, { status: 409 });
+    }
+    return NextResponse.json({ error: "Failed to create author" }, { status: 500 });
   }
-
-  setAuthorIcon(author, icon || null);
-  return NextResponse.json({ author, icon: icon || null });
 }

@@ -137,11 +137,11 @@ export default function AdminDashboard() {
                 <div className="flex items-center gap-3 mb-2">
                   <UserCircle className="size-5 text-brand-accent" />
                   <span className="font-semibold text-foreground group-hover:text-brand-accent transition-colors">
-                    Author Icons
+                    Authors
                   </span>
                 </div>
                 <p className="text-sm text-muted-foreground">
-                  Set icons for blog authors
+                  Manage authors and profile pictures
                 </p>
               </Link>
             </div>

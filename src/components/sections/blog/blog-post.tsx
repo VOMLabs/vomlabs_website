@@ -4,7 +4,6 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { IconCalendar, IconUser, IconArrowLeft } from "@tabler/icons-react";
 import type { BlogPostData } from "@/lib/blogs";
-import { getBlogIcon } from "@/lib/blogs/icons";
 
 interface BlogPostProps {
   post: BlogPostData;
@@ -17,8 +16,6 @@ const pageTransition = {
 };
 
 export function BlogPost({ post }: BlogPostProps) {
-  const iconDef = post.authorIcon ? getBlogIcon(post.authorIcon) : undefined;
-
   return (
     <motion.div
       className="max-w-2xl mx-auto px-6"
@@ -47,19 +44,15 @@ export function BlogPost({ post }: BlogPostProps) {
             </span>
             <span className="text-muted-foreground/30">·</span>
             <span className="flex items-center gap-1.5">
-              <IconUser className="size-4" />
+              {post.authorAvatar ? (
+                <img src={post.authorAvatar} alt="" className="size-5 rounded-full object-cover" />
+              ) : (
+                <IconUser className="size-4" />
+              )}
               {post.author}
             </span>
           </div>
           <div className="flex items-center gap-4 mb-6">
-            {iconDef && (
-              <div
-                className="flex items-center justify-center rounded-xl p-3 shrink-0"
-                style={{ backgroundColor: `${iconDef.color}18` }}
-              >
-                <iconDef.component className="size-7 md:size-8" style={{ color: iconDef.color }} />
-              </div>
-            )}
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground tracking-tight leading-tight">
               {post.title}
             </h1>

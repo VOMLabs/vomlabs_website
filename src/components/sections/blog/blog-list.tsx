@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { IconCalendar, IconUser, IconArrowRight } from "@tabler/icons-react";
 import type { BlogPostData } from "@/lib/blogs";
-import { getBlogIcon } from "@/lib/blogs/icons";
 
 export function BlogList({ posts }: { posts: BlogPostData[] }) {
   const items = Array.isArray(posts) ? posts : [];
@@ -25,60 +24,53 @@ export function BlogList({ posts }: { posts: BlogPostData[] }) {
       </motion.div>
 
       <div className="space-y-12">
-        {items.map((post, index) => {
-          const iconDef = post.authorIcon ? getBlogIcon(post.authorIcon) : undefined;
-          return (
-            <motion.article
-              key={post.slug}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+        {items.map((post, index) => (
+          <motion.article
+            key={post.slug}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
+          >
+            <Link
+              href={`/blog/${post.slug}`}
+              className="group block rounded-xl border border-transparent hover:border-brand-accent/30 hover:bg-card/30 transition-all duration-200"
             >
-              <Link
-                href={`/blog/${post.slug}`}
-                className="group block rounded-xl border border-transparent hover:border-brand-accent/30 hover:bg-card/30 transition-all duration-200"
-              >
-                <div className="p-6 -m-px rounded-xl group-hover:bg-card/30 transition-all duration-200">
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
-                    <span className="flex items-center gap-1.5">
-                      <IconCalendar className="size-3.5" />
-                      {new Date(post.date).toLocaleDateString("en-US", {
-                        year: "numeric",
-                        month: "short",
-                        day: "numeric",
-                      })}
-                    </span>
-                    <span className="text-muted-foreground/30">·</span>
-                    <span className="flex items-center gap-1.5">
+              <div className="p-6 -m-px rounded-xl group-hover:bg-card/30 transition-all duration-200">
+                <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
+                  <span className="flex items-center gap-1.5">
+                    <IconCalendar className="size-3.5" />
+                    {new Date(post.date).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "short",
+                      day: "numeric",
+                    })}
+                  </span>
+                  <span className="text-muted-foreground/30">·</span>
+                  <span className="flex items-center gap-1.5">
+                    {post.authorAvatar ? (
+                      <img src={post.authorAvatar} alt="" className="size-4 rounded-full object-cover" />
+                    ) : (
                       <IconUser className="size-3.5" />
-                      {post.author}
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2 mb-2">
-                    {iconDef && (
-                      <div
-                        className="flex items-center justify-center rounded-lg p-1.5 shrink-0"
-                        style={{ backgroundColor: `${iconDef.color}18` }}
-                      >
-                        <iconDef.component className="size-4" style={{ color: iconDef.color }} />
-                      </div>
                     )}
-                    <h2 className="text-xl md:text-2xl font-semibold text-foreground group-hover:text-brand-accent transition-colors">
-                      {post.title}
-                    </h2>
-                  </div>
-                  <p className="text-muted-foreground leading-relaxed mb-3">
-                    {post.excerpt}
-                  </p>
-                  <span className="inline-flex items-center gap-1 text-sm font-medium text-brand-accent group-hover:gap-2 transition-all">
-                    Read more
-                    <IconArrowRight className="size-4" />
+                    {post.author}
                   </span>
                 </div>
-              </Link>
-            </motion.article>
-          );
-        })}
+                <div className="flex items-center gap-2 mb-2">
+                  <h2 className="text-xl md:text-2xl font-semibold text-foreground group-hover:text-brand-accent transition-colors">
+                    {post.title}
+                  </h2>
+                </div>
+                <p className="text-muted-foreground leading-relaxed mb-3">
+                  {post.excerpt}
+                </p>
+                <span className="inline-flex items-center gap-1 text-sm font-medium text-brand-accent group-hover:gap-2 transition-all">
+                  Read more
+                  <IconArrowRight className="size-4" />
+                </span>
+              </div>
+            </Link>
+          </motion.article>
+        ))}
       </div>
     </div>
   );

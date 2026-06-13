@@ -3,9 +3,14 @@
 import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Save } from "lucide-react";
+import { ArrowLeft, Save, Plus, Check, Image } from "lucide-react";
 import { toast } from "sonner";
 import { TiptapEditor } from "@/components/admin/tiptap-editor";
+
+interface AuthorOption {
+  name: string;
+  avatar: string | null;
+}
 
 export default function EditBlogPost() {
   const router = useRouter();
@@ -14,11 +19,53 @@ export default function EditBlogPost() {
   const [slug, setSlug] = useState("");
   const [originalSlug, setOriginalSlug] = useState("");
   const [excerpt, setExcerpt] = useState("");
-  const [author, setAuthor] = useState("VOMLabs");
+  const [author, setAuthor] = useState("");
   const [date, setDate] = useState("");
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [authorOptions, setAuthorOptions] = useState<AuthorOption[]>([]);
+  const [showAuthorDropdown, setShowAuthorDropdown] = useState(false);
+  const [showNewAuthor, setShowNewAuthor] = useState(false);
+  const [newAuthorName, setNewAuthorName] = useState("");
+  const [newAuthorAvatar, setNewAuthorAvatar] = useState("");
+  const [creatingAuthor, setCreatingAuthor] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/admin/authors")
+      .then((res) => res.json())
+      .then((data) => setAuthorOptions(Array.isArray(data) ? data : []))
+      .catch(() => {});
+  }, []);
+
+  const handleCreateAuthor = async () => {
+    if (!newAuthorName.trim()) return;
+    setCreatingAuthor(true);
+    try {
+      const res = await fetch("/api/admin/authors", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: newAuthorName.trim(),
+          avatar: newAuthorAvatar.trim() || null,
+        }),
+      });
+      if (!res.ok) throw new Error();
+      const created = await res.json();
+      setAuthorOptions((prev) => [...prev, created]);
+      setAuthor(created.name);
+      setShowNewAuthor(false);
+      setNewAuthorName("");
+      setNewAuthorAvatar("");
+      toast.success(`Author "${created.name}" created`);
+    } catch {
+      toast.error("Failed to create author");
+    } finally {
+      setCreatingAuthor(false);
+    }
+  };
+
+  const selectedAuthor = authorOptions.find((a) => a.name === author);
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -182,18 +229,99 @@ export default function EditBlogPost() {
                 />
               </div>
 
-              <div className="rounded-xl border border-border/60 bg-card/20 backdrop-blur-sm overflow-hidden">
+              <div className="rounded-xl border border-border/60 bg-card/20 backdrop-blur-sm overflow-hidden relative">
                 <div className="px-3 py-2 border-b border-border/40 bg-muted/10">
                   <span className="text-[11px] font-mono text-muted-foreground">
                     $ author
                   </span>
                 </div>
-                <input
-                  value={author}
-                  onChange={(e) => setAuthor(e.target.value)}
-                  placeholder="Author"
-                  className="w-full px-3 py-2.5 bg-transparent text-foreground text-sm font-mono placeholder:text-muted-foreground/40 focus:outline-none"
-                />
+                <button
+                  type="button"
+                  onClick={() => setShowAuthorDropdown(!showAuthorDropdown)}
+                  className="w-full flex items-center gap-2 px-3 py-2.5 bg-transparent text-foreground text-sm font-mono text-left focus:outline-none"
+                >
+                  {selectedAuthor?.avatar ? (
+                    <img src={selectedAuthor.avatar} alt="" className="size-5 rounded-full object-cover" />
+                  ) : (
+                    <Image className="size-4 text-muted-foreground" />
+                  )}
+                  <span className="flex-1">{author || "Select author..."}</span>
+                  <Plus className="size-3.5 text-muted-foreground" />
+                </button>
+
+                {showAuthorDropdown && (
+                  <div className="absolute top-full left-0 right-0 z-10 mt-1 rounded-xl border border-border/60 bg-card backdrop-blur-xl overflow-hidden shadow-lg">
+                    {authorOptions.map((opt) => (
+                      <button
+                        key={opt.name}
+                        type="button"
+                        onClick={() => {
+                          setAuthor(opt.name);
+                          setShowAuthorDropdown(false);
+                        }}
+                        className="w-full flex items-center gap-2 px-3 py-2.5 text-sm text-left hover:bg-muted/50 transition-colors"
+                      >
+                        {opt.avatar ? (
+                          <img src={opt.avatar} alt="" className="size-5 rounded-full object-cover" />
+                        ) : (
+                          <Image className="size-4 text-muted-foreground" />
+                        )}
+                        <span className="flex-1 text-foreground">{opt.name}</span>
+                        {opt.name === author && (
+                          <Check className="size-3.5 text-brand-accent" />
+                        )}
+                      </button>
+                    ))}
+                    <div className="border-t border-border/40">
+                      {showNewAuthor ? (
+                        <div className="p-3 space-y-2">
+                          <input
+                            value={newAuthorName}
+                            onChange={(e) => setNewAuthorName(e.target.value)}
+                            placeholder="Author name"
+                            className="w-full px-2.5 py-2 rounded-lg border border-border/60 bg-background/50 text-foreground text-xs placeholder:text-muted-foreground/40 focus:outline-none focus:border-brand-accent/40"
+                          />
+                          <input
+                            value={newAuthorAvatar}
+                            onChange={(e) => setNewAuthorAvatar(e.target.value)}
+                            placeholder="Avatar URL (optional)"
+                            className="w-full px-2.5 py-2 rounded-lg border border-border/60 bg-background/50 text-foreground text-xs placeholder:text-muted-foreground/40 focus:outline-none focus:border-brand-accent/40"
+                          />
+                          <div className="flex items-center gap-2">
+                            <button
+                              type="button"
+                              onClick={handleCreateAuthor}
+                              disabled={creatingAuthor || !newAuthorName.trim()}
+                              className="px-3 py-1.5 rounded-lg bg-brand-accent hover:bg-brand-accent/90 text-background text-xs font-medium transition-all disabled:opacity-40"
+                            >
+                              {creatingAuthor ? "Creating..." : "Create"}
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setShowNewAuthor(false);
+                                setNewAuthorName("");
+                                setNewAuthorAvatar("");
+                              }}
+                              className="px-3 py-1.5 rounded-lg text-muted-foreground hover:text-foreground text-xs transition-all"
+                            >
+                              Cancel
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => setShowNewAuthor(true)}
+                          className="w-full flex items-center gap-2 px-3 py-2.5 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
+                        >
+                          <Plus className="size-4" />
+                          Add new author
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
 
               <div className="rounded-xl border border-border/60 bg-card/20 backdrop-blur-sm overflow-hidden">
