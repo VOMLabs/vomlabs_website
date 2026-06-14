@@ -1,7 +1,9 @@
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
-
+import { Navbar } from "@/components/navbar";
+import { ThemeProvider } from "@/components/theme-provider";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import appCss from "../styles.css?url";
 
 export const Route = createRootRoute({
@@ -15,7 +17,7 @@ export const Route = createRootRoute({
         content: "width=device-width, initial-scale=1",
       },
       {
-        title: "TanStack Start Starter",
+        title: "VOMLabs Website",
       },
     ],
     links: [
@@ -26,9 +28,24 @@ export const Route = createRootRoute({
     ],
   }),
   notFoundComponent: () => (
-    <main className="container mx-auto p-4 pt-16">
-      <h1>404</h1>
-      <p>The requested page could not be found.</p>
+    <main className="flex flex-col items-center justify-center px-6 py-24 text-center">
+      <div className="flex max-w-sm flex-col items-center gap-4">
+        <div className="space-y-2">
+          <h1 className="font-bold text-5xl tracking-tight">404</h1>
+          <p className="font-medium text-muted-foreground text-xl">
+            Page not found
+          </p>
+        </div>
+        <p className="text-muted-foreground text-sm leading-relaxed">
+          The page you&apos;re looking for doesn&apos;t exist or has been moved.
+        </p>
+        <a
+          className="inline-flex h-8 shrink-0 select-none items-center justify-center gap-1.5 whitespace-nowrap border border-transparent bg-primary px-2.5 font-medium text-primary-foreground text-xs outline-none transition-all hover:bg-primary/80 focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring/50 active:translate-y-px disabled:pointer-events-none disabled:opacity-50"
+          href="/"
+        >
+          Go home
+        </a>
+      </div>
     </main>
   ),
   shellComponent: RootDocument,
@@ -41,7 +58,10 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        {children}
+        <ThemeProvider>
+          <Navbar />
+          <TooltipProvider>{children}</TooltipProvider>
+        </ThemeProvider>
         <TanStackDevtools
           config={{
             position: "bottom-right",

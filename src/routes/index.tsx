@@ -1,19 +1,24 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Button } from "@/components/ui/button";
+import { About } from "@/components/sections/home/about";
+import { BecomeDev } from "@/components/sections/home/become-dev";
+import { Engineers } from "@/components/sections/home/engineers";
+import { Faq } from "@/components/sections/home/faq";
+import { Features } from "@/components/sections/home/features";
+import { Footer } from "@/components/sections/home/footer";
+import { Hero } from "@/components/sections/home/hero";
 
 export const Route = createFileRoute("/")({ component: App });
 
 function App() {
   return (
-    <div className="flex min-h-svh p-6">
-      <div className="flex min-w-0 max-w-md flex-col gap-4 text-sm leading-loose">
-        <div>
-          <h1 className="font-medium">Project ready!</h1>
-          <p>You may now add components and start building.</p>
-          <p>We&apos;ve already added the button component for you.</p>
-          <Button className="mt-2">Button</Button>
-        </div>
-      </div>
+    <div className="flex flex-col">
+      <Hero />
+      <Features />
+      <About />
+      <BecomeDev />
+      <Engineers />
+      <Faq />
+      <Footer />
     </div>
   );
 }
