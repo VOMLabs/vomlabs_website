@@ -1,0 +1,69 @@
+{
+  "$schema": "node_modules/@biomejs/biome/configuration_schema.json",
+  "extends": [
+    "ultracite/biome/core",
+    "ultracite/biome/tanstack",
+    "ultracite/biome/react"
+  ],
+  "files": {
+    "ignoreUnknown": true,
+    "includes": [
+      "!!.old",
+      "!!**/*.svg",
+      "!!**/dist",
+      "!!**/build",
+      "!!**/out",
+      "!!**/.next",
+      "!!**/.open-next",
+      "!!**/.nuxt",
+      "!!**/.output",
+      "!!**/.svelte-kit",
+      "!!**/.vitepress/cache",
+      "!!**/.vitepress/dist",
+      "!!**/.turbo",
+      "!!**/.vercel",
+      "!!**/.netlify",
+      "!!**/.docusaurus",
+      "!!**/.cache",
+      "!!**/.parcel-cache",
+      "!!**/.vite",
+      "!!**/.astro",
+      "!!**/_astro",
+      "!!**/public/build",
+      "!!**/storybook-static",
+      "!!**/_generated",
+      "!!**/*.gen.*",
+      "!!**/*.generated.*",
+      "!!**/*.auto.*",
+      "!!**/generated",
+      "!!**/auto-generated",
+      "!!**/codegen",
+      "!!**/__generated__",
+      "!!**/graphql-types.*",
+      "!!**/schema.d.ts",
+      "!!**/schema.graphql.d.ts",
+      "!!**/*.d.ts.map",
+      "!!**/coverage",
+      "!!**/.nyc_output",
+      "!!**/.expo",
+      "!!**/.expo-shared",
+      "!!**/android/build",
+      "!!**/ios/build",
+      "!!**/DerivedData/**/*",
+      "!!**/bun.lock",
+      "!!**/bun.lockb",
+      "!!**/package-lock.json",
+      "!!**/yarn.lock",
+      "!!**/pnpm-lock.yaml",
+      "!!**/next-env.d.ts",
+      "!!**/worker-configuration.d.ts"
+    ]
+  },
+  "overrides": [
+    {
+      "includes": [".old/**"],
+      "formatter": { "enabled": false },
+      "linter": { "enabled": false }
+    }
+  ]
+}
