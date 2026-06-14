@@ -1,0 +1,322 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-brand-accent: var(--brand-accent);
+
+  --font-sans: var(--font-v-sans);
+  --font-mono: var(--font-v-mono);
+}
+
+:root {
+  --muted: oklch(0.965 0.003 80);
+  --muted-foreground: oklch(0.515 0.01 80);
+  --border: oklch(0.905 0.005 80);
+  --accent: oklch(0.945 0.008 80);
+  --accent-foreground: oklch(0.205 0.02 80);
+  --brand-accent: var(--foreground);
+  --radius: 0.875rem;
+  --card: oklch(0.992 0.003 80);
+  --card-foreground: oklch(0.145 0.01 80);
+  --popover: oklch(0.992 0.003 80);
+  --popover-foreground: oklch(0.145 0.01 80);
+  --primary: oklch(0.555 0.163 48.998);
+  --primary-foreground: oklch(0.987 0.022 95.277);
+  --secondary: oklch(0.945 0.008 80);
+  --secondary-foreground: oklch(0.21 0.02 80);
+  --destructive: oklch(0.577 0.245 27.325);
+  --success: oklch(0.627 0.194 149.214);
+  --success-foreground: oklch(0.987 0.022 95.277);
+  --input: oklch(0.905 0.005 80);
+  --ring: oklch(0.708 0.01 80);
+  --chart-1: oklch(0.879 0.169 91.605);
+  --chart-2: oklch(0.769 0.188 70.08);
+  --chart-3: oklch(0.666 0.179 58.318);
+  --chart-4: oklch(0.555 0.163 48.998);
+  --chart-5: oklch(0.473 0.137 46.201);
+  --sidebar: oklch(0.985 0.002 80);
+  --sidebar-foreground: oklch(0.145 0.01 80);
+  --sidebar-primary: oklch(0.666 0.179 58.318);
+  --sidebar-primary-foreground: oklch(0.987 0.022 95.277);
+  --sidebar-accent: oklch(0.945 0.008 80);
+  --sidebar-accent-foreground: oklch(0.205 0.02 80);
+  --sidebar-border: oklch(0.905 0.005 80);
+  --sidebar-ring: oklch(0.708 0.01 80);
+  --background: oklch(0.985 0.003 80);
+  --foreground: oklch(0.145 0.01 80);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --border: oklch(1 0 0 / 10%);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --brand-accent: var(--foreground);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.473 0.137 46.201);
+  --primary-foreground: oklch(0.987 0.022 95.277);
+  --secondary: oklch(0.274 0.006 286.033);
+  --secondary-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --success: oklch(0.696 0.17 162.48);
+  --success-foreground: oklch(0.279 0.077 45.635);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.879 0.169 91.605);
+  --chart-2: oklch(0.769 0.188 70.08);
+  --chart-3: oklch(0.666 0.179 58.318);
+  --chart-4: oklch(0.555 0.163 48.998);
+  --chart-5: oklch(0.473 0.137 46.201);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.769 0.188 70.08);
+  --sidebar-primary-foreground: oklch(0.279 0.077 45.635);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+body {
+  background-color: var(--background);
+}
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-brand-accent: var(--brand-accent);
+  --color-destructive: var(--destructive);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --font-sans: var(--font-sans);
+  --font-heading: var(--font-sans);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+  html {
+    @apply font-sans;
+  }
+}
+
+.tiptap {
+  color: var(--foreground);
+}
+
+.tiptap p.is-editor-empty:first-child::before {
+  float: left;
+  height: 0;
+  color: var(--muted-foreground);
+  pointer-events: none;
+  content: attr(data-placeholder);
+  opacity: 0.4;
+}
+
+.tiptap ul {
+  padding-left: 1.5em;
+  list-style-type: disc;
+}
+
+.tiptap ol {
+  padding-left: 1.5em;
+  list-style-type: decimal;
+}
+
+.tiptap h2 {
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  font-size: 1.5em;
+  font-weight: 700;
+  color: var(--foreground);
+}
+
+.tiptap h3 {
+  margin-top: 1.25em;
+  margin-bottom: 0.5em;
+  font-size: 1.25em;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.tiptap p {
+  color: var(--foreground);
+}
+
+.tiptap blockquote {
+  padding-left: 1em;
+  margin: 1em 0;
+  font-style: italic;
+  color: var(--muted-foreground);
+  border-left: 3px solid var(--border);
+}
+
+.tiptap code {
+  padding: 0.125em 0.25em;
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  color: var(--brand-accent);
+  background: var(--muted);
+  border-radius: 0.25rem;
+}
+
+.tiptap hr {
+  margin: 2em 0;
+  border: none;
+  border-top: 1px solid var(--border);
+}
+
+.tiptap a {
+  color: var(--brand-accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.tiptap a:hover {
+  opacity: 0.8;
+}
+
+.tiptap ul,
+.tiptap ol {
+  padding-left: 1.5em;
+  margin: 0.5em 0;
+}
+
+.tiptap li {
+  margin: 0.25em 0;
+  color: var(--foreground);
+}
+
+.tiptap s {
+  text-decoration: line-through;
+}
+
+.tiptap strong {
+  color: var(--foreground);
+}
+
+.tiptap img {
+  max-width: 100%;
+  height: auto;
+  margin: 1em 0;
+  border-radius: 0.5rem;
+}
+
+.tiptap audio {
+  width: 100%;
+  margin: 1em 0;
+}
+
+.tiptap ul[data-type="taskList"] {
+  padding-left: 0;
+  list-style: none;
+}
+
+.tiptap ul[data-type="taskList"] li {
+  display: flex;
+  gap: 0.5em;
+  align-items: flex-start;
+}
+
+.tiptap ul[data-type="taskList"] li > label {
+  flex-shrink: 0;
+  margin-top: 0.25em;
+}
+
+.tiptap ul[data-type="taskList"] li > label input[type="checkbox"] {
+  accent-color: var(--brand-accent);
+  cursor: pointer;
+}
+
+.tiptap ul[data-type="taskList"] li > div {
+  flex: 1;
+}
+
+.tiptap u {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.tiptap mark {
+  padding: 0.1em 0.2em;
+  background: color-mix(in srgb, var(--foreground) 15%, transparent);
+  border-radius: 0.2em;
+}
+
+.tiptap pre {
+  padding: 0.75rem 1rem;
+  margin: 1em 0;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+}
+
+.tiptap pre code {
+  padding: 0;
+  color: inherit;
+  background: none;
+  border-radius: 0;
+}
