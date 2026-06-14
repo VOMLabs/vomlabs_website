@@ -25,7 +25,7 @@
   --border: oklch(0.905 0.005 80);
   --accent: oklch(0.945 0.008 80);
   --accent-foreground: oklch(0.205 0.02 80);
-  --brand-accent: #d4955a;
+  --brand-accent: var(--foreground);
   --radius: 0.875rem;
   --card: oklch(0.992 0.003 80);
   --card-foreground: oklch(0.145 0.01 80);
@@ -63,7 +63,7 @@
   --border: oklch(1 0 0 / 10%);
   --accent: oklch(0.269 0 0);
   --accent-foreground: oklch(0.985 0 0);
-  --brand-accent: #ffcfa8;
+  --brand-accent: var(--foreground);
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
@@ -293,7 +293,7 @@ body {
 
 .tiptap mark {
   padding: 0.1em 0.2em;
-  background: rgba(212, 149, 90, 0.25);
+  background: color-mix(in srgb, var(--foreground) 15%, transparent);
   border-radius: 0.2em;
 }
 
