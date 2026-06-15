@@ -4,7 +4,6 @@ import { BecomeDev } from "@/components/sections/home/become-dev";
 import { Engineers } from "@/components/sections/home/engineers";
 import { Faq } from "@/components/sections/home/faq";
 import { Features } from "@/components/sections/home/features";
-import { Footer } from "@/components/sections/home/footer";
 import { Hero } from "@/components/sections/home/hero";
 
 export const Route = createFileRoute("/")({ component: App });
@@ -18,7 +17,6 @@ function App() {
       <BecomeDev />
       <Engineers />
       <Faq />
-      <Footer />
     </div>
   );
 }
