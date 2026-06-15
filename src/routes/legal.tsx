@@ -1,4 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
+import { Link } from "@/components/link";
 
 export const Route = createFileRoute("/legal")({ component: LegalPage });
 
@@ -86,8 +87,7 @@ function LegalPage() {
           </Section>
           <Section title="Open Source">
             <p className="text-muted-foreground text-xs leading-relaxed">
-              VOMLabs projects and this website are made available as open
-              source software. The source code and applicable licenses can be
+              Most VOMLabs projects and this website are open source. The source code and applicable licenses can be
               accessed on{" "}
               <a
                 className="underline underline-offset-2 hover:text-foreground"
@@ -114,7 +114,7 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <div className="border border-border bg-muted p-4">
+    <div className="border border-border bg-muted p-4 transition-colors duration-150 hover:border-foreground/20">
       <h2 className="mb-3 font-semibold text-sm">{title}</h2>
       <div className="flex flex-col gap-2">{children}</div>
     </div>

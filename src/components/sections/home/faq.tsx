@@ -8,12 +8,12 @@ const faqs: {
   {
     question: "Can I contribute to VOMLabs projects?",
     answer:
-      "Absolutely! All of our projects are open source and we welcome contributions of all skill levels. Join our Discord to get started.",
+      "Absolutely! Most of our projects are open source and we welcome contributions of all skill levels. Join our Discord to get started.",
   },
   {
     question: "Can I use VOMLabs tools for commercial projects?",
     answer:
-      "Yes, our tools are open source and free to use for both personal and commercial projects under the respective project licenses.",
+      "Yes, most of our tools are open source and free to use for both personal and commercial projects under the respective project licenses.",
   },
   {
     question: "Do you collect any telemetry?",

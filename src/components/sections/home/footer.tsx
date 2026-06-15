@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link } from "@/components/link";
 
 export function Footer() {
   return (
@@ -6,24 +6,48 @@ export function Footer() {
       <p className="text-muted-foreground text-xs">
         &copy; 2026 VOMLabs. All Rights Reserved.
       </p>
-      <div className="flex gap-4">
+      <div className="flex flex-wrap justify-center gap-x-4 gap-y-1">
         <Link
-          className="text-muted-foreground text-xs underline underline-offset-2 hover:text-foreground"
+          className="text-muted-foreground text-xs underline underline-offset-2 transition-colors duration-150 hover:text-foreground"
           to="/privacy"
         >
           Privacy Policy
         </Link>
         <Link
-          className="text-muted-foreground text-xs underline underline-offset-2 hover:text-foreground"
+          className="text-muted-foreground text-xs underline underline-offset-2 transition-colors duration-150 hover:text-foreground"
+          to="/tos"
+        >
+          Terms of Service
+        </Link>
+        <Link
+          className="text-muted-foreground text-xs underline underline-offset-2 transition-colors duration-150 hover:text-foreground"
           to="/terms"
         >
           Terms of Use
         </Link>
         <Link
-          className="text-muted-foreground text-xs underline underline-offset-2 hover:text-foreground"
+          className="text-muted-foreground text-xs underline underline-offset-2 transition-colors duration-150 hover:text-foreground"
           to="/legal"
         >
           Legal Notice
+        </Link>
+        <Link
+          className="text-muted-foreground text-xs underline underline-offset-2 transition-colors duration-150 hover:text-foreground"
+          to="/cookies"
+        >
+          Cookie Policy
+        </Link>
+        <Link
+          className="text-muted-foreground text-xs underline underline-offset-2 transition-colors duration-150 hover:text-foreground"
+          to="/disclaimer"
+        >
+          Disclaimer
+        </Link>
+        <Link
+          className="text-muted-foreground text-xs underline underline-offset-2 transition-colors duration-150 hover:text-foreground"
+          to="/refund"
+        >
+          Return &amp; Refund Policy
         </Link>
       </div>
     </footer>

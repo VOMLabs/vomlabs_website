@@ -22,7 +22,7 @@ export function Hero() {
         </div>
         <p className="max-w-sm text-muted-foreground text-sm leading-relaxed">
           High-performance Minecraft software, modern websites, and developer
-          tools — all open source and built with passion.
+          tools — mostly open source and built with passion.
         </p>
         <div className="flex gap-3">
           <Button>

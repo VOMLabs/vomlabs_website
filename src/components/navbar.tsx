@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link } from "@/components/link";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 export function Navbar() {

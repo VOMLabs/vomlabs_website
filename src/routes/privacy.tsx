@@ -84,7 +84,7 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <div className="border border-border bg-muted p-4">
+    <div className="border border-border bg-muted p-4 transition-colors duration-150 hover:border-foreground/20">
       <h2 className="mb-3 font-semibold text-sm">{title}</h2>
       <div className="flex flex-col gap-2">{children}</div>
     </div>
