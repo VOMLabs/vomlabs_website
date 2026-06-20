@@ -1,0 +1,21 @@
+schema-version = "0.2"
+
+[project]
+id = "vomlabs-website"
+name = "VOMLabs Website"
+version = "1.0.0"
+
+[build]
+exclude = [
+  "/.git",
+  "/node_modules",
+  "/dist"
+]
+
+[[build.env]]
+name = "BP_NODE_VERSION"
+value = "22"
+
+[[build.env]]
+name = "BP_NODE_RUN_SCRIPTS"
+value = "build"

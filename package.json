@@ -2,10 +2,16 @@
   "name": "new",
   "private": true,
   "type": "module",
+  "packageManager": "pnpm@11.3.0",
+  "engines": {
+    "node": ">=22",
+    "pnpm": ">=11.3.0"
+  },
   "scripts": {
     "dev": "vite dev --port 3000",
     "build": "vite build",
     "preview": "vite preview",
+    "start": "vite preview --port ${PORT:-3000} --host 0.0.0.0",
     "test": "vitest run",
     "lint": "biome check",
     "format": "biome check --write",

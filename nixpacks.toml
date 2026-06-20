@@ -1,0 +1,24 @@
+# Explicitly use the Node.js provider
+providers = ["node"]
+
+[variables]
+NODE_ENV = "production"
+
+[phases.setup]
+nixPkgs = ["nodejs_22", "git"]
+
+[phases.install]
+dependsOn = ["setup"]
+cmds = [
+    "corepack enable",
+    "pnpm install --frozen-lockfile"
+]
+
+[phases.build]
+dependsOn = ["install"]
+cmds = [
+    "pnpm run build"
+]
+
+[start]
+cmd = "pnpm run start"
