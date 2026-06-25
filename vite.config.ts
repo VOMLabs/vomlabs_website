@@ -7,6 +7,9 @@ import { defineConfig } from "vite";
 const config = defineConfig({
   resolve: { tsconfigPaths: true },
   plugins: [devtools(), tailwindcss(), tanstackStart(), viteReact()],
+  preview: {
+    allowedHosts: ["vomlabs.com"]
+  }
 });
 
 export default config;
